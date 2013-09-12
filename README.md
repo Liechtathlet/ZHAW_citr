@@ -1,4 +1,4 @@
-citer
+citr
 =====
 
-ZHAW - Methoden der Programmierung - Fallstudie "citer"
+ZHAW - Methoden der Programmierung - Fallstudie "citr"
