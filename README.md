@@ -13,11 +13,24 @@ mvn archetype:generate \
   -DgroupId=ch.zhaw.mdp.lhb.citr \
   -DartifactId=citr-app
 
-Lokaler-Setup:
+Lokaler-Setup
 ----------------
 1. Repository clone erzeugen.
-2. IDE-Spezifische stubs generieren und Projekt importieren.
+2. Variable 'ANDROID_HOME' definieren (SDK).
+3. IDE-Spezifische stubs generieren und Projekt importieren.
     Eclipse: http://edu.panter.ch/MavenEclipse
     Intelij: http://maven.apache.org/plugins/maven-idea-plugin/usage.html
-3. Install Android SDK
-4. Install IDE-Specific Android-Plugin (Development & Maven-Connector)
+4. Install Android SDK
+5. Install IDE-Specific Android-Plugin (Development & Maven-Connector)
+
+Build & Installation
+----------------
+1. AVD Manager starten (Wird im SDK mitgeliefert)
+2. Gerät konfigurieren (falls noch nicht erledigt)
+3. mvn android:deploy aufrufen
+
+Tests:
+----------------
+Im Maven-Test-Package sollten nur Tests implementiert werden, welche nicht auf die Android-API zugreifen.
+Wenn Maven die Tests ausführt, steht keine vollwertige Android-Umgebung zur Verfügung (nur eine Dummy-API).
+Dies führt dazu das die Tests mit Fehlern abbrechen. Solche tests müssen unterhalb von src/main/java implementiert werden.
