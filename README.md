@@ -33,4 +33,4 @@ Tests:
 ----------------
 Im Maven-Test-Package sollten nur Tests implementiert werden, welche nicht auf die Android-API zugreifen.
 Wenn Maven die Tests ausführt, steht keine vollwertige Android-Umgebung zur Verfügung (nur eine Dummy-API).
-Dies führt dazu das die Tests mit Fehlern abbrechen. Solche tests müssen unterhalb von src/main/java implementiert werden.
+Dies führt dazu das die Tests mit Fehlern abbrechen. Solche Tests müssen unterhalb von src/main/java implementiert werden.
