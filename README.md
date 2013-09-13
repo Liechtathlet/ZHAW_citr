@@ -3,6 +3,16 @@ citr
 
 ZHAW - Methoden der Programmierung - Fallstudie "citr"
 
+Initialer Setup
+----------------
+1. Android-App
+mvn archetype:generate \
+  -DarchetypeArtifactId=android-quickstart \
+  -DarchetypeGroupId=de.akquinet.android.archetypes \
+  -DarchetypeVersion=1.0.11 \
+  -DgroupId=ch.zhaw.mdp.lhb.citr \
+  -DartifactId=citr-app
+
 Lokaler-Setup:
 ----------------
 1. Repository clone erzeugen.
