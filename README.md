@@ -10,4 +10,4 @@ Lokaler-Setup:
     Eclipse: http://edu.panter.ch/MavenEclipse
     Intelij: http://maven.apache.org/plugins/maven-idea-plugin/usage.html
 3. Install Android SDK
-4. Install IDE-Specific Android-Plugin
+4. Install IDE-Specific Android-Plugin (Development & Maven-Connector)
