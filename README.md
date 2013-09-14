@@ -15,6 +15,13 @@ mvn archetype:generate \
 2. Java-Server
 http://persistentdesigns.com/wp/jersey-spring-and-jpa/
 
+Voraussetzungen
+----------------
+- Maven 
+- Android SDK 
+- Tomcat-Server  (V. 7, auf Standard-Port 8080)
+- MySQL-Server
+
 Lokaler-Setup
 ----------------
 1. Repository clone erzeugen.
@@ -22,14 +29,28 @@ Lokaler-Setup
 3. IDE-Spezifische stubs generieren und Projekt importieren.
     Eclipse: http://edu.panter.ch/MavenEclipse
     Intelij: http://maven.apache.org/plugins/maven-idea-plugin/usage.html
-4. Install Android SDK
-5. Install IDE-Specific Android-Plugin (Development & Maven-Connector)
+4. Tomcat: tomcat-users.xml (hinzufügen):
+   <role rolename="manager-script"/>
+   <user username="USERNAME" password="PASSWORD" roles="manager-script"/>
+5. Maven: settings.xml (hinzufügen):
+    <servers>
+     <server>
+      <id>tomcat-local</id>
+      <username>USERNAME</username>
+      <password>PASSWORD</password>
+    </server>  
+  </servers>
 
 Build & Installation
 ----------------
+Android:
 1. AVD Manager starten (Wird im SDK mitgeliefert)
 2. Gerät konfigurieren (falls noch nicht erledigt)
-3. mvn android:deploy aufrufen
+3. mvn android:deploy
+
+Server:
+1. Tomcat-Server & MySQL starten
+2. mvn tomcat7:deploy
 
 Tests:
 ----------------
