@@ -12,6 +12,8 @@ mvn archetype:generate \
   -DarchetypeVersion=1.0.11 \
   -DgroupId=ch.zhaw.mdp.lhb.citr \
   -DartifactId=citr-app
+2. Java-Server
+http://persistentdesigns.com/wp/jersey-spring-and-jpa/
 
 Lokaler-Setup
 ----------------
