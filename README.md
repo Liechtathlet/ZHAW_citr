@@ -41,14 +41,14 @@ Lokaler-Setup
     </server>  
   </servers>
 
-Build & Installation
+Build & Installation (Android)
 ----------------
-Android:
 1. AVD Manager starten (Wird im SDK mitgeliefert)
 2. Gerät konfigurieren (falls noch nicht erledigt)
 3. mvn android:deploy
 
-Server:
+Build & Installation (Server)
+----------------
 1. Tomcat-Server & MySQL starten
 2. mvn tomcat7:deploy
 
