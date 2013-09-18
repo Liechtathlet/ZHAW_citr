@@ -1,5 +1,6 @@
 citr
 =====
+Hinweis: Für die korrekte Darstellung der Settings, bitte im Text-Mode anschauen.
 
 ZHAW - Methoden der Programmierung - Fallstudie "citr"
 
