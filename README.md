@@ -26,6 +26,7 @@ Maven:
 -Release
 -Replace-Properties?
 Diveres:
+-Android configuration
 -Logging
 -Connection to Server
 -Package structure
