@@ -4,6 +4,32 @@ Hinweis: Für die korrekte Darstellung der Settings, bitte im Text-Mode anschaue
 
 ZHAW - Methoden der Programmierung - Fallstudie "citr"
 
+Offene Punkte (Server)
+----------------
+Maven: 
+-Site-Generation (BBwM: Chapter 6.2)
+-Testing (BBwM: Chapter 4.13)
+-Release (BBwM: Chapter 7.8)
+-Replace-Properties ?
+Diverses:
+-Logging with Log4J
+-Spring: ApplicationContext, Spring-Security
+-JPA: Persistence.xml
+-Package structure (inkl. Test)
+-Initial Jersey configuration
+
+Offene Punkte (App)
+----------------
+Maven:
+-Site-Generation
+-Testing
+-Release
+-Replace-Properties?
+Diveres:
+-Logging
+-Connection to Server
+-Package structure
+
 Initialer Setup
 ----------------
 1. Android-App
