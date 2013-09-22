@@ -55,8 +55,56 @@
 					<locales>de,en</locales>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					 <pomFileName>citr-server/pom.xml</pomFileName>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
 		</plugins>
+		<filters>
+			<filter>src/main/config/properties/${env}.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.png</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env>local</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>release</id>
+			<properties>
+				<env>production</env>
+			</properties>
+		</profile>
+	</profiles>
 	<reporting>
 		<plugins>
 			<plugin>
@@ -117,8 +165,6 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>commons-dbcp</groupId> <artifactId>commons-dbcp</artifactId> 
-			<version>${commons-dbcp.version}</version> <scope>runtime</scope> </dependency> -->
 		<dependency>
 			<groupId>org.hibernate.java-persistence</groupId>
 			<artifactId>jpa-api</artifactId>
@@ -227,7 +273,9 @@
 		<system>Gravitydev</system>
 	</issueManagement>
 	<scm>
-		<url>https://github.com/Liechtathlet/citr/</url>
-		<developerConnection>Daniel Brun, Michael Hadorn, Simon Lang</developerConnection>
+		<url>https://github.com/Liechtathlet/Citr-Server/</url>
+		<connection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</developerConnection>
+		<tag>HEAD</tag>
 	</scm>
 </project>
