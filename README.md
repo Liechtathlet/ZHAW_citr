@@ -9,8 +9,8 @@ Offene Punkte (Server)
 Maven: 
 -Site-Generation (BBwM: Chapter 6.2)
 -Testing (BBwM: Chapter 4.13)
--Release (BBwM: Chapter 7.8)
--Replace-Properties ?
+-Release (BBwM: Chapter 7.8, in progress)
+
 Diverses:
 -Logging with Log4J
 -Spring: ApplicationContext, Spring-Security
@@ -23,8 +23,8 @@ Offene Punkte (App)
 Maven:
 -Site-Generation
 -Testing
--Release
--Replace-Properties?
+-Release (in progress)
+
 Diveres:
 -Android configuration
 -Logging
