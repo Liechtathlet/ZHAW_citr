@@ -9,8 +9,8 @@ Offene Punkte (Server)
 Maven: 
 -Site-Generation (BBwM: Chapter 6.2)
 -Testing (BBwM: Chapter 4.13)
--Release (BBwM: Chapter 7.8)
--Replace-Properties ?
+-Release (BBwM: Chapter 7.8, in progress)
+
 Diverses:
 -Logging with Log4J
 -Spring: ApplicationContext, Spring-Security
@@ -23,8 +23,8 @@ Offene Punkte (App)
 Maven:
 -Site-Generation
 -Testing
--Release
--Replace-Properties?
+-Release (in progress)
+
 Diveres:
 -Android configuration
 -Logging
@@ -74,14 +74,22 @@ Build & Installation (Android)
 1. AVD Manager starten (Wird im SDK mitgeliefert)
 2. Gerät konfigurieren (falls noch nicht erledigt)
 3. mvn android:deploy
+4. mvn clean release (Release only!)
+   http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
 
 Build & Installation (Server)
 ----------------
 1. Tomcat-Server & MySQL starten
 2. mvn tomcat7:deploy
+3. mvn clean release (Release only!)
+   http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
 
 Tests:
 ----------------
 Im Maven-Test-Package sollten nur Tests implementiert werden, welche nicht auf die Android-API zugreifen.
 Wenn Maven die Tests ausführt, steht keine vollwertige Android-Umgebung zur Verfügung (nur eine Dummy-API).
 Dies führt dazu das die Tests mit Fehlern abbrechen. Solche Tests müssen unterhalb von src/main/java implementiert werden.
+
+Development
+----------------
+Umgebungsabhängige Properties werden unter src/main/config im entsprechenden Property-File definiert. Diese werden während dem Build-Prozess im entsprechenden Property-File ersetzt.

@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.zhaw.mdp.lhb.citr</groupId>
 	<artifactId>citr-server</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Citr-Server</name>
 	<build>
 		<finalName>citrServer</finalName>
@@ -276,6 +275,6 @@
 		<url>https://github.com/Liechtathlet/Citr-Server/</url>
 		<connection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>citr-server-0.0.1</tag>
 	</scm>
 </project>
