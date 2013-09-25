@@ -11,9 +11,7 @@ Maven:
 -Testing (BBwM: Chapter 4.13)
 
 Diverses:
--Logging with Log4J
--Spring: ApplicationContext, Spring-Security
--JPA: Persistence.xml
+-Spring: Spring-Security
 -Package structure (inkl. Test)
 -Initial Jersey configuration
 
