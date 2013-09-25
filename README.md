@@ -9,7 +9,6 @@ Offene Punkte (Server)
 Maven: 
 -Site-Generation (BBwM: Chapter 6.2)
 -Testing (BBwM: Chapter 4.13)
--Release (BBwM: Chapter 7.8, in progress)
 
 Diverses:
 -Logging with Log4J
@@ -21,13 +20,10 @@ Diverses:
 Offene Punkte (App)
 ----------------
 Maven:
--Site-Generation
 -Testing
--Release (in progress)
 
 Diveres:
 -Android configuration
--Logging
 -Connection to Server
 -Package structure
 
