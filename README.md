@@ -6,12 +6,9 @@ ZHAW - Methoden der Programmierung - Fallstudie "citr"
 
 Offene Punkte (Server)
 ----------------
-Maven: 
--Site-Generation (BBwM: Chapter 6.2)
--Testing (BBwM: Chapter 4.13)
+-Mockito
 
 Diverses:
--Spring: Spring-Security
 -Package structure (inkl. Test)
 -Initial Jersey configuration
 
@@ -68,14 +65,16 @@ Build & Installation (Android)
 1. AVD Manager starten (Wird im SDK mitgeliefert)
 2. Gerät konfigurieren (falls noch nicht erledigt)
 3. mvn android:deploy
-4. mvn clean release (Release only!)
+4. mvn clean test -P "integration"
+5. mvn clean release -P "release" (Release only!)
    http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
 
 Build & Installation (Server)
 ----------------
 1. Tomcat-Server & MySQL starten
 2. mvn tomcat7:deploy
-3. mvn clean release (Release only!)
+3. mvn clean test -P "integration"
+4. mvn clean release -P "release" (Release only!)
    http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
 
 Tests:
@@ -83,6 +82,9 @@ Tests:
 Im Maven-Test-Package sollten nur Tests implementiert werden, welche nicht auf die Android-API zugreifen.
 Wenn Maven die Tests ausführt, steht keine vollwertige Android-Umgebung zur Verfügung (nur eine Dummy-API).
 Dies führt dazu das die Tests mit Fehlern abbrechen. Solche Tests müssen unterhalb von src/main/java implementiert werden.
+
+Ansonsten erfolgt die Implementation der Unit-Tests mit JUnit und Mockito. Die Integrations-Tests sollen so umfassend als möglich gestaltet werden.
+
 
 Development
 ----------------
