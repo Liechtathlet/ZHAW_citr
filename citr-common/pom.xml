@@ -1,58 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<!-- Main Project configuration -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.zhaw.mdp.lhb.citr</groupId>
-	<artifactId>citr-app</artifactId>
+	<artifactId>citr-common</artifactId>
+	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<packaging>apk</packaging>
-	<name>Citr-App</name>
+	<name>Citr-Common</name>
 
 	<!-- Properties -->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<platform.version> 4.1.1.4</platform.version>
-		<android.plugin.version>3.6.1</android.plugin.version>
-		<junit.version>4.11</junit.version>
-		<commons-codec.version>1.8</commons-codec.version>
-		<citr-common.version>1.0-SNAPSHOT</citr-common.version>
-	</properties>
 
 	<!-- Build & Plugin Configuration -->
 	<build>
-		<finalName>citrApp</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-					<artifactId>android-maven-plugin</artifactId>
-					<version>${android.plugin.version}</version>
-					<extensions>true</extensions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
-			<plugin>
-				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-				<artifactId>android-maven-plugin</artifactId>
-				<configuration>
-					<sdk>
-						<platform>18</platform>
-					</sdk>
-				</configuration>
-			</plugin>
-			<!-- <plugin> <groupId>com.jayway.maven.plugins.android.generation2</groupId> 
-				<artifactId>android-maven-plugin</artifactId> <version>${android.plugin.version}</version> 
-				<configuration> <sign> <debug>true</debug> </sign> <sdk> <platform>16</platform> 
-				</sdk> </configuration> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<inherited>true</inherited>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -65,24 +33,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0-alpha-2</version>
-				<configuration>
-					<files>
-						<file>src/main/config/properties/${env}.properties</file>
-					</files>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>initialize</phase>
-						<goals>
-							<goal>read-project-properties</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>2.7</version>
@@ -91,6 +41,41 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.16</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase>test</phase>
+						<configuration>
+							<includes>
+								<include>**/*Test.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/*IntegrationTest.java</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>integration-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skipTests>${skipIntegrationTests}</skipTests>
+							<excludes>
+								<exclude>**/*Test.java</exclude>
+							</excludes>
+							<includes>
+								<include>**/*IntegrationTest.java</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -130,70 +115,13 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.4.1</version>
 				<configuration>
-					<pomFileName>citr-app/pom.xml</pomFileName>
+					<pomFileName>citr-common/pom.xml</pomFileName>
 					<useReleaseProfile>false</useReleaseProfile>
 					<releaseProfiles>release</releaseProfiles>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.16</version>
-				<executions>
-					<execution>
-						<id>default-test</id>
-						<phase>test</phase>
-						<configuration>
-							<includes>
-								<include>**/*Test.java</include>
-							</includes>
-							<excludes>
-								<exclude>**/*IntegrationTest.java</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>integration-test</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<skipTests>${skipIntegrationTests}</skipTests>
-							<excludes>
-								<exclude>**/*Test.java</exclude>
-							</excludes>
-							<includes>
-								<include>**/*IntegrationTest.java</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
-
-		<filters>
-			<filter>src/main/config/properties/${env}.properties</filter>
-		</filters>
-
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.xml</include>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>**/*.png</include>
-				</includes>
-			</resource>
-		</resources>
 	</build>
 
 	<!-- Profile configuration -->
@@ -204,6 +132,8 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				<skipTests>false</skipTests>
+				<skipIntegrationTests>true</skipIntegrationTests>
 				<env>local</env>
 			</properties>
 		</profile>
@@ -218,6 +148,8 @@
 		<profile>
 			<id>release</id>
 			<properties>
+				<skipTests>true</skipTests>
+				<skipIntegrationTests>true</skipIntegrationTests>
 				<env>production</env>
 			</properties>
 		</profile>
@@ -254,31 +186,7 @@
 		</plugins>
 	</reporting>
 
-	<!-- Dependency configuration -->
-	<dependencies>
-		<dependency>
-			<groupId>ch.zhaw.mdp.lhb.citr</groupId>
-			<artifactId>citr-common</artifactId>
-			<version>${citr-common.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.android</groupId>
-			<artifactId>android</artifactId>
-			<version>${platform.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>${commons-codec.version}</version>
-		</dependency>
-	</dependencies>
+	<!-- Dependency configuration -->	
 
 	<!-- Dependency-Repositories -->
 	<repositories>
@@ -323,7 +231,7 @@
 
 	<!-- Source-Code-Management -->
 	<scm>
-		<url>https://github.com/Liechtathlet/Citr-Server/</url>
+		<url>https://github.com/Liechtathlet/Citr-Common/</url>
 		<connection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</developerConnection>
 		<tag>HEAD</tag>
@@ -360,6 +268,6 @@
 
 	<!-- Div -->
 	<url>https://github.com/Liechtathlet/citr/</url>
-	<description>Android-app for citr</description>
+	<description>Common package for the citr projects</description>
 	<inceptionYear>September 2013</inceptionYear>
 </project>

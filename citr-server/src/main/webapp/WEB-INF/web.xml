@@ -2,10 +2,44 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>Citr-Server</display-name>
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml</param-value>
+		<param-value>
+		    classpath:**/application-context.xml,
+    		classpath:**/security-context.xml
+    	</param-value>
 	</context-param>
+
+	 <!-- Enables Spring Security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>
+            org.springframework.web.filter.DelegatingFilterProxy
+        </filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>encoding-filter</filter-name>
+        <filter-class>
+            org.springframework.web.filter.CharacterEncodingFilter
+        </filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encoding-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping> 
 
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
@@ -16,12 +50,23 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-	<servlet>
-		<servlet-name>Jersey Spring Web Application</servlet-name>
-		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Jersey Spring Web Application</servlet-name>
-		<url-pattern>/webresources/*</url-pattern>
-	</servlet-mapping>
+
+		<servlet>
+			<servlet-name>citr-servlet</servlet-name>
+			<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+			<init-param>
+				<param-name>com.sun.jersey.config.property.packages</param-name>
+				<param-value>com.mkyong.rest</param-value>
+			</init-param>
+			<init-param>
+				<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+				<param-value>true</param-value>
+			</init-param>
+			<load-on-startup>1</load-on-startup>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>citr-servlet</servlet-name>
+			<url-pattern>/*</url-pattern>
+		</servlet-mapping>
+		
 </web-app>

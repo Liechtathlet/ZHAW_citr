@@ -1,11 +1,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<!-- Main Project configuration -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.zhaw.mdp.lhb.citr</groupId>
 	<artifactId>citr-server</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>Citr-Server</name>
+
+	<!-- Properties -->
+	<properties>
+		<spring.version>3.2.4.RELEASE</spring.version>
+		<spring.sec.version>3.1.4.RELEASE</spring.sec.version>
+		<hibernate.version>4.2.5.Final</hibernate.version>
+		<commons-logging.version>1.1</commons-logging.version>
+		<jersey.version>1.17.1</jersey.version>
+		<slf4j.version>1.7.5</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<mysql.version>5.1.26</mysql.version>
+		<jpa.version>1.0.1.Final</jpa.version>
+		<junit.version>4.11</junit.version>
+		<citr-common.version>1.0-SNAPSHOT</citr-common.version>
+	</properties>
+
+	<!-- Build & Plugin Configuration -->
 	<build>
 		<finalName>citrServer</finalName>
 		<plugins>
@@ -29,6 +47,24 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+				<configuration>
+					<files>
+						<file>src/main/config/properties/${env}.properties</file>
+					</files>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
 			</plugin>
@@ -40,6 +76,7 @@
 					<url>http://localhost:8080/manager/text</url>
 					<server>tomcat-local</server>
 					<path>/${project.build.finalName}</path>
+					<update>true</update>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -49,10 +86,75 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.16</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase>test</phase>
+						<configuration>
+							<includes>
+								<include>**/*Test.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/*IntegrationTest.java</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>integration-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skipTests>${skipIntegrationTests}</skipTests>
+							<excludes>
+								<exclude>**/*Test.java</exclude>
+							</excludes>
+							<includes>
+								<include>**/*IntegrationTest.java</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<includeDependencySources>false</includeDependencySources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<instrumentation>
+						<excludes>
+							<exclude>src/test/**/*.*</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
-					<locales>de,en</locales>
+					<locales>de</locales>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -67,9 +169,11 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
 		<filters>
 			<filter>src/main/config/properties/${env}.properties</filter>
 		</filters>
+
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -77,6 +181,7 @@
 				<includes>
 					<include>**/*.xml</include>
 					<include>**/*.properties</include>
+					<include>**/*.sql</include>
 				</includes>
 			</resource>
 			<resource>
@@ -88,6 +193,8 @@
 			</resource>
 		</resources>
 	</build>
+
+	<!-- Profile configuration -->
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -95,16 +202,94 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				<skipTests>false</skipTests>
+				<skipIntegrationTests>true</skipIntegrationTests>
 				<env>local</env>
 			</properties>
 		</profile>
 		<profile>
+			<id>integration</id>
+			<properties>
+				<skipTests>false</skipTests>
+				<skipIntegrationTests>false</skipIntegrationTests>
+				<env>integration</env>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>sql-maven-plugin</artifactId>
+						<version>1.5</version>
+
+						<dependencies>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>${mysql.version}</version>
+							</dependency>
+						</dependencies>
+
+						<configuration>
+							<driver>com.mysql.jdbc.Driver</driver>
+							<username>${db.user}</username>
+							<password>${db.pw}</password>
+							<skip>${mvn.test.skip}</skip>
+						</configuration>
+						<executions>
+							<execution>
+								<id>test-integration-init-db</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<url>jdbc:mysql://${db.host}:${db.port}/</url>
+									<onError>continue</onError>
+									<autocommit>true</autocommit>
+									<orderFile>ascending</orderFile>
+									<fileset>
+										<basedir>${project.build.outputDirectory}/scripts/sql</basedir>
+										<includes>
+											<include>00_CreateDB_v01.sql</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+							<execution>
+								<id>test-integration-clean-db</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<url>jdbc:mysql://${db.host}:${db.port}/${db.schema}</url>
+									<autocommit>true</autocommit>
+									<onError>continue</onError>
+									<orderFile>ascending</orderFile>
+									<fileset>
+										<basedir>${project.build.outputDirectory}/scripts/sql</basedir>
+										<includes>
+											<include>99_DropDB_v01.sql</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>release</id>
 			<properties>
+				<skipTests>true</skipTests>
+				<skipIntegrationTests>true</skipIntegrationTests>
 				<env>production</env>
 			</properties>
 		</profile>
 	</profiles>
+
+	<!-- Report configuration -->
 	<reporting>
 		<plugins>
 			<plugin>
@@ -112,23 +297,69 @@
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>2.7</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.16</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
 		</plugins>
 	</reporting>
+
+	<!-- Dependency configuration -->
 	<dependencies>
 		<dependency>
+			<groupId>ch.zhaw.mdp.lhb.citr</groupId>
+			<artifactId>citr-common</artifactId>
+			<version>${citr-common.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.5.8</version>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.8</version>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -162,44 +393,69 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.sec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.sec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.sec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
+			<version>${jpa.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.2.5.Final</version>
+			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.6</version>
+			<version>${mysql.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-json</artifactId>
-			<version>${jersey-version}</version>
+			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
-			<version>${jersey-version}</version>
+			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-spring</artifactId>
-			<version>${jersey-version}</version>
+			<version>${jersey.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -224,23 +480,18 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-	<properties>
-		<spring.version>3.2.4.RELEASE</spring.version>
-		<hibernate.version>4.2.5.Final</hibernate.version>
-		<commons-dbcp.version>20030825.184428</commons-dbcp.version>
-		<commons-logging.version>1.1</commons-logging.version>
-		<jersey-version>1.17.1</jersey-version>
-	</properties>
+
+	<!-- Dependency-Repositories -->
 	<repositories>
-		<repository>
-			<id>repository-apache-org</id>
-			<name>Apache Repository</name>
-			<url>https://repository.apache.org/content/groups/public/</url>
-		</repository>
 		<repository>
 			<id>Central</id>
 			<name>Central</name>
 			<url>http://repo1.maven.org/maven/</url>
+		</repository>
+		<repository>
+			<id>repository-apache-org</id>
+			<name>Apache Repository</name>
+			<url>https://repository.apache.org/content/groups/public/</url>
 		</repository>
 		<repository>
 			<id>java-net-public</id>
@@ -248,7 +499,15 @@
 			<url>https://maven.java.net/content/groups/public/</url>
 		</repository>
 	</repositories>
+
+	<!-- Plugin-Repositories -->
 	<pluginRepositories>
+		<pluginRepository>
+			<id>repo.maven</id>
+			<name>Maven Repo</name>
+			<url>http://repo.maven.apache.org/maven2/</url>
+			<layout>default</layout>
+		</pluginRepository>
 		<pluginRepository>
 			<id>Central</id>
 			<name>Central</name>
@@ -262,20 +521,46 @@
 			<layout>default</layout>
 		</pluginRepository>
 	</pluginRepositories>
-	<url>https://github.com/Liechtathlet/citr/</url>
-	<description>REST-Server implemented with Jersey and Spring</description>
-	<inceptionYear>September 2013</inceptionYear>
-	<organization>
-		<name>ZHAW - Inf BA HS 12b</name>
-	</organization>
-	<issueManagement>
-		<url>https://www.gravitydev.com/project/51943/issues</url>
-		<system>Gravitydev</system>
-	</issueManagement>
+
+	<!-- Source-Code-Management -->
 	<scm>
 		<url>https://github.com/Liechtathlet/Citr-Server/</url>
 		<connection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:Liechtathlet/citr.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
+
+	<!-- Issue Management -->
+	<issueManagement>
+		<url>https://www.gravitydev.com/project/51943/issues</url>
+		<system>Gravitydev</system>
+	</issueManagement>
+
+
+	<!-- Development-Team -->
+	<developers>
+		<developer>
+			<id>dbru</id>
+			<name>Daniel Brun</name>
+			<email>daniel.brun@gmx.net</email>
+		</developer>
+		<developer>
+			<id>mhad</id>
+			<name>Michael Hadorn</name>
+		</developer>
+		<developer>
+			<id>slan</id>
+			<name>Simon Lang</name>
+		</developer>
+	</developers>
+
+	<!-- Organization -->
+	<organization>
+		<name>ZHAW - Inf BA HS 12b</name>
+	</organization>
+
+	<!-- Div -->
+	<url>https://github.com/Liechtathlet/citr/</url>
+	<description>REST-Server implemented with Jersey and Spring</description>
+	<inceptionYear>September 2013</inceptionYear>
 </project>
