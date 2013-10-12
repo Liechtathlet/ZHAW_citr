@@ -146,6 +146,10 @@ public class WebServiceTask extends AsyncTask<String, Integer, String> {
 				.println("MD5: "
 						+ new String(Hex.encodeHex(DigestUtils
 								.md5("strongpassword1"))));
+		System.out
+		.println("SHA512: "
+				+ new String(Hex.encodeHex(DigestUtils
+						.sha512("strongpassword1"))));
 		String auth = new String(Base64.encode(
 				("user1" + ":" + new String(Hex.encodeHex(DigestUtils
 						.sha512("strongpassword1")))).getBytes(), Base64.NO_WRAP));

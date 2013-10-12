@@ -21,6 +21,7 @@
 		<jpa.version>1.0.1.Final</jpa.version>
 		<junit.version>4.11</junit.version>
 		<citr-common.version>1.0-SNAPSHOT</citr-common.version>
+		<jackson-jaxb.version>2.2.3</jackson-jaxb.version>
 	</properties>
 
 	<!-- Build & Plugin Configuration -->
@@ -440,6 +441,11 @@
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-json</artifactId>
 			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+			<version>${jackson-jaxb.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

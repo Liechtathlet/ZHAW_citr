@@ -12,7 +12,7 @@ CREATE SCHEMA IF NOT EXISTS `@db.schema@` DEFAULT CHARACTER SET utf8 COLLATE utf
 
 USE `@db.schema@` ;
 
-CREATE TABLE `person` (
+CREATE TABLE `appUsers` (
   `ID` int(5) NOT NULL AUTO_INCREMENT,
   `NAME` varchar(50) NOT NULL,
   `AGE` int(3) NOT NULL,

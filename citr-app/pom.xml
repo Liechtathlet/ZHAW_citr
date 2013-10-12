@@ -16,6 +16,7 @@
 		<junit.version>4.11</junit.version>
 		<commons-codec.version>1.8</commons-codec.version>
 		<citr-common.version>1.0-SNAPSHOT</citr-common.version>
+		<jackson.version>2.2.3</jackson.version>
 	</properties>
 
 	<!-- Build & Plugin Configuration -->
@@ -36,6 +37,8 @@
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
 				<configuration>
+					<undeployBeforeDeploy>true</undeployBeforeDeploy>
+					<attachSources>true</attachSources>
 					<sdk>
 						<platform>18</platform>
 					</sdk>
@@ -256,6 +259,21 @@
 
 	<!-- Dependency configuration -->
 	<dependencies>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>ch.zhaw.mdp.lhb.citr</groupId>
 			<artifactId>citr-common</artifactId>

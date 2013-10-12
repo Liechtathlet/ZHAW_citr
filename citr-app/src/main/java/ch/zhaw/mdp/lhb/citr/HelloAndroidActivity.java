@@ -1,6 +1,6 @@
 package ch.zhaw.mdp.lhb.citr;
 
-import org.json.JSONObject;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import ch.zhaw.lhb.citr.dto.UserDTO;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HelloAndroidActivity extends Activity {
 
@@ -36,11 +40,11 @@ public class HelloAndroidActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(ch.zhaw.mdp.lhb.citr.R.menu.main, menu);
-		
+
 		String sampleURL = SERVICE_URL + "test";
 
-		WebServiceTask wst = new WebServiceTask(this,WebServiceTask.GET_TASK, this,
-				"GETting data...");
+		WebServiceTask wst = new WebServiceTask(this, WebServiceTask.GET_TASK,
+				this, "GETting data...");
 
 		wst.execute(new String[] { sampleURL });
 		return true;
@@ -49,8 +53,8 @@ public class HelloAndroidActivity extends Activity {
 	public void retrieveSampleData(View vw) {
 		String sampleURL = SERVICE_URL + "/test";
 
-		WebServiceTask wst = new WebServiceTask(this,WebServiceTask.GET_TASK, this,
-				"GETting data...");
+		WebServiceTask wst = new WebServiceTask(this, WebServiceTask.GET_TASK,
+				this, "GETting data...");
 
 		wst.execute(new String[] { sampleURL });
 	}
@@ -60,10 +64,27 @@ public class HelloAndroidActivity extends Activity {
 		try {
 			EditText textF = (EditText) findViewById(R.id.text);
 			System.out.println(response);
-			JSONObject jso = new JSONObject(response);
 
-			String textStr = jso.getString("text");
-			textF.setText("Testing: " + textStr);
+			ObjectMapper mapper = new ObjectMapper();
+			List<UserDTO> user = mapper.readValue(response, new TypeReference<List<UserDTO>>(){});
+
+//			Map<String, String> map = new HashMap<String, String>();
+//			ObjectMapper mapper = new ObjectMapper();
+//
+//			try {
+//
+//				// convert JSON string to Map
+//				map = mapper.readValue(response,
+//						new TypeReference<HashMap<String, String>>() {
+//						});
+//
+//				System.out.println(map);
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+
+			textF.setText("Hi " + user.get(0).getName());
 
 		} catch (Exception e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);

@@ -1,12 +1,16 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
-		version="1.0">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
 
 	<persistence-unit name="citr" transaction-type="RESOURCE_LOCAL">
-        <class>ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO</class>
-        <class>ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO</class>
-        <class>ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO</class>
-    </persistence-unit>
+		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO</class>
+		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO</class>
+		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO</class>
+
+		<property name="hibernate.show_sql" value="true" />
+		<property name="hibernate.format_sql" value="true" />
+	</persistence-unit>
+
 
 </persistence>

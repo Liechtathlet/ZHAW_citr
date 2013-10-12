@@ -2,6 +2,7 @@ package ch.zhaw.mdp.lhb.citr.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -32,6 +33,7 @@ public class MyResource {
 	// The Java method will produce content identified by the MIME Media
 	// type "text/plain"
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("/test")
 	public List<UserDVO> getIt() {

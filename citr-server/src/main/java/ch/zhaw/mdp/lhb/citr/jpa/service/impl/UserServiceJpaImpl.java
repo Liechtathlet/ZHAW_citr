@@ -13,7 +13,7 @@ import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 
 
-@Service("personService")
+@Service("userService")
 public class UserServiceJpaImpl implements IDBUserService {
 
 	private EntityManager entityManager;
@@ -35,7 +35,7 @@ public class UserServiceJpaImpl implements IDBUserService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<UserDVO> getAll() {
-		Query query = entityManager.createNamedQuery("Person.findAll");
+		Query query = entityManager.createNamedQuery("User.findAll");
 		List<UserDVO> persons = null;
 		persons = query.getResultList();
 		return persons;
@@ -69,7 +69,7 @@ public class UserServiceJpaImpl implements IDBUserService {
 	@Transactional(readOnly = true)
 	public UserDVO findPerson(UserDVO person) {
 		UserDVO result = null;
-		Query queryFindPerson = entityManager.createNamedQuery("Person.findPerson");
+		Query queryFindPerson = entityManager.createNamedQuery("User.findUser");
 		queryFindPerson.setParameter("name", person.getName());
 		queryFindPerson.setParameter("age", person.getAge());
 		List<UserDVO> persons = queryFindPerson.getResultList();
