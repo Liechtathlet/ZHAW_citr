@@ -43,14 +43,6 @@ public class HelloAndroidActivity extends Activity {
 
         this.retrieveSampleData();
 
-        /*
-		String sampleURL = SERVICE_URL + "test";
-
-		WebServiceTask wst = new WebServiceTask(this, WebServiceTask.GET_TASK,
-				this, "GETting data...");
-
-		wst.execute(new String[] { sampleURL });
-        */
 		return true;
 	}
 
