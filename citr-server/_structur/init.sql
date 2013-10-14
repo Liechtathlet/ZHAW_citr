@@ -14,8 +14,8 @@ DROP TABLE IF EXISTS `tbl_group` ;
 CREATE TABLE IF NOT EXISTS `tbl_group` (
   `grp_id` INT NOT NULL,
   `grp_name` VARCHAR(255) NULL,
-  `grp_state` TINYINT NULL COMMENT 'ENUM(): active /  deleted',
-  `grp_mode` TINYINT NULL COMMENT 'public, private',
+  `grp_state` ENUM('active','deleted') NULL COMMENT 'ENUM(): active /  deleted',
+  `grp_mode` ENUM('public', 'private') NULL COMMENT 'public, private',
   PRIMARY KEY (`grp_id`))
 ENGINE = InnoDB;
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `tbl_citation` (
   `cit_title` VARCHAR(255) NULL,
   `cit_text` VARCHAR(5000) NULL COMMENT '	',
   `cit_date` DATETIME NULL,
-  `cit_state` TINYINT NULL COMMENT '1 active\n0 deleted\n',
+  `cit_state` ENUM('active','deleted') NULL COMMENT '1 active\n0 deleted\n',
   PRIMARY KEY (`cit_id`, `grp_id`, `usr_id`))
 ENGINE = InnoDB;
 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `tbl_user_group` (
   `usg_id` INT NOT NULL,
   `grp_id` INT NOT NULL,
   `usr_id` INT NOT NULL,
-  `usg_role` TINYINT NULL COMMENT 'role types: admin, moderator, guest',
+  `usg_role` ENUM('creator','moderator','subscriber') NULL COMMENT 'role types: admin, moderator, guest',
   PRIMARY KEY (`usg_id`, `grp_id`, `usr_id`))
 ENGINE = InnoDB;
 
@@ -85,6 +85,7 @@ DROP TABLE IF EXISTS `tbl_citation_tag` ;
 
 CREATE TABLE IF NOT EXISTS `tbl_citation_tag` (
   `cta_id` INT NOT NULL,
+  `cta_type` ENUM('citation','group') NOT NULL,
   `object_id` INT NULL COMMENT 'cit_id / grp_id',
   `tag_id` INT NOT NULL,
   PRIMARY KEY (`cta_id`, `tag_id`))
