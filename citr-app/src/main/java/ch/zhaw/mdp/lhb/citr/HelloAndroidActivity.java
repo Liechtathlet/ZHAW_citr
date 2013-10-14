@@ -41,20 +41,24 @@ public class HelloAndroidActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(ch.zhaw.mdp.lhb.citr.R.menu.main, menu);
 
+        this.retrieveSampleData();
+
+        /*
 		String sampleURL = SERVICE_URL + "test";
 
 		WebServiceTask wst = new WebServiceTask(this, WebServiceTask.GET_TASK,
 				this, "GETting data...");
 
 		wst.execute(new String[] { sampleURL });
+        */
 		return true;
 	}
 
-	public void retrieveSampleData(View vw) {
-		String sampleURL = SERVICE_URL + "/test";
+	public void retrieveSampleData() {
+		String sampleURL = SERVICE_URL + "test";
 
 		WebServiceTask wst = new WebServiceTask(this, WebServiceTask.GET_TASK,
-				this, "GETting data...");
+				this, "Getting data...");
 
 		wst.execute(new String[] { sampleURL });
 	}

@@ -36,8 +36,8 @@ http://persistentdesigns.com/wp/jersey-spring-and-jpa/
 
 Voraussetzungen
 ----------------
-- Maven 
-- Android SDK 
+- Maven
+- Android SDK
 - Tomcat-Server  (V. 7, auf Standard-Port 8080)
 - MySQL-Server
 
@@ -57,7 +57,7 @@ Lokaler-Setup
       <id>tomcat-local</id>
       <username>USERNAME</username>
       <password>PASSWORD</password>
-    </server>  
+    </server>
   </servers>
 
 Build & Installation (Android)
@@ -72,6 +72,7 @@ Build & Installation (Android)
 Build & Installation (Server)
 ----------------
 1. Tomcat-Server & MySQL starten
+0. citr-common mit mvn clean install ausführen
 2. mvn tomcat7:deploy
 3. mvn clean test -P "integration"
 4. mvn clean release -P "release" (Release only!)
