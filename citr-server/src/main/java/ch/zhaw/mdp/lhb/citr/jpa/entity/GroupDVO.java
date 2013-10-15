@@ -11,8 +11,8 @@ public class GroupDVO {
 
 	private int id;
 	private String name;
-	private int state;
-	private int mode;
+	private String state;
+	private String mode;
 
 	@Id
 	@GeneratedValue
@@ -35,20 +35,20 @@ public class GroupDVO {
 	}
 
 	@Column(name="grp_state")
-	public int getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(int state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
 	@Column(name="grp_mode")
-	public int getMode() {
+	public String getMode() {
 		return mode;
 	}
 
-	public void setMode(int mode) {
+	public void setMode(String mode) {
 		this.mode = mode;
 	}
 }

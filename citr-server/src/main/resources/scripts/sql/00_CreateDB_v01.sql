@@ -33,7 +33,7 @@ CREATE  TABLE IF NOT EXISTS `citr`.`tbl_citation` (
   `cit_title` VARCHAR(255) NULL DEFAULT NULL ,
   `cit_text` VARCHAR(5000) NULL DEFAULT NULL COMMENT '	' ,
   `cit_date` DATETIME NULL DEFAULT NULL ,
-  `cit_state` TINYINT(4) NULL DEFAULT NULL COMMENT '1 active\\n0 deleted\\n' ,
+  `cit_state` ENUM('active','deleted') NULL DEFAULT NULL COMMENT '1 active\\n0 deleted\\n' ,
   PRIMARY KEY (`cit_id`, `grp_id`, `usr_id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -46,6 +46,7 @@ DROP TABLE IF EXISTS `citr`.`tbl_citation_tag` ;
 
 CREATE  TABLE IF NOT EXISTS `citr`.`tbl_citation_tag` (
   `cta_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `cta_type` ENUM('citation','group') NOT NULL,
   `object_id` INT(11) NULL DEFAULT NULL COMMENT 'cit_id / grp_id' ,
   `tag_id` INT(11) NOT NULL ,
   PRIMARY KEY (`cta_id`, `tag_id`) )
@@ -61,8 +62,8 @@ DROP TABLE IF EXISTS `citr`.`tbl_group` ;
 CREATE  TABLE IF NOT EXISTS `citr`.`tbl_group` (
   `grp_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `grp_name` VARCHAR(255) NULL DEFAULT NULL ,
-  `grp_state` TINYINT(4) NULL DEFAULT NULL COMMENT 'ENUM(): active /  deleted' ,
-  `grp_mode` TINYINT(4) NULL DEFAULT NULL COMMENT 'public, private' ,
+  `grp_state` ENUM('active','deleted')  NULL DEFAULT NULL COMMENT 'ENUM(): active /  deleted' ,
+  `grp_mode` ENUM('public', 'private') NULL DEFAULT NULL COMMENT 'public, private' ,
   PRIMARY KEY (`grp_id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

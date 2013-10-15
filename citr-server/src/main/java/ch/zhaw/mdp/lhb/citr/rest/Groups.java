@@ -39,7 +39,7 @@ public class Groups {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("/create/{name}/{state}/{mode}")
-	public int createGroup(@PathParam("name") String name, @PathParam("state") int state, @PathParam("mode") int mode) {
+	public int createGroup(@PathParam("name") String name, @PathParam("state") String state, @PathParam("mode") String mode) {
 		GroupDVO group = new GroupDVO();
 		group.setName(name);
 		group.setState(state);
