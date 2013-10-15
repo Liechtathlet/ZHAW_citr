@@ -14,7 +14,13 @@ public class GroupDVO {
 	private String state;
 	private String mode;
 
-	@Id
+    public GroupDVO() {
+        // every new group is active
+        this.setState("active");
+    }
+
+
+    @Id
 	@GeneratedValue
 	@Column(name="grp_id")
 	public int getId() {
@@ -40,7 +46,9 @@ public class GroupDVO {
 	}
 
 	public void setState(String state) {
-		this.state = state;
+        // if (state == "deleted" || state == "active") {
+            this.state = state;
+        // }
 	}
 
 	@Column(name="grp_mode")
@@ -49,6 +57,8 @@ public class GroupDVO {
 	}
 
 	public void setMode(String mode) {
-		this.mode = mode;
+        // if (mode == "public" || mode == "private") {
+            this.mode = mode;
+        // }
 	}
 }
