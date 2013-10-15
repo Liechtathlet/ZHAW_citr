@@ -1,10 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "APPUSERS")
@@ -12,6 +8,7 @@ import javax.persistence.Table;
 		@NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.name = :name and p.age = :age")
 	})
 public class UserDVO {
+	@Column(name="cit_id")
 	private int id;
 	private String name;
 	private int age;

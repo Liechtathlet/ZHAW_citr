@@ -17,7 +17,7 @@ import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 public class GroupServiceRestImpl implements IRGroupServices {
 
 	private IDBGroupService groupService;
-	
+
 	@Override
 	public List<GroupDTO> getAllGroups() {
 		// TODO Auto-generated method stub

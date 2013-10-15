@@ -20,7 +20,11 @@ import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 
 // The Java class will be hosted at the URI path "/resources"
 @Path("/myresources")
+
+// Define as configurable spring component
 @Component
+
+// Define scope to spring IOC container. Return a single bean instance per HTTP request.
 @Scope("request")
 public class MyResource {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MyResource.class);

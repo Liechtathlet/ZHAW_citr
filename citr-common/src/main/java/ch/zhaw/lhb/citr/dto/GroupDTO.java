@@ -2,52 +2,45 @@ package ch.zhaw.lhb.citr.dto;
 
 /**
  * @author Daniel Brun
+ * @author Simon Lang
  *
  * DTO-Class for 'Group'.
  */
 public class GroupDTO {
-
-	private long id;
+	private int id;
 	private String name;
-	private String description;
-	
-	/**
-	 * @return the id
-	 */
-	public long getId() {
+	private int state;
+	private int mode;
+
+	public int getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	/**
-	 * @return the name
-	 */
+
 	public String getName() {
 		return name;
 	}
-	/**
-	 * @param name the name to set
-	 */
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
+
+	public int getState() {
+		return state;
 	}
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
+
+	public void setState(int state) {
+		this.state = state;
 	}
-	
-	
-	
+
+	public int getMode() {
+		return mode;
+	}
+
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
 }
