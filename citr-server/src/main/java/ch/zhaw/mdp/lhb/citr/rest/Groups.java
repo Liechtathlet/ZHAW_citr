@@ -7,12 +7,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,5 +32,19 @@ public class Groups {
 	@Path("/all")
 	public List<GroupDVO> getAllGroups() {
 		return groupService.getAll();
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("/create/{name}/{state}/{mode}")
+	public int createGroup(@PathParam("name") String name, @PathParam("state") int state, @PathParam("mode") int mode) {
+		GroupDVO group = new GroupDVO();
+		group.setName(name);
+		group.setState(state);
+		group.setMode(mode);
+		groupService.create(group);
+		return group.getId();
 	}
 }

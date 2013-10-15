@@ -31,4 +31,12 @@ public class GroupServiceJpaImpl implements IDBGroupService {
 		Query query = entityManager.createNamedQuery("Group.findAll");
 		return query.getResultList();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int create(GroupDVO group) {
+		entityManager.persist(group);
+		entityManager.flush();
+		return group.getId();
+	}
 }

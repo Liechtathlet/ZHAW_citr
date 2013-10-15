@@ -4,7 +4,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_group")
-@NamedQueries( { @NamedQuery(name = "Group.findAll", query = "SELECT g FROM GroupDVO g")
+@NamedQueries(
+		{ @NamedQuery(name = "Group.findAll", query = "SELECT g FROM GroupDVO g")
 })
 public class GroupDVO {
 
@@ -14,12 +15,12 @@ public class GroupDVO {
 	private int mode;
 
 	@Id
+	@GeneratedValue
 	@Column(name="grp_id")
 	public int getId() {
 		return id;
 	}
 
-	@Column(name="grp_id")
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -29,7 +30,6 @@ public class GroupDVO {
 		return name;
 	}
 
-	@Column(name="grp_name")
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -39,7 +39,6 @@ public class GroupDVO {
 		return state;
 	}
 
-	@Column(name="grp_state")
 	public void setState(int state) {
 		this.state = state;
 	}
@@ -49,7 +48,6 @@ public class GroupDVO {
 		return mode;
 	}
 
-	@Column(name="grp_mode")
 	public void setMode(int mode) {
 		this.mode = mode;
 	}

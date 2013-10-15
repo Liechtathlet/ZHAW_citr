@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IDBGroupService {
 	public List<GroupDVO> getAll();
+	public int create(GroupDVO group);
 }
