@@ -73,7 +73,7 @@ Build & Installation (Server)
 ----------------
 1. Tomcat-Server & MySQL starten
 0. citr-common mit mvn clean install ausführen
-2. mvn tomcat7:deploy
+2. mvn tomcat7:deploy		(mvn clean install tomcat7:deploy)
 3. mvn clean test -P "integration"
 4. mvn clean release -P "release" (Release only!)
    http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
