@@ -4,24 +4,6 @@ Hinweis: Für die korrekte Darstellung der Settings, bitte im Text-Mode anschaue
 
 ZHAW - Methoden der Programmierung - Fallstudie "citr"
 
-Offene Punkte (Server)
-----------------
--Mockito
-
-Diverses:
--Package structure (inkl. Test)
--Initial Jersey configuration
-
-Offene Punkte (App)
-----------------
-Maven:
--Testing
-
-Diveres:
--Android configuration
--Connection to Server
--Package structure
-
 Initialer Setup
 ----------------
 1. Android-App
@@ -34,7 +16,7 @@ mvn archetype:generate \
 2. Java-Server
 http://persistentdesigns.com/wp/jersey-spring-and-jpa/
 
-Voraussetzungen
+System-Voraussetzungen
 ----------------
 - Maven
 - Android SDK
@@ -64,7 +46,7 @@ Build & Installation (Android)
 ----------------
 1. AVD Manager starten (Wird im SDK mitgeliefert)
 2. Gerät konfigurieren (falls noch nicht erledigt)
-3. mvn android:deploy
+3. mvn clean install android:deploy
 4. mvn clean test -P "integration"
 5. mvn clean release -P "release" (Release only!)
    http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
@@ -73,7 +55,7 @@ Build & Installation (Server)
 ----------------
 1. Tomcat-Server & MySQL starten
 0. citr-common mit mvn clean install ausführen
-2. mvn tomcat7:deploy		(mvn clean install tomcat7:deploy)
+2. mvn clean install tomcat7:deploy		(mvn clean install tomcat7:deploy)
 3. mvn clean test -P "integration"
 4. mvn clean release -P "release" (Release only!)
    http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
