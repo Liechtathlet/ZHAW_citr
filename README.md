@@ -41,6 +41,7 @@ Lokaler-Setup
       <password>PASSWORD</password>
     </server>
   </servers>
+6. local.properties definieren (gemäss Vorlage)
 
 Build & Installation (Android)
 ----------------
