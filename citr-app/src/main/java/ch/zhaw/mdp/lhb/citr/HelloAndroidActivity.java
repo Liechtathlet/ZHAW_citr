@@ -2,20 +2,20 @@ package ch.zhaw.mdp.lhb.citr;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import ch.zhaw.lhb.citr.dto.UserDTO;
+import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
+import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class HelloAndroidActivity extends Activity {
+public class HelloAndroidActivity extends CitrBaseActivity {
 
 	private static final String SERVICE_URL = "http://10.0.2.2:8080/citrServer/myresources/";
 
@@ -49,10 +49,8 @@ public class HelloAndroidActivity extends Activity {
 	public void retrieveSampleData() {
 		String sampleURL = SERVICE_URL + "test";
 
-		WebServiceTask wst = new WebServiceTask(this, WebServiceTask.GET_TASK,
-				this, "Getting data...");
-
-		wst.execute(new String[] { sampleURL });
+		RESTBackgroundTask rest = new RESTBackgroundTask(this, RESTBackgroundTask.HTTP_GET_TASK);
+		
 	}
 
 	public void handleResponse(String response) {
