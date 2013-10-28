@@ -33,7 +33,7 @@ public class HelloAndroidActivity extends CitrBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.citrLogin);
+		setContentView(R.layout.login);
 	}
 
 	@Override
@@ -95,4 +95,8 @@ public class HelloAndroidActivity extends CitrBaseActivity {
 				.getCurrentFocus().getWindowToken(),
 				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
+
+    public void userLogin() {
+        setContentView(R.layout.group_create);
+    }
 }
