@@ -13,5 +13,6 @@ import android.os.Bundle;
 public class createGroup extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.group_create);
     }
 }

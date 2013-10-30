@@ -23,7 +23,7 @@ public class Login extends CitrBaseActivity {
 
 	private static final String TAG = "AndroidRESTClientActivity";
 
-    public final static String CITR_MAINPAGE = "ch.zhaw.mdp.lhb.citr.CitrMainPage";
+    public final static String CITR_MAINPAGE = "ch.zhaw.mdp.lhb.citr.Main";
 
 	/**
 	 * Called when the activity is first created.
@@ -107,7 +107,7 @@ public class Login extends CitrBaseActivity {
         // Log.e(TAG, "hello michael");
 
 
-        Intent intent = new Intent(this, CitrMainPage.class);
+        Intent intent = new Intent(this, Main.class);
         EditText editText = (EditText) findViewById(R.id.loginUserId);
         String message = editText.getText().toString();
         intent.putExtra(CITR_MAINPAGE, message);
