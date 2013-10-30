@@ -7,9 +7,9 @@ package ch.zhaw.mdp.lhb.citr;
  * @author Daniel Brun
  *
  */
-public class HelloAndroidActivityTest {
+public class LoginTest {
 	
-	public HelloAndroidActivityTest() {
+	public LoginTest() {
 		System.out.println("Running tests...");
 	}
 }

@@ -3,9 +3,11 @@ package ch.zhaw.mdp.lhb.citr;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import ch.zhaw.lhb.citr.dto.UserDTO;
@@ -15,11 +17,13 @@ import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class HelloAndroidActivity extends CitrBaseActivity {
+public class Login extends CitrBaseActivity {
 
 	private static final String SERVICE_URL = "http://10.0.2.2:8080/citrServer/myresources/";
 
 	private static final String TAG = "AndroidRESTClientActivity";
+
+    public final static String CITR_MAINPAGE = "ch.zhaw.mdp.lhb.citr.CitrMainPage";
 
 	/**
 	 * Called when the activity is first created.
@@ -34,6 +38,7 @@ public class HelloAndroidActivity extends CitrBaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+        Log.e(TAG, "hello michael");
 	}
 
 	@Override
@@ -56,7 +61,7 @@ public class HelloAndroidActivity extends CitrBaseActivity {
 	public void handleResponse(String response) {
 
 		try {
-			EditText textF = (EditText) findViewById(R.id.text);
+			EditText textF = (EditText) findViewById(R.id.loginUserId);
 			System.out.println(response);
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -88,15 +93,26 @@ public class HelloAndroidActivity extends CitrBaseActivity {
 
 	public void hideKeyboard() {
 
-		InputMethodManager inputManager = (InputMethodManager) HelloAndroidActivity.this
+		InputMethodManager inputManager = (InputMethodManager) Login.this
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-		inputManager.hideSoftInputFromWindow(HelloAndroidActivity.this
+		inputManager.hideSoftInputFromWindow(Login.this
 				.getCurrentFocus().getWindowToken(),
 				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
-    public void userLogin() {
-        setContentView(R.layout.group_create);
+
+    public void userLogin(View view) {
+
+        // Log.e(TAG, "hello michael");
+
+
+        Intent intent = new Intent(this, CitrMainPage.class);
+        EditText editText = (EditText) findViewById(R.id.loginUserId);
+        String message = editText.getText().toString();
+        intent.putExtra(CITR_MAINPAGE, message);
+        startActivity(intent);
+
+        // setContentView(R.layout.group_create);
     }
 }
