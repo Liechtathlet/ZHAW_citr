@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" >
+
+    <RelativeLayout
+            android:id="@+id/rlOpenRequests"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true">
+
+        <TextView
+                android:id="@+id/tvOpenRequests"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="Offene Anfragen"/>
+        <ListView
+                android:id="@+id/lvOpenRequests"
+                android:layout_below="@id/tvOpenRequests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+            android:id="@+id/rlNewCitr"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/rlOpenRequests">
+        <TextView
+                android:id="@+id/tvNewCitr"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="Citr veröffentlichen"/>
+
+        <EditText
+                android:id="@+id/etNewCitr"
+                android:layout_below="@id/tvNewCitr"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dein Citr"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:minLines="4"
+                android:maxLines="10"
+                android:scrollbars="vertical"
+                android:gravity="top"
+                />
+        <Button
+                android:id="@+id/buCreateCitr"
+                android:layout_below="@id/etNewCitr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Veröffentlichen"
+                android:layout_alignParentRight="true"
+                />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+            android:id="@+id/rlMembers"
+            android:layout_below="@id/rlNewCitr"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+        <TextView
+                android:id="@+id/tvMembers"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="Mitglieder"/>
+
+    </RelativeLayout>
+</RelativeLayout>

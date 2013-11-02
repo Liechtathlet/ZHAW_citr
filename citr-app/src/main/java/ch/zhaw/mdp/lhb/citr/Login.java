@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 import ch.zhaw.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
@@ -105,6 +106,8 @@ public class Login extends CitrBaseActivity {
     public void userLogin(View view) {
 
         // Log.e(TAG, "hello michael");
+
+        Toast.makeText(getApplicationContext(), "hi", Toast.LENGTH_SHORT).show();
 
 
         Intent intent = new Intent(this, Main.class);

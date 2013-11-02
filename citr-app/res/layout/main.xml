@@ -5,12 +5,55 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp" >
 
-    <Button
-            android:id="@+id/createGroup"
-            android:layout_width="128dp"
+    <RelativeLayout
+            android:id="@+id/rlOwnGroups"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Gruppe erstellen"
-            android:onClick="createGroup"
-            />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true">
+        <TextView
+                android:id="@+id/tvOwnGroups"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="Eigene Gruppen"/>
+        <Button
+                android:id="@+id/buCreateGroup"
+                android:layout_below="@id/tvOwnGroups"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Gruppe erstellen"
+                android:onClick="createGroup"
+                />
+        <Button
+                android:id="@+id/buCreateCitr"
+                android:layout_below="@id/buCreateGroup"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Citr veröffentlichen"
+                android:onClick="createCitr"
+                />
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/rlMemberOfGroups"
+            android:layout_below="@id/rlOwnGroups"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+        <TextView
+                android:id="@+id/tvMemberOfGroups"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="Mitglied von"/>
+
+
+    </RelativeLayout>
 </RelativeLayout>
