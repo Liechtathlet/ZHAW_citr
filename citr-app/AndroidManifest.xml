@@ -16,9 +16,8 @@
         android:label="Citr"
         android:theme="@style/AppTheme" >
 
-        <activity android:name=".Login"
+        <activity android:name="Login"
           android:label="Citr"
-          android:parentActivityName="android.intent.action.MAIN"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,33 +25,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Main"
+        <activity android:name="Main"
           android:label="Citr"
-          android:parentActivityName="android.intent.action.MAIN"
+          android:parentActivityName="Login"
         >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.intent.action.MAIN"
-                />
-        </activity>
-        <activity android:name=".createGroup"
-          android:label="Gruppe erstellen"
-          android:parentActivityName="android.intent.action.MAIN"
-        >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.intent.action.MAIN"
-                />
         </activity>
 
-        <activity android:name=".createCitr"
+        <activity android:name="createGroup"
+          android:label="Gruppe erstellen"
+          android:parentActivityName="Main"
+        >
+        </activity>
+
+        <activity android:name="createCitr"
                   android:label="Citr veröffentlichen"
-                  android:parentActivityName="android.intent.action.MAIN"
+                  android:parentActivityName="Main"
                 >
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="android.intent.action.MAIN"
-                    />
         </activity>
     </application>
 

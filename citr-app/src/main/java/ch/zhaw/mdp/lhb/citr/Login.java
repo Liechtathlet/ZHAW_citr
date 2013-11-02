@@ -39,7 +39,6 @@ public class Login extends CitrBaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-        Log.e(TAG, "hello michael");
 	}
 
 	@Override
@@ -63,7 +62,10 @@ public class Login extends CitrBaseActivity {
 
 		try {
 			EditText textF = (EditText) findViewById(R.id.loginUserId);
-			System.out.println(response);
+			// System.out.println(response);
+            textF.setText("Hi " + response);
+
+            Toast.makeText(getApplicationContext(), "answer: " + response, Toast.LENGTH_SHORT).show();
 
 			ObjectMapper mapper = new ObjectMapper();
 			List<UserDTO> user = mapper.readValue(response, new TypeReference<List<UserDTO>>(){});
@@ -78,7 +80,6 @@ public class Login extends CitrBaseActivity {
 //						new TypeReference<HashMap<String, String>>() {
 //						});
 //
-//				System.out.println(map);
 //
 //			} catch (Exception e) {
 //				e.printStackTrace();
@@ -105,8 +106,6 @@ public class Login extends CitrBaseActivity {
 
     public void userLogin(View view) {
 
-        // Log.e(TAG, "hello michael");
-
         Toast.makeText(getApplicationContext(), "hi", Toast.LENGTH_SHORT).show();
 
 
@@ -116,6 +115,5 @@ public class Login extends CitrBaseActivity {
         intent.putExtra(CITR_MAINPAGE, message);
         startActivity(intent);
 
-        // setContentView(R.layout.group_create);
     }
 }

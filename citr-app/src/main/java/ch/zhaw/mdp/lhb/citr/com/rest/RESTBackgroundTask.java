@@ -72,7 +72,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	private int httpRequestType;
 
 	/**
-	 * Creates a new instance of this clas.
+	 * Creates a new instance of this class.
 	 * 
 	 * @param aContext
 	 *            The underlying context.
