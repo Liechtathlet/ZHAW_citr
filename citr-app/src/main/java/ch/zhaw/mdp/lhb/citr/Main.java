@@ -75,4 +75,10 @@ public class Main extends Activity {
         // intent.putExtra('', );
         startActivity(intent);
     }
+
+    public void createCitr(View view) {
+        Intent intent = new Intent(this, createCitr.class);
+        // intent.putExtra('', );
+        startActivity(intent);
+    }
 }

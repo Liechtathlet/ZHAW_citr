@@ -4,18 +4,10 @@
                 android:layout_height="fill_parent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp" >
-    <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/loginUserId"
-            android:layout_alignParentLeft="true"
-            android:text="@string/login_text"
-            />
 
     <EditText
             android:id="@+id/loginUserId"
-            android:layout_width="128dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:inputType="text"

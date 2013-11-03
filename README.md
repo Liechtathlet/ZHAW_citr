@@ -43,6 +43,10 @@ Lokaler-Setup
   </servers>
 6. local.properties definieren (gemäss Vorlage)
 
+Build & Installation (Common)
+----------------
+1. mvn clean install
+
 Build & Installation (Android)
 ----------------
 1. AVD Manager starten (Wird im SDK mitgeliefert)
@@ -60,6 +64,10 @@ Build & Installation (Server)
 3. mvn clean test -P "integration"
 4. mvn clean release -P "release" (Release only!)
    http://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html
+
+
+Die Datenbank wird beim Deployment initial automatisch erzeugt.
+
 
 Tests:
 ----------------
