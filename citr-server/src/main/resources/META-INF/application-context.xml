@@ -42,4 +42,8 @@
 	<bean id="jpaAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
 		p:database="MYSQL" p:showSql="@db.dump@" />
+	
+	<bean id="userRestService" class="ch.zhaw.mdp.lhb.citr.rest.impl.UserServiceRestImpl">
+	    <aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
 </beans>

@@ -1,7 +1,7 @@
 package ch.zhaw.mdp.lhb.citr;
 
-import android.app.Activity;
 import android.os.Bundle;
+import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,9 +10,10 @@ import android.os.Bundle;
  * Time: 22:58
  * To change this template use File | Settings | File Templates.
  */
-public class createGroup extends Activity {
+public class createGroup extends CitrBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_create);
+		
     }
 }

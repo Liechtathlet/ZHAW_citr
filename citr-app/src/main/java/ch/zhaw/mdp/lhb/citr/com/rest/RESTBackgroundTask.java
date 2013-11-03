@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -20,20 +21,26 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
+import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
+import ch.zhaw.mdp.lhb.citr.util.PropertyHelper;
 
 /**
  * @author Daniel Brun
@@ -68,7 +75,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
 	private ProgressDialog uiProgressDialog = null;
 
-	private ArrayList<NameValuePair> parameters;
+	private List<NameValuePair> parameters;
 	private int httpRequestType;
 
 	/**
@@ -81,13 +88,16 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	 * @param aHttpRequestType
 	 *            The HTTP-Type
 	 */
-	public RESTBackgroundTask(CitrBaseActivity anActivity, int aHttpRequestType) {
-		if(anActivity == null){
-			throw new NullPointerException("The argument anActivity must not be null!");
+	public RESTBackgroundTask(CitrBaseActivity anActivity) {
+		if (anActivity == null) {
+			throw new NullPointerException(
+					"The argument anActivity must not be null!");
 		}
-		
+
+		parameters = new ArrayList<NameValuePair>();
+
 		activity = anActivity;
-		httpRequestType = aHttpRequestType;
+		httpRequestType = HTTP_GET_TASK;
 	}
 
 	/**
@@ -116,13 +126,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	}
 
 	/*
-	 * ConnectivityManager connMgr = (ConnectivityManager)
-	 * getSystemService(Context.CONNECTIVITY_SERVICE); NetworkInfo networkInfo =
-	 * connMgr.getActiveNetworkInfo(); if (networkInfo != null &&
-	 * networkInfo.isConnected()) { // fetch data } else { // display error }
-	 */
-	/*
-	 * /* (non-Javadoc)
+	 * (non-Javadoc)
 	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
@@ -131,6 +135,17 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 		// Hide Keyboard
 		activity.cleanScreen();
 		showWorkingDialog();
+
+		ConnectivityManager connMgr = (ConnectivityManager) activity
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+		if (networkInfo == null || !networkInfo.isConnected()) {
+			Log.w(TAG, "No network connection");
+			throw new CitrCommunicationException(
+					"No Network connection available",
+					CitrExceptionTypeEnum.CONNECTION_NOT_AVAILABLE);
+		}
 	}
 
 	/*
@@ -150,15 +165,19 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
 		HttpResponse reqRes = performRequest(requestUrl);
 
-		if (reqRes != null) {
+		if (reqRes != null && reqRes.getEntity() != null) {
 			try {
 				result = readInputStream(reqRes.getEntity().getContent());
 			} catch (IllegalStateException e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				throw new CitrCommunicationException("An error occurred during HTTP-Result-Processing!",e);
+				throw new CitrCommunicationException(
+						"An error occurred during HTTP-Result-Processing!", e,
+						CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
 			} catch (IOException e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				throw new CitrCommunicationException("An error occurred during HTTP-Result-Processing!",e);
+				throw new CitrCommunicationException(
+						"An error occurred during HTTP-Result-Processing!", e,
+						CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
 			}
 		}
 
@@ -172,7 +191,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	 */
 	@Override
 	protected void onCancelled() {
-
+		parameters.clear();
 		uiProgressDialog.dismiss();
 	}
 
@@ -183,7 +202,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	 */
 	@Override
 	protected void onPostExecute(String aResult) {
-		activity.handleResponse(aResult);
+		parameters.clear();
 		uiProgressDialog.dismiss();
 	}
 
@@ -202,6 +221,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
 		HttpConnectionParams.setConnectionTimeout(httpParameter, CONN_TIMEOUT);
 		HttpConnectionParams.setSoTimeout(httpParameter, SOCKET_TIMEOUT);
+		httpParameter.setParameter(HTTP.CONTENT_TYPE, "application/json");
 
 		// Create HTTP-Client
 		HttpClient httpClient = new DefaultHttpClient(httpParameter);
@@ -214,13 +234,16 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 				Base64.NO_WRAP));
 
 		HttpRequestBase httpRequest = null;
+		StringBuffer url = new StringBuffer();
+		url.append(PropertyHelper.get("rest.url"));
+		url.append(aRequestUrl);
 
 		try {
 			switch (httpRequestType) {
 
 			// Create POST-Request
 			case HTTP_POST_TASK:
-				httpRequest = new HttpPost(aRequestUrl);
+				httpRequest = new HttpPost(url.toString());
 
 				// Add parameters
 				((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(
@@ -229,25 +252,35 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
 			// Create GET-Request
 			case HTTP_GET_TASK:
-				httpRequest = new HttpGet(aRequestUrl);
+				url.append("?");
+				url.append(URLEncodedUtils.format(parameters, "utf-8"));
+
+				httpRequest = new HttpGet(url.toString());
 				break;
-			default: {
-				throw new NotImplementedException();
-			}
 			}
 
 			httpRequest.addHeader("Authorization", "Basic " + authString);
+
+			Log.d(TAG, "Calling: " + url.toString() + ", HTTP-Method: "
+					+ httpRequestType + " 1:POST, 2:GET");
+
 			response = httpClient.execute(httpRequest);
 
 		} catch (UnsupportedEncodingException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);
-			throw new CitrCommunicationException("Invalid encoding for HTTP-request!",e);
+			throw new CitrCommunicationException(
+					"Invalid encoding for HTTP-request!", e,
+					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);
-			throw new CitrCommunicationException("Client exception occurred on performing HTTP-request!",e);
+			throw new CitrCommunicationException(
+					"Client exception occurred on performing HTTP-request!", e,
+					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
 		} catch (IOException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);
-			throw new CitrCommunicationException("IO-exception during HTTP-request!",e);
+			throw new CitrCommunicationException(
+					"IO-exception during HTTP-request!", e,
+					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
 		}
 
 		return response;
@@ -273,16 +306,28 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);
-			throw new CitrCommunicationException("IO-exception during HTTP-respone parsing!",e);
+			throw new CitrCommunicationException(
+					"IO-exception during HTTP-respone parsing!", e,
+					CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
 		} finally {
 			try {
 				buffReader.close();
 			} catch (IOException e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				throw new CitrCommunicationException("IO-exception during HTTP-respone parsing! On closing stream.",e);
+				throw new CitrCommunicationException(
+						"IO-exception during HTTP-respone parsing! On closing stream.",
+						e, CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
 			}
 		}
 
 		return data.toString();
+	}
+
+	/**
+	 * @param aHttpRequestType
+	 *            the httpRequestType to set
+	 */
+	public void setHttpRequestType(int aHttpRequestType) {
+		httpRequestType = aHttpRequestType;
 	}
 }

@@ -2,39 +2,60 @@ package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
 import javax.persistence.*;
 
+/**
+ * @author Daniel Brun
+ *
+ * Data-Class for 'User'.
+ */
 @Entity
-@Table(name = "APPUSERS")
+@Table(name = "tbl_user")
 @NamedQueries( { @NamedQuery(name = "User.findAll", query = "SELECT p FROM UserDVO p"),
-		@NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.name = :name and p.age = :age")
+		@NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.openId = :openId or p.username = :username")
 	})
 public class UserDVO {
-	@Column(name="cit_id")
-	private int id;
-	private String name;
-	private int age;
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	
 	@Id
+	@GeneratedValue
+	private int id;
+	
+	private String openId;
+	private String username;
+	
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	/**
+	 * @param aId the id to set
+	 */
+	public void setId(int aId) {
+		id = aId;
 	}
-
-	public String getName() {
-		return name;
+	/**
+	 * @return the openId
+	 */
+	public String getOpenId() {
+		return openId;
 	}
-
-	public void setAge(int age) {
-		this.age = age;
+	/**
+	 * @param aOpenId the openId to set
+	 */
+	public void setOpenId(String aOpenId) {
+		openId = aOpenId;
 	}
-
-	public int getAge() {
-		return age;
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
 	}
+	/**
+	 * @param aUsername the username to set
+	 */
+	public void setUsername(String aUsername) {
+		username = aUsername;
+	}
+	
 }

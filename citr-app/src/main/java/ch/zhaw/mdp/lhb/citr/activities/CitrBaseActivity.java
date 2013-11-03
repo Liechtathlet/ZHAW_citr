@@ -10,15 +10,9 @@ import android.view.inputmethod.InputMethodManager;
 /**
  * @author Daniel Brun
  * 
+ * Base-Class for citr-activities.
  */
 public abstract class CitrBaseActivity extends Activity {
-
-	/**
-	 * 
-	 */
-	public CitrBaseActivity() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * Clean up the current screen.
@@ -27,22 +21,12 @@ public abstract class CitrBaseActivity extends Activity {
 
 		InputMethodManager inputManager = (InputMethodManager) CitrBaseActivity.this
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-		inputManager.hideSoftInputFromWindow(CitrBaseActivity.this
-				.getCurrentFocus().getWindowToken(),
-				InputMethodManager.HIDE_NOT_ALWAYS);
+		
+		if (inputManager != null && this.getCurrentFocus() != null && this.getCurrentFocus().getWindowToken() != null) {
+			inputManager.hideSoftInputFromWindow(CitrBaseActivity.this
+					.getCurrentFocus().getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 
-	protected void getDataFromServer(){
-		//TODO: Implement
-	}
-	
-	/**
-	 * Handles the response of a url call.
-	 * 
-	 * @param aResult The result string.
-	 */
-	public void handleResponse(String aResult){
-		//Base Implementation - Nothing to do.
-	}
 }

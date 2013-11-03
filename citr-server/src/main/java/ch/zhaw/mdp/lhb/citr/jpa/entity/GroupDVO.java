@@ -2,6 +2,11 @@ package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
 import javax.persistence.*;
 
+/**
+ * @author Simon Lang
+ *
+ * Data-Class for 'Group'.
+ */
 @Entity
 @Table(name = "tbl_group")
 @NamedQueries(
@@ -9,56 +14,76 @@ import javax.persistence.*;
 })
 public class GroupDVO {
 
+	@Id
+	@GeneratedValue
 	private int id;
+	
 	private String name;
 	private String state;
 	private String mode;
 
+    /**
+     * Creates a new instance
+     */
     public GroupDVO() {
         // every new group is active
         this.setState("active");
     }
 
-
-    @Id
-	@GeneratedValue
-	@Column(name="grp_id")
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	/**
+	 * @param aId the id to set
+	 */
+	public void setId(int aId) {
+		id = aId;
 	}
 
-	@Column(name="grp_name")
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	/**
+	 * @param aName the name to set
+	 */
+	public void setName(String aName) {
+		name = aName;
 	}
 
-	@Column(name="grp_state")
+	/**
+	 * @return the state
+	 */
 	public String getState() {
 		return state;
 	}
 
-	public void setState(String state) {
-        // if (state == "deleted" || state == "active") {
-            this.state = state;
-        // }
+	/**
+	 * @param aState the state to set
+	 */
+	public void setState(String aState) {
+		state = aState;
 	}
 
-	@Column(name="grp_mode")
+	/**
+	 * @return the mode
+	 */
 	public String getMode() {
 		return mode;
 	}
 
-	public void setMode(String mode) {
-        // if (mode == "public" || mode == "private") {
-            this.mode = mode;
-        // }
+	/**
+	 * @param aMode the mode to set
+	 */
+	public void setMode(String aMode) {
+		mode = aMode;
 	}
+	
 }

@@ -8,9 +8,11 @@
 		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO</class>
 		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO</class>
 
-		<property name="hibernate.show_sql" value="true" />
-		<property name="hibernate.format_sql" value="true" />
+		<properties>
+		    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/> <!-- create-drop, update -->
+		</properties>
 	</persistence-unit>
-
-
 </persistence>

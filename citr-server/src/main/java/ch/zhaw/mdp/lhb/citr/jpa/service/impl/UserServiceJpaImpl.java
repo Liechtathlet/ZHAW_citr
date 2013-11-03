@@ -18,64 +18,87 @@ public class UserServiceJpaImpl implements IDBUserService {
 
 	private EntityManager entityManager;
 
+	@Transactional(readOnly = true)
+	public UserDVO getById(int id) {
+		return entityManager.find(UserDVO.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<UserDVO> getAll() {
+		Query query = entityManager.createNamedQuery("User.findAll");
+		List<UserDVO> user = null;
+		user = query.getResultList();
+		return user;
+	}
+
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
+	public boolean save(UserDVO user) {
+
+		entityManager.persist(user);
+		entityManager.flush();
+
+		return true;
+	}
+	
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
+	public boolean update(UserDVO user) {
+		entityManager.merge(user);
+		entityManager.flush();
+		
+		return true;
+	}
+	
+
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
+	public boolean delete(UserDVO user) {
+		user = entityManager.getReference(UserDVO.class, user.getId());
+		
+		if (user == null)
+		{
+			return false;
+		}
+		
+		entityManager.remove(user);
+		entityManager.flush();
+		
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public UserDVO findPerson(UserDVO user) {
+		UserDVO result = null;
+		
+		Query queryFindPerson = entityManager.createNamedQuery("User.findUser");
+		queryFindPerson.setParameter("username", user.getUsername());
+		queryFindPerson.setParameter("openId", user.getOpenId());
+		
+		List<UserDVO> users = queryFindPerson.getResultList();
+		
+		if(users.size() > 0) {
+			result = users.get(0);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Sets the Entity Manager
+	 * 
+	 * @param entityManager The Entity Manager
+	 */
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 
+	/**
+	 * Gets the Entity Manager
+	 * 
+	 * @return The Entity Manager
+	 */
 	public EntityManager getEntityManager() {
 		return entityManager;
-	}
-
-	@Transactional(readOnly = true)
-	public UserDVO getById(int id) {
-		// TODO Auto-generated method stub
-		return entityManager.find(UserDVO.class, id);
-	}
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
-	public List<UserDVO> getAll() {
-		Query query = entityManager.createNamedQuery("User.findAll");
-		List<UserDVO> persons = null;
-		persons = query.getResultList();
-		return persons;
-	}
-
-	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
-	public boolean save(UserDVO person) {
-
-		entityManager.persist(person);
-		entityManager.flush();
-
-		return true;
-	}
-	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
-	public boolean update(UserDVO person) {
-		entityManager.merge(person);
-		entityManager.flush();
-		return true;
-	}
-	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
-	public boolean delete(UserDVO person) {
-		person = entityManager.getReference(UserDVO.class, person.getId());
-		if (person == null)
-			return false;
-		entityManager.remove(person);
-		entityManager.flush();
-		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
-	public UserDVO findPerson(UserDVO person) {
-		UserDVO result = null;
-		Query queryFindPerson = entityManager.createNamedQuery("User.findUser");
-		queryFindPerson.setParameter("name", person.getName());
-		queryFindPerson.setParameter("age", person.getAge());
-		List<UserDVO> persons = queryFindPerson.getResultList();
-		if(persons.size() > 0) {
-			result = persons.get(0);
-		}
-		return result;
 	}
 }

@@ -43,8 +43,8 @@ public class MyResource {
 	public List<UserDVO> getIt() {
 		LOGGER.error("Got request");
 		UserDVO person = new UserDVO();
-		person.setName("David Sells");
-		person.setAge(99);
+		person.setUsername("David Sells");
+		person.setOpenId("DS");
 
 		addIfDoesNotExist(person);
 
@@ -52,7 +52,7 @@ public class MyResource {
 
 		List<UserDVO> persons = personService.getAll();
 		for (UserDVO person2 : persons) {
-			buffer.append(person2.getName()).append(":").append(person2.getAge())
+			buffer.append(person2.getUsername()).append(":").append(person2.getOpenId())
 					.append("\n");
 		}
 

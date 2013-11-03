@@ -38,6 +38,7 @@
 		<menu name="About Proficio">
 			<item name="What is Proficio?" href="/what-is-maven.html" />
 		</menu>
+		<menu ref="reports"/>
 		<footer/>
 	</body>
 </project>
