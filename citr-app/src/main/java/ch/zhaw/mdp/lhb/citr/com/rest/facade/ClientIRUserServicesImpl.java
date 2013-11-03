@@ -144,7 +144,7 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 	private UserDTO map(String aResult) {
 		UserDTO user = null;
 
-		if (aResult != null) {
+		if (aResult != null && aResult.trim().length() > 0) {
 			try {
 				user = mapper.readValue(aResult, new TypeReference<UserDTO>() {
 				});

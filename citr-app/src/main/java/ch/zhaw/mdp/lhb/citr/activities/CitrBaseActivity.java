@@ -5,7 +5,9 @@ package ch.zhaw.mdp.lhb.citr.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
+import ch.zhaw.mdp.lhb.citr.exception.CitrExceptionHandler;
 
 /**
  * @author Daniel Brun
@@ -14,6 +16,16 @@ import android.view.inputmethod.InputMethodManager;
  */
 public abstract class CitrBaseActivity extends Activity {
 
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
+	@Override
+	protected void onCreate(Bundle aSavedInstanceState) {
+		super.onCreate(aSavedInstanceState);
+		
+		Thread.setDefaultUncaughtExceptionHandler(new CitrExceptionHandler(this));
+	}
 	/**
 	 * Clean up the current screen.
 	 */
