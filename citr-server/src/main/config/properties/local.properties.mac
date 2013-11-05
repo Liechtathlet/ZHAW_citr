@@ -1,0 +1,7 @@
+log.level=DEBUG
+log.dir=/Users/michael/temp
+db.user=mha
+db.pw=mha
+db.host=localhost
+db.port=3306
+db.schema=citr
