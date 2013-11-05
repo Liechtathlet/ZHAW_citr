@@ -9,9 +9,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
@@ -20,7 +23,9 @@ import ch.zhaw.mdp.lhb.citr.rest.IRMessageServices;
 
 /**
  * @author Daniel Brun
+ * @author Simon Lang
  *
+ * Implementation of the Service-Interface {@link IRMessageServices}.
  */
 @Component
 @Path("/message")
@@ -38,10 +43,14 @@ public class MessageServiceRestImpl implements IRMessageServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
-	@Path("/send")
-	public boolean sendMessage(MessageDTO aMessage) {
-		// TODO Auto-generated method stub
-		System.out.println("Received Request for sendMessage: " + aMessage.getMessageText());
-		return true;
+	@Path("/create")
+	public long createMessage(MessageDTO messageDTO) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MessageDVO messageDVO = new MessageDVO();
+		messageDVO.setMessage(messageDTO.getMessageText());
+		messageDVO.setGroupId(messageDTO.getGroupId());
+		messageDVO.setUserId(1);
+		messageService.save(messageDVO);
+		return messageDVO.getId();
 	}
 }

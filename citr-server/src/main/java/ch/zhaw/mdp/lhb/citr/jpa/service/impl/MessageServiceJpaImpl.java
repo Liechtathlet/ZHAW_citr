@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBMessageService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Daniel Brun
+ * @author Simon Lang
  *
+ * Implementation of the DB-Service interface {@link IDBMessageService}
  */
 @Service("messageService")
 public class MessageServiceJpaImpl implements IDBMessageService{
@@ -26,9 +29,11 @@ public class MessageServiceJpaImpl implements IDBMessageService{
 	}
 
 	@Override
-	public boolean save(MessageDVO aMessage) {
-		// TODO Auto-generated method stub
-		return false;
+	@Transactional(readOnly = true)
+	public long save(MessageDVO message) {
+		entityManager.persist(message);
+		entityManager.flush();
+		return message.getId();
 	}
 
 	@Override

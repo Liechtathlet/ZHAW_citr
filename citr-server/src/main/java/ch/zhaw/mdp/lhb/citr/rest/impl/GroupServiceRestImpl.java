@@ -3,6 +3,7 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -12,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.annotation.Secured;
@@ -61,8 +63,15 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Secured("ROLE_USER")
 	@Path("/list")
 	public List<GroupDTO> getAllGroups() {
-		//return groupService.getAll();
-		return null;
+		List<GroupDTO> groups = new ArrayList<GroupDTO>();
+		for (GroupDVO dvo : groupService.getAll()) {
+			GroupDTO dto = new GroupDTO();
+			dto.setName(dvo.getName());
+			dto.setPublicGroup(dvo.getMode() == "public");
+			groups.add(dto);
+		}
+
+		return groups;
 	}
 
 

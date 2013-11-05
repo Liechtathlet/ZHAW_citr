@@ -25,7 +25,7 @@ import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
 /**
  * @author Daniel Brun
  * 
- *         Implementation of the Service-Interface {@link IRUserServices}.
+ * Implementation of the Service-Interface {@link IRUserServices}.
  */
 @Component
 @Path("/user")

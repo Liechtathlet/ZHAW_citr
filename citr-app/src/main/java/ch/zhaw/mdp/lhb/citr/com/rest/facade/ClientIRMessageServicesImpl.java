@@ -52,7 +52,7 @@ public class ClientIRMessageServicesImpl implements IRMessageServices {
 	 * @see ch.zhaw.mdp.lhb.citr.rest.IRMessageServices#sendMessage(ch.zhaw.mdp.lhb.citr.dto.MessageDTO)
 	 */
 	@Override
-	public boolean sendMessage(MessageDTO aMessage) {
+	public long createMessage(MessageDTO aMessage) {
 		
 		if(aMessage == null){
 			throw new IllegalArgumentException("The argument aMessage must not be null");
@@ -71,13 +71,13 @@ public class ClientIRMessageServicesImpl implements IRMessageServices {
 
 		StringBuffer url = new StringBuffer();
 		url.append(PropertyHelper.get("rest.service.message"));
-		url.append("send");
+		url.append("create");
 
 		String result = execute(url.toString());
 
 		Log.e(TAG,"TEST: " + result);
 		
-		return true;
+		return 1L;
 	}
 
 	/**

@@ -12,7 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 
-
+/**
+ * @author Daniel Brun
+ * @author Simon Lang
+ *
+ * Implementation of the DB-Service interface {@link IDBUserService}
+ */
 @Service("userService")
 public class UserServiceJpaImpl implements IDBUserService {
 

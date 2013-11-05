@@ -7,6 +7,7 @@ import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 
 /**
  * @author Daniel Brun
+ * @author Simon Lang
  *
  * Interface for the abstraction of the database access for 'Messages'.
  */
@@ -15,10 +16,11 @@ public interface IDBMessageService {
 	/**
 	 * Saves the given message.
 	 * 
+	 *
 	 * @param aMessage the message to save.
 	 * @return true if the message was saved successfully, false otherwise.
 	 */
-	public boolean save(MessageDVO aMessage);
+	public long save(MessageDVO aMessage);
 	
 	/**
 	 * Looks for the message with the given id.

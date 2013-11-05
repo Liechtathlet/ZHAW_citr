@@ -14,6 +14,7 @@ import java.util.List;
  * @author Daniel Brun
  * @author Simon Lang
  *
+ * Implementation of the DB-Service interface {@link IDBGroupService}
  */
 @Service("groupService")
 public class GroupServiceJpaImpl implements IDBGroupService {
