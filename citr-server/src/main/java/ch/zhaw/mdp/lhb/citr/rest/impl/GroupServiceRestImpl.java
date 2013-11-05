@@ -3,6 +3,7 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -62,7 +63,13 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Path("/list")
 	public List<GroupDTO> getAllGroups() {
 		//return groupService.getAll();
-		return null;
+		List<GroupDTO> groups = new ArrayList<GroupDTO>();
+		
+		GroupDTO grp = new GroupDTO();
+		grp.setHashId("Test");
+		grp.setName("Test");
+		groups.add(grp);
+		return groups;
 	}
 
 
