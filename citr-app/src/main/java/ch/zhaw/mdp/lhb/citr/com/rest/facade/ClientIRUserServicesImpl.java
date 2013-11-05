@@ -27,6 +27,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  *         Clean implementation of the Service-Interface {@link IRUserServices}.
  */
+/**
+ * @author Daniel Brun
+ *
+ */
 public class ClientIRUserServicesImpl implements IRUserServices {
 
 	public static final String TAG = "ClientIRUserServicesImpl";
@@ -45,7 +49,6 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 		activity = anActivity;
 
 		mapper = new ObjectMapper();
-		restTask = new RESTBackgroundTask(anActivity);
 	}
 
 	/*
@@ -55,7 +58,7 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 	 */
 	@Override
 	public UserDTO getUser(String anOpenId) {
-		restTask.setHttpRequestType(RESTBackgroundTask.HTTP_GET_TASK);
+		preInit(RESTBackgroundTask.HTTP_GET_TASK);
 
 		restTask.addParameter("openId", anOpenId);
 
@@ -77,7 +80,7 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 	 */
 	@Override
 	public boolean registerUser(UserDTO aUser) {
-		restTask.setHttpRequestType(RESTBackgroundTask.HTTP_POST_TASK);
+		preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
 		try {
 			restTask.addParameter("user", mapper.writeValueAsString(aUser));
@@ -100,6 +103,17 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 		return true;
 	}
 
+	
+	/**
+	 * Performs the pre initialization.
+	 * 
+	 * @param aHttpType The http type.
+	 */
+	private void preInit(int aHttpType){
+		restTask = new RESTBackgroundTask(activity);
+		restTask.setHttpRequestType(aHttpType);
+	}
+	
 	/**
 	 * Executes the prepared call with the given url.
 	 * 

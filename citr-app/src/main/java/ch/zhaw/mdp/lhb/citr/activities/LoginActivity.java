@@ -65,12 +65,12 @@ public class LoginActivity extends CitrBaseActivity {
 
 		Log.d(TAG, "Activity-Event: User-Login with: " + openId);
 
-		if (!openId.equals("")) {
+		if (openId != null && !openId.equals("")) {
 			UserDTO user = userServices.getUser(openId);
 
 			if (user != null) {
 				//TODO: Fix this
-				Toast.makeText(getApplicationContext(), "hi", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Willkommen " + user.getUsername(), Toast.LENGTH_SHORT).show();
 				
 				Intent intent = new Intent(this, Main.class);
 				intent.putExtra(CITR_MAINPAGE, openId);

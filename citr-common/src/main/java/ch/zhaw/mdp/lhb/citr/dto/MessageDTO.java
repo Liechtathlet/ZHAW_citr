@@ -4,6 +4,7 @@
 package ch.zhaw.mdp.lhb.citr.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Daniel Brun
@@ -12,27 +13,12 @@ import java.util.Date;
  */
 public class MessageDTO {
 
+	private String groupId;
+	
+	private List<String> tags;
+	
 	private long id;
 	private Date sendDate;
 	private String message;
-	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public Date getSendDate() {
-		return sendDate;
-	}
-	public void setSendDate(Date sendDate) {
-		this.sendDate = sendDate;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
+
 }
