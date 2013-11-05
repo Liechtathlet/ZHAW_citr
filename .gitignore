@@ -30,3 +30,5 @@ gen/
 # Maven
 log/
 target/
+
+local.properties
