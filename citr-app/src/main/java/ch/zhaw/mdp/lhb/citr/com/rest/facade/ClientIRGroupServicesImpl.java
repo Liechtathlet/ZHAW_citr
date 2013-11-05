@@ -4,16 +4,18 @@
 package ch.zhaw.mdp.lhb.citr.com.rest.facade;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import android.os.AsyncTask;
 import android.util.Log;
 import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
-import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
+import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
-import ch.zhaw.mdp.lhb.citr.rest.IRMessageServices;
+import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 import ch.zhaw.mdp.lhb.citr.util.PropertyHelper;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -25,11 +27,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Daniel Brun
  * 
- *         Client implementation of the Service-Interface {@link IRMessageServices}.
+ *         Client implementation of the Service-Interface
+ *         {@link IRGroupServices}.
  */
-public class ClientIRMessageServicesImpl implements IRMessageServices {
+public class ClientIRGroupServicesImpl implements IRGroupServices {
 
-	public static final String TAG = "ClientIRUserServicesImpl";
+	public static final String TAG = "ClientIRGroupServicesImpl";
 
 	private CitrBaseActivity activity;
 	private RESTBackgroundTask restTask;
@@ -41,27 +44,27 @@ public class ClientIRMessageServicesImpl implements IRMessageServices {
 	 * @param anActivity
 	 *            The underlining activity.
 	 */
-	public ClientIRMessageServicesImpl(CitrBaseActivity anActivity) {
+	public ClientIRGroupServicesImpl(CitrBaseActivity anActivity) {
 		activity = anActivity;
 
 		mapper = new ObjectMapper();
 	}
 
-
 	/* (non-Javadoc)
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRMessageServices#sendMessage(ch.zhaw.mdp.lhb.citr.dto.MessageDTO)
+	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#createGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
 	 */
 	@Override
-	public boolean sendMessage(MessageDTO aMessage) {
-		
-		if(aMessage == null){
-			throw new IllegalArgumentException("The argument aMessage must not be null");
+	public boolean createGroup(GroupDTO aGroup) {
+		if (aGroup == null) {
+			throw new IllegalArgumentException(
+					"The argument aGroup must not be null");
 		}
-		
+
 		preInit(RESTBackgroundTask.HTTP_POST_TASK);
-		
+
 		try {
-			restTask.addParameter("message", mapper.writeValueAsString(aMessage));
+			restTask.addParameter("group",
+					mapper.writeValueAsString(aGroup));
 		} catch (JsonProcessingException e) {
 			Log.e(TAG, "Exception during JSON serialization prcoess.", e);
 			throw new CitrCommunicationException(
@@ -70,26 +73,35 @@ public class ClientIRMessageServicesImpl implements IRMessageServices {
 		}
 
 		StringBuffer url = new StringBuffer();
-		url.append(PropertyHelper.get("rest.service.message"));
-		url.append("send");
+		url.append(PropertyHelper.get("rest.service.group"));
+		url.append("create");
 
 		String result = execute(url.toString());
 
-		Log.e(TAG,"TEST: " + result);
-		
+		Log.e(TAG, "TEST: " + result);
+
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getAllGroups()
+	 */
+	@Override
+	public List<GroupDTO> getAllGroups() {
+		throw new NotImplementedException();
 	}
 
 	/**
 	 * Performs the pre initialization.
 	 * 
-	 * @param aHttpType The http type.
+	 * @param aHttpType
+	 *            The http type.
 	 */
-	private void preInit(int aHttpType){
+	private void preInit(int aHttpType) {
 		restTask = new RESTBackgroundTask(activity);
 		restTask.setHttpRequestType(aHttpType);
 	}
-	
+
 	/**
 	 * Executes the prepared call with the given url.
 	 * 
@@ -131,13 +143,14 @@ public class ClientIRMessageServicesImpl implements IRMessageServices {
 	 *            The string to map.
 	 * @return the mapped object.
 	 */
-	private MessageDTO map(String aResult) {
-		MessageDTO msg = null;
+	private GroupDTO map(String aResult) {
+		GroupDTO group = null;
 
 		if (aResult != null && aResult.trim().length() > 0) {
 			try {
-				msg = mapper.readValue(aResult, new TypeReference<MessageDTO>() {
-				});
+				group = mapper.readValue(aResult,
+						new TypeReference<GroupDTO>() {
+						});
 			} catch (JsonParseException e) {
 				Log.e(TAG, "Exception during parse process of JSON-Data", e);
 				throw new CitrCommunicationException(
@@ -155,6 +168,7 @@ public class ClientIRMessageServicesImpl implements IRMessageServices {
 						CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
 			}
 		}
-		return msg;
+		return group;
 	}
+
 }

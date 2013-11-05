@@ -46,4 +46,12 @@
 	<bean id="userRestService" class="ch.zhaw.mdp.lhb.citr.rest.impl.UserServiceRestImpl">
 	    <aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
+	
+	<bean id="groupRestService" class="ch.zhaw.mdp.lhb.citr.rest.impl.GroupServiceRestImpl">
+	    <aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+	
+	<bean id="messageRestService" class="ch.zhaw.mdp.lhb.citr.rest.impl.MessageServiceRestImpl">
+	    <aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
 </beans>

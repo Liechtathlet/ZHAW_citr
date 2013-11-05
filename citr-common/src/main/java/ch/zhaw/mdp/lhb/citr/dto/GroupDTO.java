@@ -7,40 +7,79 @@ package ch.zhaw.mdp.lhb.citr.dto;
  * DTO-Class for 'Group'.
  */
 public class GroupDTO {
-	private int id;
+	
 	private String name;
-	private int state;
-	private int mode;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	private String hashId;
+	private boolean publicGroup;
+	
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	/**
+	 * @param aName the name to set
+	 */
+	public void setName(String aName) {
+		name = aName;
 	}
-
-	public int getState() {
-		return state;
+	/**
+	 * @return the hashId
+	 */
+	public String getHashId() {
+		return hashId;
 	}
-
-	public void setState(int state) {
-		this.state = state;
+	/**
+	 * @param aHashId the hashId to set
+	 */
+	public void setHashId(String aHashId) {
+		hashId = aHashId;
 	}
-
-	public int getMode() {
-		return mode;
+	/**
+	 * @return the publicGroup
+	 */
+	public boolean isPublicGroup() {
+		return publicGroup;
 	}
+	/**
+	 * @param aPublicGroup the publicGroup to set
+	 */
+	public void setPublicGroup(boolean aPublicGroup) {
+		publicGroup = aPublicGroup;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		int hashCode = 17;
+		
+		hashCode += 37 * hashCode + name.hashCode();
+		hashCode += 37 * hashCode + hashId.hashCode();
+		hashCode += 37 * hashCode + (publicGroup ? 1 : 0);
+		
+		return hashCode;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object anObj) {
+		if(anObj == this){
+			return true;
+		}
+		
+		if(anObj == null || !(anObj instanceof GroupDTO)){
+			return false;
+		}
 
-	public void setMode(int mode) {
-		this.mode = mode;
+		GroupDTO group = (GroupDTO) anObj;
+		
+		return((name == null ? group.getName() == null : name.equals(group.getName())) &&
+				(hashId == null ? group.getHashId() == null : hashId.equals(group.getHashId())) &&
+				(publicGroup == group.isPublicGroup()));
 	}
 }
