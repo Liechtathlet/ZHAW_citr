@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import ch.zhaw.mdp.lhb.citr.activities.GroupCreateActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,7 +73,7 @@ public class Main extends Activity {
     */
 
     public void createGroup(View view) {
-        Intent intent = new Intent(this, createGroup.class);
+        Intent intent = new Intent(this, GroupCreateActivity.class);
         // intent.putExtra('', );
         startActivity(intent);
     }
