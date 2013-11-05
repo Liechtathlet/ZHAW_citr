@@ -35,7 +35,7 @@
         >
         </activity>
 
-        <activity android:name="createCitr"
+        <activity android:name=".activities.CitrCreateActivity"
                   android:label="Citr veröffentlichen"
                   android:parentActivityName="Main"
                 >

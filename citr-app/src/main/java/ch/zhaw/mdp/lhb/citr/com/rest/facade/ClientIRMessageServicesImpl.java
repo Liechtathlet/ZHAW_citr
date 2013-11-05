@@ -10,10 +10,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
-import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
+import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
-import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
+import ch.zhaw.mdp.lhb.citr.rest.IRMessageServices;
 import ch.zhaw.mdp.lhb.citr.util.PropertyHelper;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -25,9 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Daniel Brun
  * 
- *         Client implementation of the Service-Interface {@link IRUserServices}.
+ *         Client implementation of the Service-Interface {@link IRMessageServices}.
  */
-public class ClientIRUserServicesImpl implements IRUserServices {
+public class ClientIRMessageServicesImpl implements IRMessageServices {
 
 	public static final String TAG = "ClientIRUserServicesImpl";
 
@@ -41,45 +41,27 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 	 * @param anActivity
 	 *            The underlining activity.
 	 */
-	public ClientIRUserServicesImpl(CitrBaseActivity anActivity) {
+	public ClientIRMessageServicesImpl(CitrBaseActivity anActivity) {
 		activity = anActivity;
 
 		mapper = new ObjectMapper();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRUserServices#getUser(java.lang.String)
+
+	/* (non-Javadoc)
+	 * @see ch.zhaw.mdp.lhb.citr.rest.IRMessageServices#sendMessage(ch.zhaw.mdp.lhb.citr.dto.MessageDTO)
 	 */
 	@Override
-	public UserDTO getUser(String anOpenId) {
+	public boolean sendMessage(MessageDTO aMessage) {
+		
+		if(aMessage == null){
+			throw new IllegalArgumentException("The argument aMessage must not be null");
+		}
+		
 		preInit(RESTBackgroundTask.HTTP_GET_TASK);
-
-		restTask.addParameter("openId", anOpenId);
-
-		StringBuffer url = new StringBuffer();
-		url.append(PropertyHelper.get("rest.service.user"));
-		url.append("details");
-
-		String result = execute(url.toString());
-
-		return map(result);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.zhaw.mdp.lhb.citr.rest.IRUserServices#registerUser(ch.zhaw.mdp.lhb
-	 * .citr.dto.UserDTO)
-	 */
-	@Override
-	public boolean registerUser(UserDTO aUser) {
-		preInit(RESTBackgroundTask.HTTP_POST_TASK);
-
+		
 		try {
-			restTask.addParameter("user", mapper.writeValueAsString(aUser));
+			restTask.addParameter("message", mapper.writeValueAsString(aMessage));
 		} catch (JsonProcessingException e) {
 			Log.e(TAG, "Exception during JSON serialization prcoess.", e);
 			throw new CitrCommunicationException(
@@ -89,17 +71,15 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 
 		StringBuffer url = new StringBuffer();
 		url.append(PropertyHelper.get("rest.service.user"));
-		url.append("registerUser");
+		url.append("details");
 
 		String result = execute(url.toString());
 
-		// TODO: Implement return value.
-		Log.w(TAG, "MY RESULT: " + result);
-
+		Log.e(TAG,"TEST: " + result);
+		
 		return true;
 	}
 
-	
 	/**
 	 * Performs the pre initialization.
 	 * 
@@ -151,12 +131,12 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 	 *            The string to map.
 	 * @return the mapped object.
 	 */
-	private UserDTO map(String aResult) {
-		UserDTO user = null;
+	private MessageDTO map(String aResult) {
+		MessageDTO msg = null;
 
 		if (aResult != null && aResult.trim().length() > 0) {
 			try {
-				user = mapper.readValue(aResult, new TypeReference<UserDTO>() {
+				msg = mapper.readValue(aResult, new TypeReference<MessageDTO>() {
 				});
 			} catch (JsonParseException e) {
 				Log.e(TAG, "Exception during parse process of JSON-Data", e);
@@ -175,6 +155,6 @@ public class ClientIRUserServicesImpl implements IRUserServices {
 						CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
 			}
 		}
-		return user;
+		return msg;
 	}
 }

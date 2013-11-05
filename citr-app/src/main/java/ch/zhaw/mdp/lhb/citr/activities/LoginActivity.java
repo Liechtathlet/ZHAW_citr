@@ -22,8 +22,6 @@ public class LoginActivity extends CitrBaseActivity {
 
 	private static final String TAG = "LoginActivity";
 
-	public final static String CITR_MAINPAGE = "ch.zhaw.mdp.lhb.citr.Main";
-
 	private IRUserServices userServices;
 
 	/**
@@ -69,7 +67,6 @@ public class LoginActivity extends CitrBaseActivity {
 			UserDTO user = userServices.getUser(openId);
 
 			if (user != null) {
-				//TODO: Fix this
 				Toast.makeText(getApplicationContext(), "Willkommen " + user.getUsername(), Toast.LENGTH_SHORT).show();
 				
 				Intent intent = new Intent(this, Main.class);

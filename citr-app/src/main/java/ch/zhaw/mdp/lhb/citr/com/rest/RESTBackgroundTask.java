@@ -141,7 +141,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
 		if (networkInfo == null || !networkInfo.isConnected()) {
-			Log.w(TAG, "No network connection");
+			Log.w(TAG, "No Network connection available");
 			throw new CitrCommunicationException(
 					"No Network connection available",
 					CitrExceptionTypeEnum.CONNECTION_NOT_AVAILABLE);
@@ -267,17 +267,17 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 			response = httpClient.execute(httpRequest);
 
 		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, e.getLocalizedMessage(), e);
+			Log.e(TAG, "Invalid encoding for HTTP-request!", e);
 			throw new CitrCommunicationException(
 					"Invalid encoding for HTTP-request!", e,
 					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
 		} catch (ClientProtocolException e) {
-			Log.e(TAG, e.getLocalizedMessage(), e);
+			Log.e(TAG, "Client exception occurred on performing HTTP-request!", e);
 			throw new CitrCommunicationException(
 					"Client exception occurred on performing HTTP-request!", e,
 					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
 		} catch (IOException e) {
-			Log.e(TAG, e.getLocalizedMessage(), e);
+			Log.e(TAG, "IO-exception during HTTP-request!", e);
 			throw new CitrCommunicationException(
 					"IO-exception during HTTP-request!", e,
 					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
@@ -296,16 +296,21 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	private String readInputStream(InputStream anInputStream) {
 		StringBuilder data = new StringBuilder();
 
-		BufferedReader buffReader = new BufferedReader(new InputStreamReader(
-				anInputStream));
-
+		BufferedReader buffReader = null;
 		try {
+			buffReader = new BufferedReader(new InputStreamReader(
+					anInputStream,"UTF-8"));
 			String line = null;
 			while ((line = buffReader.readLine()) != null) {
 				data.append(line);
 			}
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, "Response couldn't be encoded!", e);
+			throw new CitrCommunicationException(
+					"Response couldn't be encoded!", e,
+					CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
 		} catch (IOException e) {
-			Log.e(TAG, e.getLocalizedMessage(), e);
+			Log.e(TAG, "IO-exception during HTTP-respone parsing!", e);
 			throw new CitrCommunicationException(
 					"IO-exception during HTTP-respone parsing!", e,
 					CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
@@ -313,7 +318,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 			try {
 				buffReader.close();
 			} catch (IOException e) {
-				Log.e(TAG, e.getLocalizedMessage(), e);
+				Log.e(TAG, "IO-exception during HTTP-respone parsing! On closing stream.", e);
 				throw new CitrCommunicationException(
 						"IO-exception during HTTP-respone parsing! On closing stream.",
 						e, CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);

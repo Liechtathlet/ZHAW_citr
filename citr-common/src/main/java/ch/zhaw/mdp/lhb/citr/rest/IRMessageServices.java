@@ -12,9 +12,8 @@ public interface IRMessageServices {
 	/**
 	 * Commits a message in the given group.
 	 * 
-	 * @param aGroupId The id of the group.
 	 * @param aMessage The message to send.
 	 * @return True if the message was sent successfully, false otherwise.
 	 */
-	public boolean sendMessage(String aGroupId, MessageDTO aMessage);
+	public boolean sendMessage(MessageDTO aMessage);
 }

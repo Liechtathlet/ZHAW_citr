@@ -16,6 +16,7 @@ import ch.zhaw.mdp.lhb.citr.exception.CitrExceptionHandler;
  */
 public abstract class CitrBaseActivity extends Activity {
 
+	protected final static String CITR_MAINPAGE = "ch.zhaw.mdp.lhb.citr.Main";
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -26,6 +27,7 @@ public abstract class CitrBaseActivity extends Activity {
 		
 		Thread.setDefaultUncaughtExceptionHandler(new CitrExceptionHandler(this));
 	}
+	
 	/**
 	 * Clean up the current screen.
 	 */

@@ -1,5 +1,6 @@
 package ch.zhaw.mdp.lhb.citr;
 
+import ch.zhaw.mdp.lhb.citr.activities.CitrCreateActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -77,7 +78,7 @@ public class Main extends Activity {
     }
 
     public void createCitr(View view) {
-        Intent intent = new Intent(this, createCitr.class);
+        Intent intent = new Intent(this, CitrCreateActivity.class);
         // intent.putExtra('', );
         startActivity(intent);
     }

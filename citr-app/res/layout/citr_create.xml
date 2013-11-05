@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="Veröffentlichen"
                 android:layout_alignParentRight="true"
+                android:onClick="onAECreateCitr"
                 />
     </RelativeLayout>
 

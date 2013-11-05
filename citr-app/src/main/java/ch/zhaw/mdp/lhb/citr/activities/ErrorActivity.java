@@ -1,6 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import ch.zhaw.mdp.lhb.citr.R;
 
@@ -28,8 +29,9 @@ public class ErrorActivity extends CitrBaseActivity {
 
 	    setContentView(R.layout.activity_error);
 
+	    Log.e(TAG, "Unhandeled Error occurred...displaying error page");
+	    
         TextView errorView = (TextView) findViewById(R.id.error);
-
         errorView.setText(getIntent().getStringExtra("error"));
 	}
 }
