@@ -21,6 +21,9 @@ import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBMessageService;
 import ch.zhaw.mdp.lhb.citr.rest.IRMessageServices;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * @author Daniel Brun
  * @author Simon Lang
@@ -49,7 +52,9 @@ public class MessageServiceRestImpl implements IRMessageServices {
 		MessageDVO messageDVO = new MessageDVO();
 		messageDVO.setMessage(messageDTO.getMessageText());
 		messageDVO.setGroupId(messageDTO.getGroupId());
-		messageDVO.setUserId(1);
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		messageDVO.setSendDate(today.getTime());
 		messageService.save(messageDVO);
 		return messageDVO.getId();
 	}
