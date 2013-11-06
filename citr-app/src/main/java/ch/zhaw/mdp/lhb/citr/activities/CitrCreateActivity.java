@@ -56,10 +56,10 @@ public class CitrCreateActivity extends CitrBaseActivity {
 			MessageDTO message = new MessageDTO();
 			message.setMessageText(msgStr);
 
-			boolean result = messageServices.createMessage(message);
+			long result = messageServices.createMessage(message);
 			String resultMsg = "Das citr konnte nicht übermittelt werden.";
 
-			if (result) {
+			if (result > 0) {
 				resultMsg = " Das citr wurde erfolgreich übermittelt.";
 				editText.setText("");
 			}
