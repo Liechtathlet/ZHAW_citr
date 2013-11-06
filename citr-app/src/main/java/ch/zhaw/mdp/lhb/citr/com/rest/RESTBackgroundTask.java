@@ -17,11 +17,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
@@ -218,14 +218,10 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
 		// Create HTTP-Parameters
 		HttpParams httpParameter = new BasicHttpParams();
-
-		HttpConnectionParams.setConnectionTimeout(httpParameter, CONN_TIMEOUT);
-		HttpConnectionParams.setSoTimeout(httpParameter, SOCKET_TIMEOUT);
-		httpParameter.setParameter(HTTP.CONTENT_TYPE, "application/json");
-
+		
 		// Create HTTP-Client
 		HttpClient httpClient = new DefaultHttpClient(httpParameter);
-
+		
 		// TODO: Get frome somewhere else...
 		// http://stackoverflow.com/questions/1925486/android-storing-username-and-password
 		String authString = new String(Base64.encode(
@@ -245,19 +241,25 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 			case HTTP_POST_TASK:
 				httpRequest = new HttpPost(url.toString());
 
-				// Add parameters
-                /*
-                //TODO set correct string entity and content-type
-                StringEntity params =new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
-                ((HttpPost) httpRequest).setEntity(parameters.get(0));
-                httpRequest.setHeader("Content-Type", "application/json");
-                */
+				if (parameters.size() > 1) {
+					throw new IllegalArgumentException(
+							"Only one paramter is permitted for each post request!");
+				}
 
-                ((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(parameters));
+				if (parameters.size() == 1) {
+					((HttpPost) httpRequest).setEntity(new StringEntity(parameters.get(0).getValue()));
+				}
 				break;
 
 			// Create GET-Request
 			case HTTP_GET_TASK:
+				HttpConnectionParams.setConnectionTimeout(httpParameter,
+						CONN_TIMEOUT);
+				HttpConnectionParams
+						.setSoTimeout(httpParameter, SOCKET_TIMEOUT);
+				httpParameter.setParameter(HTTP.CONTENT_TYPE,
+						"application/json");
+
 				url.append("?");
 				url.append(URLEncodedUtils.format(parameters, "utf-8"));
 
@@ -266,9 +268,16 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 			}
 
 			httpRequest.addHeader("Authorization", "Basic " + authString);
+			httpRequest.addHeader("Content-Type", "application/json");
+			httpRequest.setHeader("Accept", "application/json");
+			httpRequest.setHeader("Content-type",
+					"application/json;charset=UTF-8");
+			httpRequest.setHeader("Accept-Charset", "utf-8");
 
-			Log.d(TAG, "Calling: " + url.toString() + ", HTTP-Method: "
-					+ httpRequestType + " 1:POST, 2:GET");
+			Log.d(TAG,
+					"Calling: " + url.toString() + ", HTTP-Method: "
+							+ httpRequestType + " 1:POST, 2:GET + \n"
+							+ httpRequest.getRequestLine());
 
 			response = httpClient.execute(httpRequest);
 
@@ -278,7 +287,8 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 					"Invalid encoding for HTTP-request!", e,
 					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
 		} catch (ClientProtocolException e) {
-			Log.e(TAG, "Client exception occurred on performing HTTP-request!", e);
+			Log.e(TAG, "Client exception occurred on performing HTTP-request!",
+					e);
 			throw new CitrCommunicationException(
 					"Client exception occurred on performing HTTP-request!", e,
 					CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
@@ -305,7 +315,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 		BufferedReader buffReader = null;
 		try {
 			buffReader = new BufferedReader(new InputStreamReader(
-					anInputStream,"UTF-8"));
+					anInputStream, "UTF-8"));
 			String line = null;
 			while ((line = buffReader.readLine()) != null) {
 				data.append(line);
@@ -324,7 +334,9 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 			try {
 				buffReader.close();
 			} catch (IOException e) {
-				Log.e(TAG, "IO-exception during HTTP-respone parsing! On closing stream.", e);
+				Log.e(TAG,
+						"IO-exception during HTTP-respone parsing! On closing stream.",
+						e);
 				throw new CitrCommunicationException(
 						"IO-exception during HTTP-respone parsing! On closing stream.",
 						e, CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
