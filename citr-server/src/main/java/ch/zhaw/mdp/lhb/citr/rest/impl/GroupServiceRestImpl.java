@@ -45,12 +45,9 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Secured("ROLE_USER")
 	@Path("/create")
 	public boolean createGroup(GroupDTO aGroup) {
-		/*GroupDVO group = new GroupDVO();
-		group.setName(name);
-		group.setMode(mode);
+		GroupDVO group = new GroupDVO();
+		group.setName(aGroup.getName());
 		groupService.create(group);
-		return group.getId();*/
-		System.out.println("Received Request for createGroup: " + aGroup.getName());
 		return true;
 	}
 
