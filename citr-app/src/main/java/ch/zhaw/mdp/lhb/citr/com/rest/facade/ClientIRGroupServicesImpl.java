@@ -67,12 +67,6 @@ public class ClientIRGroupServicesImpl implements IRGroupServices {
             mode = 0;
         }
 
-        /*
-        restTask.addParameter("name", aGroup.getName());
-        restTask.addParameter("state", "active");
-        restTask.addParameter("mode", "private");
-        */
-
 		try {
 			restTask.addParameter("group", mapper.writeValueAsString(aGroup));
 		} catch (JsonProcessingException e) {

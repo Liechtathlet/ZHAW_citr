@@ -246,8 +246,14 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 				httpRequest = new HttpPost(url.toString());
 
 				// Add parameters
-				((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(
-						parameters));
+                /*
+                //TODO set correct string entity and content-type
+                StringEntity params =new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
+                ((HttpPost) httpRequest).setEntity(parameters.get(0));
+                httpRequest.setHeader("Content-Type", "application/json");
+                */
+
+                ((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(parameters));
 				break;
 
 			// Create GET-Request
