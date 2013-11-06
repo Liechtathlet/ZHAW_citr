@@ -67,6 +67,4 @@ public class GroupCreateActivity extends CitrBaseActivity {
 
 
     }
-    //  http://localhost:8080/citrServer/groups/create/{name:string}/{state:int}/{mode:int}
-
 }

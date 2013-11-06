@@ -62,9 +62,19 @@ public class ClientIRGroupServicesImpl implements IRGroupServices {
 
 		preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
+        int mode = 1;
+        if (aGroup.isPublicGroup()) {
+            mode = 0;
+        }
+
+        /*
+        restTask.addParameter("name", aGroup.getName());
+        restTask.addParameter("state", "active");
+        restTask.addParameter("mode", "private");
+        */
+
 		try {
-			restTask.addParameter("group",
-					mapper.writeValueAsString(aGroup));
+			restTask.addParameter("group", mapper.writeValueAsString(aGroup));
 		} catch (JsonProcessingException e) {
 			Log.e(TAG, "Exception during JSON serialization prcoess.", e);
 			throw new CitrCommunicationException(
@@ -75,6 +85,8 @@ public class ClientIRGroupServicesImpl implements IRGroupServices {
 		StringBuffer url = new StringBuffer();
 		url.append(PropertyHelper.get("rest.service.group"));
 		url.append("create");
+
+        //  http://localhost:8080/citrServer/groups/create/{name:string}/{state:int}/{mode:int}
 
 		String result = execute(url.toString());
 
