@@ -86,8 +86,6 @@ public class ClientIRGroupServicesImpl implements IRGroupServices {
 		url.append(PropertyHelper.get("rest.service.group"));
 		url.append("create");
 
-        //  http://localhost:8080/citrServer/groups/create/{name:string}/{state:int}/{mode:int}
-
 		String result = execute(url.toString());
 
 		Log.e(TAG, "TEST: " + result);
