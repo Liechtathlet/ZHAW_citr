@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientIRGroupServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientIRMessageServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 
@@ -26,7 +28,8 @@ public class GroupCreateActivity extends CitrBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_create);
-		
+
+        groupServices = new ClientIRGroupServicesImpl(this);
     }
 
     public void onAECreateGroup(View view) {
@@ -41,17 +44,21 @@ public class GroupCreateActivity extends CitrBaseActivity {
 
         Log.d(TAG, "Activity-Event: Create group with mode: " + idx);
 
+        boolean isPublicGroup = false;
+        if (idx == 1) {
+            isPublicGroup = true;
+        }
 
-        if (msgStr != null && !msgStr.equals("") && idx !=  0) {
+        if (msgStr != null && !msgStr.equals("")) {
             GroupDTO group = new GroupDTO();
             group.setName(msgStr);
-            group.setPublicGroup(true);
+            group.setPublicGroup(isPublicGroup);
 
             boolean result = groupServices.createGroup(group);
-            String resultMsg = "Das citr konnte nicht übermittelt werden.";
+            String resultMsg = "Die Gruppe konnte nicht übermittelt werden.";
 
             if (result) {
-                resultMsg = " Das citr wurde erfolgreich übermittelt.";
+                resultMsg = " Die Gruppe wurde erfolgreich erstellt.";
                 editText.setText("");
             }
 
@@ -60,6 +67,4 @@ public class GroupCreateActivity extends CitrBaseActivity {
 
 
     }
-    //  http://localhost:8080/citrServer/groups/create/{name:string}/{state:int}/{mode:int}
-
 }

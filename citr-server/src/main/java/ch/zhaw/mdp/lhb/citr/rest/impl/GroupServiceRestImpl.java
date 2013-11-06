@@ -70,7 +70,12 @@ public class GroupServiceRestImpl implements IRGroupServices {
 			dto.setPublicGroup(dvo.getMode() == "public");
 			groups.add(dto);
 		}
-
+/*
+		GroupDTO grp = new GroupDTO();
+		grp.setHashId("Test");
+		grp.setName("Test");
+		groups.add(grp);
+*/
 		return groups;
 	}
 

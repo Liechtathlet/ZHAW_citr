@@ -23,13 +23,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="Main"
+        <activity android:name=".Main"
           android:label="Citr"
           android:parentActivityName="Login"
         >
         </activity>
 
-        <activity android:name="createGroup"
+        <activity android:name=".activities.GroupCreateActivity"
           android:label="Gruppe erstellen"
           android:parentActivityName="Main"
         >
