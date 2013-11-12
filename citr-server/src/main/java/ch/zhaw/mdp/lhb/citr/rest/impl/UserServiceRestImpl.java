@@ -7,33 +7,45 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
 
 /**
  * @author Daniel Brun
  * 
- * Implementation of the Service-Interface {@link IRUserServices}.
+ *         Implementation of the Service-Interface {@link IRUserServices}.
  */
 @Component
 @Path("/user")
-@Scope("request")
+@Scope("singleton")
 public class UserServiceRestImpl implements IRUserServices {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(UserServiceRestImpl.class);
 
 	@Autowired
 	private IDBUserService userService;
+
+	@Autowired
+	private ReloadableResourceBundleMessageSource messageSource;
 
 	/*
 	 * (non-Javadoc)
@@ -45,12 +57,37 @@ public class UserServiceRestImpl implements IRUserServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
-	@Path("/details")
-	public UserDTO getUser(@QueryParam("openId") String anOpenId) {
-		UserDVO user = new UserDVO();
-		user.setOpenId(anOpenId);
+	@Path("/{id}/login")
+	public ResponseObject<UserDTO> loginUser(@PathParam("id") String anOpenId) {
+		UserDTO resUser = null;
+		boolean successfull = false;
+		String msg = "";
+
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 		
-		return UserFactory.createUserDTO(userService.findPerson(user));
+		if (auth != null && auth.getName().equals(anOpenId)) {
+			UserDVO user = new UserDVO();
+			user.setOpenId(anOpenId);
+
+			resUser = UserFactory.createUserDTO(userService.findPerson(user));
+
+			if (resUser == null) {
+				LOG.info("Authentication for user: + " + anOpenId + " failed");
+				msg = messageSource.getMessage("msg.user.auth.failed", null,
+						null);
+			} else {
+				LOG.info("Authentication for user: + " + anOpenId
+						+ " was successfull");
+				msg = messageSource.getMessage("msg.user.auth.succ",
+						new String[] { resUser.getUsername() }, null);
+				successfull = true;
+			}
+		} else {
+			msg = messageSource.getMessage("msg.user.noPermission", null, null);
+		}
+
+		return new ResponseObject<UserDTO>(resUser, successfull, msg);
 	}
 
 	/*
@@ -66,20 +103,34 @@ public class UserServiceRestImpl implements IRUserServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("/register")
-	public boolean registerUser(UserDTO aUser) {
+	public ResponseObject<Boolean> registerUser(UserDTO aUser) {
 		UserDVO user = UserFactory.createUserDVO(aUser);
-		
-		if(user == null){
-			throw new IllegalArgumentException("The argument aUser must not be null!");
+		Boolean result = Boolean.FALSE;
+		String msg = "";
+
+		if (user == null) {
+			throw new IllegalArgumentException(
+					"The argument aUser must not be null!");
 		}
-		
-		if(userService.findPerson(user) == null){
-			if(aUser.getUsername() != null && aUser.getOpenId() != null){
-				return userService.save(user);
+
+		if (userService.findPerson(user) == null) {
+			if (aUser.getUsername() != null && aUser.getOpenId() != null) {
+				if (userService.save(user)) {
+					result = Boolean.TRUE;
+				} else {
+					msg = messageSource.getMessage("msg.user.create.fail",
+							null, null);
+				}
+			} else {
+				msg = messageSource.getMessage("msg.user.data.invalid", null,
+						null);
 			}
+		} else {
+			msg = messageSource
+					.getMessage("msg.user.alreadyExists", null, null);
 		}
-		
-		return false;
+
+		return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
 	}
 
 }

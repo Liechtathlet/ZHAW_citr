@@ -23,6 +23,7 @@
 		<junit.version>4.11</junit.version>
 		<citr-common.version>1.0-SNAPSHOT</citr-common.version>
 		<jackson-jaxb.version>2.2.3</jackson-jaxb.version>
+		<servlet.version>2.5</servlet.version>
 	</properties>
 
 	<!-- Build & Plugin Configuration -->
@@ -67,14 +68,14 @@
 				</executions>
 			</plugin>
 			<plugin>
-			    <groupId>org.codehaus.mojo</groupId>
-			    <artifactId>hibernate3-maven-plugin</artifactId>
-			    <version>3.0</version>
-			    <configuration>
-			        <hibernatetool>
-			            <jpaconfiguration/>
-			        </hibernatetool>
-			    </configuration>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<hibernatetool>
+						<jpaconfiguration />
+					</hibernatetool>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
@@ -181,8 +182,8 @@
 							<goal>docs</goal>
 						</goals>
 						<configuration>
-							<!--  the directory where to put the docs -->
-							<!--  <docsDir>${project.build.directory}/enunciate/build/docs</docsDir>-->
+							<!-- the directory where to put the docs -->
+							<!-- <docsDir>${project.build.directory}/enunciate/build/docs</docsDir> -->
 							<docsSubdir>enudoc</docsSubdir>
 						</configuration>
 					</execution>
@@ -379,6 +380,11 @@
 			<version>${citr-common.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
@@ -482,11 +488,11 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		 <dependency>
-			  <groupId>org.hibernate</groupId>
-			  <artifactId>hibernate-tools</artifactId>
-			  <version>${hibernate-tools.version}</version>
-		 </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-tools</artifactId>
+			<version>${hibernate-tools.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

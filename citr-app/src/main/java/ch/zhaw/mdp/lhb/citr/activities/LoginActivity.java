@@ -1,6 +1,8 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,8 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.Main;
 import ch.zhaw.mdp.lhb.citr.R;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientIRUserServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRUserServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
 
 /**
@@ -23,6 +26,7 @@ public class LoginActivity extends CitrBaseActivity {
 	private static final String TAG = "LoginActivity";
 
 	private IRUserServices userServices;
+	private SharedPreferences preferences;
 
 	/**
 	 * Called when the activity is first created.
@@ -38,7 +42,9 @@ public class LoginActivity extends CitrBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
-		userServices = new ClientIRUserServicesImpl(this);
+		userServices = new ClientRUserServicesImpl(this);
+		preferences = this.getSharedPreferences("ch.zhaw.mdp.lhb.citr",
+				Context.MODE_PRIVATE);
 	}
 
 	@Override
@@ -64,15 +70,25 @@ public class LoginActivity extends CitrBaseActivity {
 		Log.d(TAG, "Activity-Event: User-Login with: " + openId);
 
 		if (openId != null && !openId.equals("")) {
-			UserDTO user = userServices.getUser(openId);
+			ResponseObject<UserDTO> resp = userServices.loginUser(openId);
 
-			if (user != null) {
-				Toast.makeText(getApplicationContext(), "Willkommen " + user.getUsername(), Toast.LENGTH_SHORT).show();
+			if (resp.isSuccessfull()) {
+				UserDTO user = resp.getResponseObject();
 				
+				Toast.makeText(getApplicationContext(),
+						resp.getDisplayMessage(), Toast.LENGTH_SHORT)
+						.show();
+
 				Intent intent = new Intent(this, Main.class);
 				intent.putExtra(CITR_MAINPAGE, openId);
 				startActivity(intent);
+			} else {
+				//TODO: Show error text
+				Toast.makeText(getApplicationContext(),
+						resp.getDisplayMessage(), Toast.LENGTH_SHORT)
+						.show();
 			}
+
 		}
 	}
 }

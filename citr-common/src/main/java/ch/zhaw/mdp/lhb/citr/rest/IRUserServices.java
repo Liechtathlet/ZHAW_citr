@@ -4,6 +4,7 @@
 package ch.zhaw.mdp.lhb.citr.rest;
 
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 
 /**
  * @author Daniel Brun
@@ -18,13 +19,13 @@ public interface IRUserServices {
 	 * @param aUser The user to register
 	 * @return True if the registration was successfull, false otherwise.
 	 */
-	public boolean registerUser(UserDTO aUser);
+	public ResponseObject<Boolean> registerUser(UserDTO aUser);
 
 	/**
-	 * Gets the details of the user.
+	 * Performs the login of the given user and returns the user details.
 	 * 
 	 * @param aOpenId The openId
 	 * @return The user or null if no corresponding user could be found.
 	 */
-	public UserDTO getUser(String aOpenId);
+	public ResponseObject<UserDTO> loginUser(String aOpenId);
 }

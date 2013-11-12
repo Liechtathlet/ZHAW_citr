@@ -6,8 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientIRMessageServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRMessageServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRMessageServices;
 
 /**
@@ -34,8 +35,8 @@ public class CitrCreateActivity extends CitrBaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.citr_create);
-		
-		messageServices = new ClientIRMessageServicesImpl(this);
+
+		messageServices = new ClientRMessageServicesImpl(this);
 	}
 
 	/**
@@ -56,16 +57,16 @@ public class CitrCreateActivity extends CitrBaseActivity {
 			MessageDTO message = new MessageDTO();
 			message.setMessageText(msgStr);
 
-			long result = messageServices.createMessage(message);
-			String resultMsg = "Das citr konnte nicht übermittelt werden.";
+			ResponseObject<Boolean> resp = messageServices
+					.createMessage(message);
 
-			if (result > 0) {
-				resultMsg = " Das citr wurde erfolgreich übermittelt.";
+			if (resp.isSuccessfull()) {
 				editText.setText("");
 			}
 
-			Toast.makeText(getApplicationContext(),resultMsg, Toast.LENGTH_SHORT)
-					.show();
+			// TODO: Print error message differently
+			Toast.makeText(getApplicationContext(), resp.getDisplayMessage(),
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 }

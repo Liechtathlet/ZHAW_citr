@@ -7,9 +7,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientIRGroupServicesImpl;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientIRMessageServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 
 /**
@@ -29,7 +29,7 @@ public class GroupCreateActivity extends CitrBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_create);
 
-        groupServices = new ClientIRGroupServicesImpl(this);
+        groupServices = new ClientRGroupServicesImpl(this);
     }
 
     public void onAECreateGroup(View view) {
@@ -54,15 +54,15 @@ public class GroupCreateActivity extends CitrBaseActivity {
             group.setName(msgStr);
             group.setPublicGroup(isPublicGroup);
 
-            boolean result = groupServices.createGroup(group);
-            String resultMsg = "Die Gruppe konnte nicht übermittelt werden.";
+            ResponseObject<Boolean> resp = groupServices.createGroup(group);
 
-            if (result) {
-                resultMsg = " Die Gruppe wurde erfolgreich erstellt.";
-                editText.setText("");
+            if(resp.isSuccessfull()){
+            	 editText.setText("");
             }
 
-            Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+            //TODO: Show error text
+            
+            Toast.makeText(getApplicationContext(), resp.getDisplayMessage(), Toast.LENGTH_SHORT).show();
         }
 
 

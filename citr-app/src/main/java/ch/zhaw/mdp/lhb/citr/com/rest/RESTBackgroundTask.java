@@ -14,7 +14,9 @@ import java.util.List;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -164,7 +166,14 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 		String result = "";
 
 		HttpResponse reqRes = performRequest(requestUrl);
-
+		StatusLine statLine = reqRes.getStatusLine();
+		
+		if(statLine.getStatusCode() != HttpStatus.SC_OK){
+		    throw new CitrCommunicationException(
+				"HTTP-Error: " + statLine.getStatusCode() + ", Reason: " + statLine.getReasonPhrase(),
+				CitrExceptionTypeEnum.CONECTION_HTTP_ERROR);
+		}
+		
 		if (reqRes != null && reqRes.getEntity() != null) {
 			try {
 				result = readInputStream(reqRes.getEntity().getContent());
