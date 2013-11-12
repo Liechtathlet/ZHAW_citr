@@ -3,8 +3,11 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest;
 
+import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
+
+import java.util.ArrayList;
 
 /**
  * @author Daniel Brun
@@ -28,4 +31,11 @@ public interface IRUserServices {
 	 * @return The user or null if no corresponding user could be found.
 	 */
 	public ResponseObject<UserDTO> loginUser(String aOpenId);
+
+	/**
+	 * Gets all groups of the current user.
+	 *
+	 * @return List of groups of the user.
+	 */
+	public ArrayList<GroupDTO> getGroups();
 }

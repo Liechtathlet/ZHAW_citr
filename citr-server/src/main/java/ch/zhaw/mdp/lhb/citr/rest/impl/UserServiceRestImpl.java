@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -27,6 +28,8 @@ import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
+
+import java.util.ArrayList;
 
 /**
  * @author Daniel Brun
@@ -90,13 +93,6 @@ public class UserServiceRestImpl implements IRUserServices {
 		return new ResponseObject<UserDTO>(resUser, successfull, msg);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.zhaw.mdp.lhb.citr.rest.IRUserServices#registerUser(ch.zhaw.mdp.lhb
-	 * .citr.dto.UserDTO)
-	 */
 	@Override
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -133,4 +129,19 @@ public class UserServiceRestImpl implements IRUserServices {
 		return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
 	}
 
+
+	@GET
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("/details")
+	public ArrayList<GroupDTO> getGroups() {
+		ArrayList list = new ArrayList();
+		GroupDTO groupDTO = new GroupDTO();
+		groupDTO.setName("Hardcoded Test");
+		groupDTO.setPublicGroup(true);
+		list.add(groupDTO);
+		return list;
+	}
 }
