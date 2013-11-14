@@ -3,10 +3,13 @@
  */
 package ch.zhaw.mdp.lhb.citr.com.rest.facade;
 
+import java.util.ArrayList;
+
 import android.util.Log;
 import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.com.rest.AbstractClientRBaseServiceImpl;
 import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
+import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
@@ -80,6 +83,15 @@ public class ClientRUserServicesImpl extends AbstractClientRBaseServiceImpl
 		url.append("registerUser");
 
 		return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>(){});
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.zhaw.mdp.lhb.citr.rest.IRUserServices#getGroups()
+	 */
+	@Override
+	public ArrayList<GroupDTO> getGroups() {
+	    // TODO FIX-It
+	    return null;
 	}
 
 }

@@ -2,7 +2,6 @@ package ch.zhaw.mdp.lhb.citr.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +14,7 @@ import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRUserServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
+import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 
 /**
  * @author Daniel Brun
@@ -26,7 +26,7 @@ public class LoginActivity extends CitrBaseActivity {
 	private static final String TAG = "LoginActivity";
 
 	private IRUserServices userServices;
-	private SharedPreferences preferences;
+	private SessionHelper preferences;
 
 	/**
 	 * Called when the activity is first created.
@@ -43,8 +43,7 @@ public class LoginActivity extends CitrBaseActivity {
 		setContentView(R.layout.login);
 
 		userServices = new ClientRUserServicesImpl(this);
-		preferences = this.getSharedPreferences("ch.zhaw.mdp.lhb.citr",
-				Context.MODE_PRIVATE);
+		preferences = new SessionHelper(this);
 	}
 
 	@Override
@@ -67,6 +66,11 @@ public class LoginActivity extends CitrBaseActivity {
 
 		String openId = editText.getText().toString();
 
+		//Set values to session
+		preferences.setPreference(SessionHelper.KEY_USERNAME, openId);
+		//TODO: Remove if OAuth is implemented
+		preferences.setPreference(SessionHelper.KEY_PASSWORD, "strongpassword1");
+		
 		Log.d(TAG, "Activity-Event: User-Login with: " + openId);
 
 		if (openId != null && !openId.equals("")) {

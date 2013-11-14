@@ -3,11 +3,9 @@
  */
 package ch.zhaw.mdp.lhb.citr.util;
 
-import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
 
 /**
  * @author Daniel Brun
@@ -29,12 +27,29 @@ public class SessionHelper {
 	 * @param anApplicationContext The application context.
 	 */
 	public SessionHelper(Context anApplicationContext) {
-		settings = PreferenceManager.getDefaultSharedPreferences(anApplicationContext);
+	    	settings = anApplicationContext.getSharedPreferences("citr-prefs", 0);
 		
 		editor = settings.edit();
 	}
 
-	public void loginUser(UserDTO aUser){
-		
+	/**
+	 * Set the setting with the given key and value.
+	 * 
+	 * @param aKey The key.
+	 * @param aValue The value.
+	 */
+	public void setPreference(String aKey, String aValue){
+	    editor.putString(aKey, aValue);
+	    editor.commit();
+	}
+	
+	/**
+	 * Get the setting with the given key.
+	 * 
+	 * @param aKey The key.
+	 * @return The value to the key or null if the value was not set.
+	 */
+	public String getPreferenceDefaultNull(String aKey){
+	    return settings.getString(aKey,null);
 	}
 }

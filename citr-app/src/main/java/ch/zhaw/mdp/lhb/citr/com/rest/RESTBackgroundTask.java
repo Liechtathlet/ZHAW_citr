@@ -43,6 +43,7 @@ import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
 import ch.zhaw.mdp.lhb.citr.util.PropertyHelper;
+import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 
 /**
  * @author Daniel Brun
@@ -80,6 +81,8 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	private List<NameValuePair> parameters;
 	private int httpRequestType;
 
+	private SessionHelper preferences;
+	
 	/**
 	 * Creates a new instance of this class.
 	 * 
@@ -100,6 +103,8 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
 		activity = anActivity;
 		httpRequestType = HTTP_GET_TASK;
+		
+		preferences = new SessionHelper(activity);
 	}
 
 	/**
@@ -231,11 +236,11 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 		// Create HTTP-Client
 		HttpClient httpClient = new DefaultHttpClient(httpParameter);
 		
-		// TODO: Get frome somewhere else...
+		// TODO: Implement OAuth
 		// http://stackoverflow.com/questions/1925486/android-storing-username-and-password
 		String authString = new String(Base64.encode(
-				("user1" + ":" + new String(Hex.encodeHex(DigestUtils
-						.sha512("strongpassword1")))).getBytes(),
+				(preferences.getPreferenceDefaultNull(SessionHelper.KEY_USERNAME) + ":" + new String(Hex.encodeHex(DigestUtils
+						.sha512(preferences.getPreferenceDefaultNull(SessionHelper.KEY_PASSWORD))))).getBytes(),
 				Base64.NO_WRAP));
 
 		HttpRequestBase httpRequest = null;

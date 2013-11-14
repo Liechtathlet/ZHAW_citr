@@ -131,7 +131,6 @@ public class UserServiceRestImpl implements IRUserServices {
 
 
 	@GET
-	@Override
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
