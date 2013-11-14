@@ -24,6 +24,7 @@
 		<citr-common.version>1.0-SNAPSHOT</citr-common.version>
 		<jackson-jaxb.version>2.2.3</jackson-jaxb.version>
 		<servlet.version>2.5</servlet.version>
+		<mockito.version>1.9.5</mockito.version>
 	</properties>
 
 	<!-- Build & Plugin Configuration -->
@@ -512,6 +513,12 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
