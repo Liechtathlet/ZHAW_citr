@@ -10,13 +10,19 @@
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<!-- Scan for annotations -->
+<!-- Scan for annotations -->
 	<context:component-scan
 		base-package="ch.zhaw.mdp.lhb.citr.rest ,ch.zhaw.mdp.lhb.citr.jpa" />
 
 	<context:annotation-config />
 
 	<tx:annotation-driven />
+
+	<!-- Define data source -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:1234/test"
+		p:username="test" p:password="test"/>
 
 	<!-- Entity Manager Factory -->
 	<bean id="entityManagerFactory"
@@ -28,6 +34,15 @@
 		</property>
 	</bean>
 
+	<!-- Transaction Manager -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+		p:entityManagerFactory-ref="entityManagerFactory" />
+
+	<!-- Spring-JPA-Adapter -->
+	<bean id="jpaAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+		p:database="MYSQL" p:showSql="true" />
+
 	<!-- Message Resource -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -36,4 +51,27 @@
 		<property name="fallbackToSystemLocale" value="true" />
 	</bean>
 
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="locale" />
+	</bean>
+
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<ref bean="localeChangeInterceptor" />
+		</property>
+	</bean>
+
+	<bean id="userRestService" class="ch.zhaw.mdp.lhb.citr.rest.impl.UserServiceRestImpl">
+		<aop:scoped-proxy proxy-target-class="true" />
+	</bean>
+
+	<bean id="groupRestService" class="ch.zhaw.mdp.lhb.citr.rest.impl.GroupServiceRestImpl">
+		<aop:scoped-proxy proxy-target-class="true" />
+	</bean>
+
+	<bean id="messageRestService" class="ch.zhaw.mdp.lhb.citr.rest.impl.MessageServiceRestImpl">
+		<aop:scoped-proxy proxy-target-class="true" />
+	</bean>
 </beans>
