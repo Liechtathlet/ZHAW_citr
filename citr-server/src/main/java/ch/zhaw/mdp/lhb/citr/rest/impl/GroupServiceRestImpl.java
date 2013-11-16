@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(GroupServiceRestImpl.class);
+
 	@Autowired
 	private IDBGroupService groupService;
 	
@@ -90,22 +92,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Secured("ROLE_USER")
 	@Path("/list")
 	public ResponseObject<List<GroupDTO>> getAllGroups() {
-		List<GroupDTO> groups = new ArrayList<GroupDTO>();
-
-		//TODO: Mode evtl. als boolean?
-		for (GroupDVO dvo : groupService.getAll()) {
-			GroupDTO dto = new GroupDTO();
-			dto.setName(dvo.getName());
-			dto.setPublicGroup(dvo.getMode() == "public");
-			groups.add(dto);
-		}
-/*
-		GroupDTO grp = new GroupDTO();
-		grp.setHashId("Test");
-		grp.setName("Test");
-		groups.add(grp);
-*/
-		
+		List<GroupDTO> groups = GroupFactory.createGroups(groupService.getAll());
 		return new ResponseObject<List<GroupDTO>>(groups, true, null);
 	}
 

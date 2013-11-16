@@ -3,17 +3,17 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
+import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
+import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
+import ch.zhaw.mdp.lhb.citr.dto.UserFactory;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
+import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -22,14 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
-import ch.zhaw.mdp.lhb.citr.dto.UserFactory;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
-import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
-
-import java.util.ArrayList;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * @author Daniel Brun
@@ -129,18 +124,25 @@ public class UserServiceRestImpl implements IRUserServices {
 		return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
 	}
 
-
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
-	@Path("/details")
-	public ArrayList<GroupDTO> getGroups() {
-		ArrayList list = new ArrayList();
-		GroupDTO groupDTO = new GroupDTO();
-		groupDTO.setName("Hardcoded Test");
-		groupDTO.setPublicGroup(true);
-		list.add(groupDTO);
-		return list;
+	@Path("/groups")
+	public ResponseObject<List<GroupDTO>> getGroups() {
+
+		boolean successfull = true;
+		String message = "ok";
+
+		UserDVO userDVO = UserFactory.getLoggedInUser();
+		List<GroupDVO> groupDVOs = userDVO.getGroups();
+		List<GroupDTO> groupDTOs = GroupFactory.createGroups(groupDVOs);
+
+		if (groupDTOs == null) {
+			successfull = false;
+			message = messageSource.getMessage("msg.user.getGroups.fail", null, null);
+		}
+
+		return new ResponseObject<List<GroupDTO>>(groupDTOs, successfull, message);
 	}
 }

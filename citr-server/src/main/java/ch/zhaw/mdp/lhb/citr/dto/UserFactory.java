@@ -4,6 +4,8 @@
 package ch.zhaw.mdp.lhb.citr.dto;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * @author Daniel Brun
@@ -48,5 +50,17 @@ public class UserFactory {
 		}
 
 		return convUser;
+	}
+
+	/**
+	 * Gets the currently logged in user.
+	 *
+	 * @return The logged in user.
+	 */
+	public static UserDVO getLoggedInUser() {
+		UserDVO userDVO = new UserDVO();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		userDVO.setUsername(auth.getName());
+		return userDVO;
 	}
 }

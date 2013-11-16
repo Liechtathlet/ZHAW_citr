@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +88,14 @@ public class UserServiceJpaImpl implements IDBUserService {
 		
 		return result;
 	}
-	
+
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<GroupDVO> getGroups(UserDVO user) {
+		return findPerson(user).getGroups();
+	}
+
 	/**
 	 * Sets the Entity Manager
 	 * 

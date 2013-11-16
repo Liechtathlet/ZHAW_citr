@@ -7,7 +7,7 @@ import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Daniel Brun
@@ -37,5 +37,5 @@ public interface IRUserServices {
 	 *
 	 * @return List of groups of the user.
 	 */
-	public ArrayList<GroupDTO> getGroups();
+	public ResponseObject<List<GroupDTO>> getGroups();
 }
