@@ -132,6 +132,10 @@ public class UserServiceRestImpl implements IRUserServices {
 	public ResponseObject<List<GroupDTO>> getGroups() {
 
 		boolean successfull = true;
+		//FIXME: De Text wo zrug geh wird, wird 1:1 im GUI azeigt, wenn nüt sell azeigt werde, würi sege eifacht null zrug geh.
+		//BTW: getGroups isch eigentli s gliche wie getGroupSubscriptions
+		//Würd evtl. e neue UserFactory, bzw. en Helper oder so um de loggedInUser überzcho, sust hesch i de Factory verschideni Theme gmischt...
+		//Evtl. mümer uf de GroupDTO no es Flag mache, wo azeigt wie de "Request" status isch -> approved, pending, ....
 		String message = "ok";
 
 		UserDVO userDVO = UserFactory.getLoggedInUser();

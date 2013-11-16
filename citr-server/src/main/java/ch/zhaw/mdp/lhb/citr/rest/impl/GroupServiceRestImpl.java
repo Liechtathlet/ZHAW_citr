@@ -3,7 +3,6 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBGroupService;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;

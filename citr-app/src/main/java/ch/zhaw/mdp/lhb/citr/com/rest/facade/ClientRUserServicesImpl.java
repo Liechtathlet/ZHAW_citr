@@ -3,7 +3,7 @@
  */
 package ch.zhaw.mdp.lhb.citr.com.rest.facade;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.util.Log;
 import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
@@ -89,8 +89,8 @@ public class ClientRUserServicesImpl extends AbstractClientRBaseServiceImpl
 	 * @see ch.zhaw.mdp.lhb.citr.rest.IRUserServices#getGroups()
 	 */
 	@Override
-	public ArrayList<GroupDTO> getGroups() {
-	    // TODO FIX-It
+	public ResponseObject<List<GroupDTO>> getGroups() {
+	    // TODO FIX-It, First Clean-Up server side
 	    return null;
 	}
 
