@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ch.zhaw.mdp.lhb.citr.com.rest.facade;
 
@@ -21,21 +21,21 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * @author Daniel Brun
- * 
+ *
  *         Client implementation of the Service-Interface {@link IRGroupServices}.
  */
 public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
-	implements IRGroupServices {
+        implements IRGroupServices {
 
     public static final String TAG = "ClientIRGroupServicesImpl";
 
     /**
      * Creates a new instance of this class.
-     * 
+     *
      * @param anActivity The underlining activity.
      */
     public ClientRGroupServicesImpl(CitrBaseActivity anActivity) {
-	super(anActivity);
+        super(anActivity);
     }
 
     /*
@@ -45,27 +45,27 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
      */
     @Override
     public ResponseObject<Boolean> createGroup(GroupDTO aGroup) {
-	if (aGroup == null) {
-	    throw new IllegalArgumentException(
-		    "The argument aGroup must not be null");
-	}
+        if (aGroup == null) {
+            throw new IllegalArgumentException(
+                    "The argument aGroup must not be null");
+        }
 
-	preInit(RESTBackgroundTask.HTTP_POST_TASK);
+        preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
-	try {
-	    restTask.addParameter("group", mapper.writeValueAsString(aGroup));
-	} catch (JsonProcessingException e) {
-	    Log.e(TAG, "Exception during JSON serialization prcoess.", e);
-	    throw new CitrCommunicationException(
-		    "Exception during JSON serialization prcoess.", e,
-		    CitrExceptionTypeEnum.SERIALIZATION_ERROR);
-	}
+        try {
+            restTask.addParameter("group", mapper.writeValueAsString(aGroup));
+        } catch (JsonProcessingException e) {
+            Log.e(TAG, "Exception during JSON serialization prcoess.", e);
+            throw new CitrCommunicationException(
+                    "Exception during JSON serialization prcoess.", e,
+                    CitrExceptionTypeEnum.SERIALIZATION_ERROR);
+        }
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.group"));
-	url.append("create");
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.group"));
+        url.append("create");
 
-	return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>(){});
+        return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>(){});
     }
 
     /*
@@ -75,13 +75,13 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
      */
     @Override
     public ResponseObject<List<GroupDTO>> getAllGroups() {
-	preInit(RESTBackgroundTask.HTTP_GET_TASK);
+        preInit(RESTBackgroundTask.HTTP_GET_TASK);
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.group"));
-	url.append("list");
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.group"));
+        url.append("list");
 
-	return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
+        return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
     }
 
     /*
@@ -91,15 +91,15 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
      */
     @Override
     public ResponseObject<Boolean> createRequestForGroupSubscription(
-	    int aGroupId) {
-	preInit(RESTBackgroundTask.HTTP_POST_TASK);
+            int aGroupId) {
+        preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.group"));
-	url.append(aGroupId);
-	url.append("/requestSubscription");
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.group"));
+        url.append(aGroupId);
+        url.append("/requestSubscription");
 
-	return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>(){});
+        return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>(){});
     }
 
     /*
@@ -109,13 +109,13 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
      */
     @Override
     public ResponseObject<List<GroupDTO>> getGroupSubscriptions() {
-	preInit(RESTBackgroundTask.HTTP_POST_TASK);
+        preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.group"));
-	url.append("/listSubscriptions");
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.group"));
+        url.append("/listSubscriptions");
 
-	return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
+        return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
     }
 
     /*
@@ -125,21 +125,21 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
      */
     @Override
     public ResponseObject<List<GroupDTO>> searchGroup(GroupDTO aGroup) {
-	preInit(RESTBackgroundTask.HTTP_POST_TASK);
+        preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
-	try {
-	    restTask.addParameter("group", mapper.writeValueAsString(aGroup));
-	} catch (JsonProcessingException e) {
-	    Log.e(TAG, "Exception during JSON serialization prcoess.", e);
-	    throw new CitrCommunicationException(
-		    "Exception during JSON serialization prcoess.", e,
-		    CitrExceptionTypeEnum.SERIALIZATION_ERROR);
-	}
+        try {
+            restTask.addParameter("group", mapper.writeValueAsString(aGroup));
+        } catch (JsonProcessingException e) {
+            Log.e(TAG, "Exception during JSON serialization prcoess.", e);
+            throw new CitrCommunicationException(
+                    "Exception during JSON serialization prcoess.", e,
+                    CitrExceptionTypeEnum.SERIALIZATION_ERROR);
+        }
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.group"));
-	url.append("/search");
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.group"));
+        url.append("/search");
 
-	return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
+        return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
     }
 }

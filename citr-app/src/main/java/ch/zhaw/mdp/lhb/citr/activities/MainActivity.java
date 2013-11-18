@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,7 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.adapters.GroupAdapter;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRUserServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
+import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
+import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
+import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,17 +34,25 @@ import java.util.List;
  * Time: 21:28
  * To change this template use File | Settings | File Templates.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends CitrBaseActivity {
 
-    private ArrayList groupsOwn = new ArrayList();
-    private ArrayList groupsMemberOf = new ArrayList();
+    private List groupsOwn = new ArrayList();
+    private List groupsMemberOf = new ArrayList();
 
+    private IRUserServices userServices;
+    private IRGroupServices groupServices;
+
+    private SessionHelper preferences;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        userServices = new ClientRUserServicesImpl(this);
+        preferences = new SessionHelper(this);
+        groupServices = new ClientRGroupServicesImpl(this);
 
         // starts: dummy groups
         GroupDTO group1 = new GroupDTO();
@@ -48,6 +64,22 @@ public class MainActivity extends Activity {
         this.groupsOwn.add(group2);
         this.groupsMemberOf  = this.groupsOwn;
         // end: dummy groups
+
+        // load groups via rest
+        //Set values to session
+        /*
+        preferences.setPreference(SessionHelper.KEY_USERNAME, openId);
+        //TODO: Remove if OAuth is implemented
+        preferences.setPreference(SessionHelper.KEY_PASSWORD, "strongpassword1");
+        */
+
+        /*
+        ResponseObject<List<GroupDTO>> respGroupsUser = userServices.getGroups();
+
+
+        ResponseObject<List<GroupDTO>> respGroupsAll = groupServices.getAllGroups();
+         */
+
 
 
         // set list with own groups

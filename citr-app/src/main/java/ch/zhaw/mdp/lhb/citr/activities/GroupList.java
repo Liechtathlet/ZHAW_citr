@@ -15,6 +15,7 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,7 +30,7 @@ public class GroupList extends CitrBaseActivity {
 
     private IRGroupServices groupServices;
 
-    private ArrayList groupsResult = new ArrayList();
+    // private List groupsResult = new ArrayList();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class GroupList extends CitrBaseActivity {
 
         groupServices = new ClientRGroupServicesImpl(this);
 
-
+        /*
         // starts: dummy groups
         GroupDTO group1 = new GroupDTO();
         group1.setName("Gruppe 1");
@@ -47,12 +48,20 @@ public class GroupList extends CitrBaseActivity {
         this.groupsResult.add(group1);
         this.groupsResult.add(group2);
         // end: dummy groups
+        */
 
 
-        // set list with own groups
-        final ListView lvGroupResults = (ListView) findViewById(R.id.lvGroupResult);
-        final GroupAdapter adapterOwn = new GroupAdapter(this, this.groupsResult);
-        lvGroupResults.setAdapter(adapterOwn);
+        ResponseObject<List<GroupDTO>> respGroupsAll = groupServices.getAllGroups();
+
+        List groupsResult = respGroupsAll.getResponseObject();
+        if (groupsResult.size() > 0) {
+            // set list with own groups
+            final ListView lvGroupResults = (ListView) findViewById(R.id.lvGroupResult);
+            final GroupAdapter adapterOwn = new GroupAdapter(this, groupsResult);
+            lvGroupResults.setAdapter(adapterOwn);
+        }
+
+
 
     }
 }
