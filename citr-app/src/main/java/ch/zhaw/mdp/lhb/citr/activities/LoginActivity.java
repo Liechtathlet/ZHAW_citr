@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import ch.zhaw.mdp.lhb.citr.Main_trash;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRUserServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
@@ -82,7 +81,7 @@ public class LoginActivity extends CitrBaseActivity {
 						resp.getDisplayMessage(), Toast.LENGTH_SHORT)
 						.show();
 
-				Intent intent = new Intent(this, Main_trash.class);
+				Intent intent = new Intent(this, MainActivity.class);
 				intent.putExtra(CITR_MAINPAGE, openId);
 				startActivity(intent);
 			} else {
