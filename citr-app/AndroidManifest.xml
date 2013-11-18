@@ -11,11 +11,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/citr"
         android:label="Citr"
         android:theme="@style/AppTheme" >
+
+        <activity android:name=".activities.ListViewLoader" android:label="Citr">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".activities.LoginActivity" android:label="Citr">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +33,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Main"
+        <activity android:name=".activities.MainActivity"
           android:label="Citr"
           android:parentActivityName="Login"
         >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".activities.GroupCreateActivity"
@@ -37,6 +50,12 @@
 
         <activity android:name=".activities.CitrCreateActivity"
                   android:label="Citr veröffentlichen"
+                  android:parentActivityName="Main"
+                >
+        </activity>
+
+        <activity android:name=".activities.GroupList"
+                  android:label="Gruppe suchen"
                   android:parentActivityName="Main"
                 >
         </activity>

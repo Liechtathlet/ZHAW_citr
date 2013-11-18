@@ -5,12 +5,22 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp" >
 
+    <Button
+            android:id="@+id/buCreateCitr"
+            android:layout_alignParentTop="true"
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Citr veröffentlichen"
+            android:onClick="createCitr"
+            />
+
     <RelativeLayout
             android:id="@+id/rlOwnGroups"
+            android:layout_below="@id/buCreateCitr"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true">
+            android:layout_alignParentLeft="true">
         <TextView
                 android:id="@+id/tvOwnGroups"
                 style="?android:attr/listSeparatorTextViewStyle"
@@ -28,15 +38,25 @@
                 android:text="Gruppe erstellen"
                 android:onClick="createGroup"
                 />
-        <Button
-                android:id="@+id/buCreateCitr"
+
+        <LinearLayout
+                android:id="@+id/llOwnGroups"
                 android:layout_below="@id/buCreateGroup"
-                android:layout_width="256dp"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Citr veröffentlichen"
-                android:onClick="createCitr"
-                />
+                android:layout_alignParentLeft="true"
+                >
+        </LinearLayout>
+
+        <ListView
+                android:id="@+id/lvOwnGroups"
+                android:layout_below="@id/llOwnGroups"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_alignParentLeft="true"
+                android:drawSelectorOnTop="true"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -53,6 +73,34 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:text="Mitglied von"/>
+
+        <Button
+                android:id="@+id/buGetMemberOf"
+                android:layout_below="@id/tvMemberOfGroups"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Mitglied werden"
+                android:onClick="getMemberOf"
+                />
+
+        <LinearLayout
+                android:id="@+id/llMemberOfGroups"
+                android:layout_below="@id/buGetMemberOf"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                >
+        </LinearLayout>
+
+        <ListView
+                android:id="@+id/lvMemberOfGroups"
+                android:layout_below="@id/llMemberOfGroups"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_alignParentLeft="true"
+                android:drawSelectorOnTop="true"/>
 
 
     </RelativeLayout>

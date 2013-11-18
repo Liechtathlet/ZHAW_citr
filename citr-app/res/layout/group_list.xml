@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" >
+
+    <EditText
+            android:id="@+id/etGroupSearch"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/buSearchGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Gruppen Suche"
+            />
+
+    <Button
+            android:id="@+id/buSearchGroup"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="Go"
+            />
+
+
+    <TextView
+            android:id="@+id/tvSeperatorGroupResult"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_below="@id/buSearchGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Gefundene Gruppen"/>
+
+    <ListView
+            android:id="@+id/lvGroupResult"
+            android:layout_below="@id/tvSeperatorGroupResult"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:layout_alignParentLeft="true"
+            android:drawSelectorOnTop="true"/>
+</RelativeLayout>

@@ -19,7 +19,7 @@ import ch.zhaw.mdp.lhb.citr.activities.GroupCreateActivity;
  * Time: 21:28
  * To change this template use File | Settings | File Templates.
  */
-public class Main extends Activity {
+public class Main_trash extends Activity {
 
     @SuppressLint("NewApi")
     @Override

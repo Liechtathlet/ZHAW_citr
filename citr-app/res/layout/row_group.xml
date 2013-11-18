@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" android:paddingTop="12dp" android:paddingBottom="12dp">
+
+    <TextView
+            android:id="@+id/tvGroupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:textSize="16sp"
+            android:text="Gruppe"/>
+
+    <TextView
+            android:id="@+id/tvGroupTextLeft"
+            android:layout_below="@id/tvGroupName"
+            android:layout_toLeftOf="@+id/tvGroupTextRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="12sp"
+            android:text="Text Links"/>
+
+    <TextView
+            android:id="@+id/tvGroupTextRight"
+            android:layout_below="@id/tvGroupName"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:text="Text Rechts"
+            android:gravity="right"/>
+
+</RelativeLayout>
