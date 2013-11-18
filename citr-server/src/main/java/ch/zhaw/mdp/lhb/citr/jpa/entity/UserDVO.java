@@ -1,9 +1,16 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
-import org.hibernate.annotations.CascadeType;
-
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * @author Daniel Brun
@@ -26,7 +33,11 @@ public class UserDVO {
 	//TODO: Remove password field if OAuth is implemented.
 	private String password;
 
-	private java.util.List<GroupDVO> groups;
+	@ManyToMany(cascade= javax.persistence.CascadeType.ALL)
+	@JoinTable(name="tbl_user_group",
+			joinColumns = { @JoinColumn(name = "usr_id") },
+			inverseJoinColumns = { @JoinColumn(name="grp_id")})
+	private List<GroupDVO> groups;
 
 	/**
 	 * Creates a new instance of this class.
@@ -85,10 +96,6 @@ public class UserDVO {
 		username = aUsername;
 	}
 
-	@ManyToMany(cascade= javax.persistence.CascadeType.ALL)
-	@JoinTable(name="tbl_user_group",
-			joinColumns = { @JoinColumn(name = "usr_id") },
-			inverseJoinColumns = { @JoinColumn(name="grp_id")})
 	public List<GroupDVO> getGroups() {
 		return groups;
 	}
