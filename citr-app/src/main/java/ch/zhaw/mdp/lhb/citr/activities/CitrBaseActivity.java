@@ -17,10 +17,16 @@ import ch.zhaw.mdp.lhb.citr.exception.CitrExceptionHandler;
 public abstract class CitrBaseActivity extends Activity {
 
 	protected final static String CITR_MAINPAGE = "ch.zhaw.mdp.lhb.citr.Main";
-	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
+
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState
+     *            If the activity is being re-initialized after previously being
+     *            shut down then this Bundle contains the data it most recently
+     *            supplied in onSaveInstanceState(Bundle). <b>Note: Otherwise it
+     *            is null.</b>
+     */
 	@Override
 	protected void onCreate(Bundle aSavedInstanceState) {
 		super.onCreate(aSavedInstanceState);

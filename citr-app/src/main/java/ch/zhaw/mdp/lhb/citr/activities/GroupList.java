@@ -18,20 +18,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: michael
+ * @author Michael Hadorn
  * Date: 30.10.13
  * Time: 22:58
- * To change this template use File | Settings | File Templates.
+ *
+ * "Mitglied werden"-Button Action. List of all groups.
  */
 public class GroupList extends CitrBaseActivity {
 
+    /**
+     * Tag of Activity
+     */
     private static final String TAG = "GroupListActivity";
 
+    /**
+     * Service to manage group data via rest
+     */
     private IRGroupServices groupServices;
 
     // private List groupsResult = new ArrayList();
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState
+     *            If the activity is being re-initialized after previously being
+     *            shut down then this Bundle contains the data it most recently
+     *            supplied in onSaveInstanceState(Bundle). <b>Note: Otherwise it
+     *            is null.</b>
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_list);

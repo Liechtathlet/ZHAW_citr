@@ -47,7 +47,4 @@ public class CitrCommunicationException extends CitrException {
 			CitrExceptionTypeEnum aType) {
 		super(aMessage, aCause, aType);
 	}
-
-	
-	
 }

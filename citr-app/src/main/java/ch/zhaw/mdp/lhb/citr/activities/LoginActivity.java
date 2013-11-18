@@ -17,13 +17,23 @@ import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 /**
  * @author Daniel Brun
  * 
- *         Activity for the 'Login-Process'.
+ * Activity for the 'Login-Process'.
  */
 public class LoginActivity extends CitrBaseActivity {
 
+    /**
+     * Tag of activity
+     */
 	private static final String TAG = "LoginActivity";
 
+    /**
+     * Service to manage user data via rest
+     */
 	private IRUserServices userServices;
+
+    /**
+     * Session Helper to manage request properties via rest
+     */
 	private SessionHelper preferences;
 
 	/**
@@ -44,6 +54,11 @@ public class LoginActivity extends CitrBaseActivity {
 		preferences = new SessionHelper(this);
 	}
 
+    /**
+     * Create the option in the menu bar
+     * @param menu
+     * @return
+     */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -55,8 +70,7 @@ public class LoginActivity extends CitrBaseActivity {
 	/**
 	 * Perform user login
 	 * 
-	 * @param view
-	 *            the view.
+	 * @param view the view
 	 */
 	public void onAEUserLogin(View view) {
 

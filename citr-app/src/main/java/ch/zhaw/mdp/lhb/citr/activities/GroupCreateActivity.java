@@ -13,11 +13,11 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 
 /**
- * Created with IntelliJ IDEA.
- * User: michael
+ * @author Michael Hadorn
  * Date: 30.10.13
  * Time: 22:58
- * To change this template use File | Settings | File Templates.
+ *
+ * The screen where you can create an group.
  */
 public class GroupCreateActivity extends CitrBaseActivity {
 

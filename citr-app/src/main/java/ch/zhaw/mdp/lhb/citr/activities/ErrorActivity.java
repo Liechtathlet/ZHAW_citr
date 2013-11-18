@@ -8,7 +8,7 @@ import ch.zhaw.mdp.lhb.citr.R;
 /**
  * @author Daniel Brun
  * 
- *         Activity for the 'Error-Handling'.
+ * Activity for the 'Error-Handling'.
  */
 public class ErrorActivity extends CitrBaseActivity {
 

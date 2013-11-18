@@ -12,7 +12,9 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRMessageServices;
 
 /**
- * Created with IntelliJ IDEA. User: michael Date: 30.10.13 Time: 22:58
+ * @author Michael Hadorn
+ * Date: 30.10.13
+ * Time: 22:58
  * 
  * Activity to create a new citr.
  */
@@ -24,7 +26,7 @@ public class CitrCreateActivity extends CitrBaseActivity {
 
 	/**
 	 * Called when the activity is first created.
-	 * 
+	 *
 	 * @param savedInstanceState
 	 *            If the activity is being re-initialized after previously being
 	 *            shut down then this Bundle contains the data it most recently
