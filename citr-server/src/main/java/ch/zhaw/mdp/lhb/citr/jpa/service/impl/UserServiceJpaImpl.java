@@ -19,13 +19,20 @@ import java.util.List;
  * Implementation of the DB-Service interface {@link IDBUserService}
  */
 @Service("userService")
-public class UserServiceJpaImpl implements IDBUserService {
+	public class UserServiceJpaImpl implements IDBUserService {
 
 	private EntityManager entityManager;
 
 	@Transactional(readOnly = true)
 	public UserDVO getById(int id) {
 		return entityManager.find(UserDVO.class, id);
+	}
+
+	@Transactional(readOnly = true)
+	public UserDVO getByOpenId(String openId) {
+		UserDVO user = new UserDVO();
+		user.setOpenId(openId);
+		return findPerson(user);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -80,6 +87,7 @@ public class UserServiceJpaImpl implements IDBUserService {
 
 		UserDVO userFromDb = (UserDVO)queryFindPerson.getSingleResult();
 		userFromDb.getUserGroups().size();
+		userFromDb.getCreatedGroups().size();
 
 		return userFromDb;
 	}

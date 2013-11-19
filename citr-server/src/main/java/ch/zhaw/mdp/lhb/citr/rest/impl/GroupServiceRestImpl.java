@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserGroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,12 @@ public class GroupServiceRestImpl implements IRGroupServices {
 
 	@Autowired
 	private IDBGroupService groupService;
-	
+
 	@Autowired
 	private IDBUserService userService;
+
+	@Autowired
+	private IDBUserGroupService userGroupService;
 	
 	@Autowired
 	private ReloadableResourceBundleMessageSource messageSource;
@@ -105,8 +109,29 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Secured("ROLE_USER")
 	@Path("{groupId}/requestSubscription")
 	public ResponseObject<Boolean> createRequestForGroupSubscription(@PathParam("groupId") int aGroupId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String msg = null;
+		Boolean succ = true;
+
+		UserDVO currentUser = getCurrentUser();
+		GroupDVO groupDVO = groupService.getById(aGroupId);
+
+		UserGroupDVO userGroup = new UserGroupDVO();
+		userGroup.setUserId(currentUser.getId());
+		userGroup.setUser(currentUser);
+		userGroup.setGroupId(groupDVO.getId());
+		userGroup.setGroup(groupDVO);
+		userGroup.setState("open");
+
+		try {
+			userGroupService.save(userGroup);
+		} catch (Exception e) {
+			msg = String.format("Unable to store group subscription. Error: %s", e.getMessage());
+			LOG.error(msg);
+			succ = false;
+		}
+
+		return new ResponseObject<Boolean>(succ, succ, msg);
 	}
 
 	@GET
@@ -119,13 +144,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		boolean successfull = true;
 		String message = null;
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDVO user = new UserDVO();
-		user.setOpenId(auth.getName());
-
-		user = userService.findPerson(user);
-
-		List<UserGroupDVO> userGroupDVOs = user.getUserGroups();
+		List<UserGroupDVO> userGroupDVOs = getCurrentUser().getUserGroups();
 		List<GroupDTO> groupDTOs = null;
 		try {
 			groupDTOs = GroupFactory.createUserGroups(userGroupDVOs);
@@ -151,13 +170,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		boolean successfull = true;
 		String message = null;
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDVO user = new UserDVO();
-		user.setOpenId(auth.getName());
-
-		user = userService.findPerson(user);
-
-		List<GroupDVO> groupDVOs = user.getCreatedGroups();
+		List<GroupDVO> groupDVOs = getCurrentUser().getCreatedGroups();
 		List<GroupDTO> groupDTOs = null;
 		try {
 			groupDTOs = GroupFactory.createGroups(groupDVOs);
@@ -187,5 +200,8 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		return null;
 	}
 
-
+	private UserDVO getCurrentUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return userService.getByOpenId(auth.getName());
+	}
 }

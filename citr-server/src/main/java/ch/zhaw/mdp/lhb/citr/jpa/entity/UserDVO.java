@@ -29,7 +29,7 @@ public class UserDVO implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<UserGroupDVO> userGroups;
 
-	@OneToMany(mappedBy="owner", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="owner", fetch = FetchType.EAGER)
 	private List<GroupDVO> createdGroups;
 
 	/**

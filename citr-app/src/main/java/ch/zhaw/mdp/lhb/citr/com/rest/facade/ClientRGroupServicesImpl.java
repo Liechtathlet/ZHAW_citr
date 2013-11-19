@@ -120,7 +120,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
 
 	@Override
 	public ResponseObject<List<GroupDTO>> getOwnedGroup() {
-		return null;    
+		return null;
 	}
 
 	/*
