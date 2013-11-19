@@ -117,38 +117,4 @@ public class UserServiceRestImpl implements IRUserServices {
 
 		return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
 	}
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("/groups")
-	public ResponseObject<List<GroupDTO>> getGroups() {
-
-		boolean successfull = true;
-		String message = null;
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDVO user = new UserDVO();
-		user.setOpenId(auth.getName());
-
-		user = userService.findPerson(user);
-
-		LOG.info(String.format("/user/groups: Got user: id %d, openId %s", user.getId(), user.getOpenId()));
-		List<UserGroupDVO> userGroupDVOs = user.getUserGroups();
-		List<GroupDTO> groupDTOs = null;
-		try {
-			groupDTOs = GroupFactory.createUserGroups(userGroupDVOs);
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-		}
-		LOG.info("Got groups");
-
-		if (groupDTOs == null) {
-			successfull = false;
-			message = messageSource.getMessage("msg.user.getGroups.fail", null, null);
-		}
-
-		return new ResponseObject<List<GroupDTO>>(groupDTOs, successfull, message);
-	}
 }

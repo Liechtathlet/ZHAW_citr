@@ -44,6 +44,13 @@ public interface IRGroupServices {
 	 * @return All group subscriptions of the current user.
 	 */
 	public ResponseObject<List<GroupDTO>> getGroupSubscriptions();
+
+	/**
+	 * Gets the groups of a user.
+	 *
+	 * @return All group the user owns.
+	 */
+	public ResponseObject<List<GroupDTO>> getOwnedGroup();
 	
 	
 	/**

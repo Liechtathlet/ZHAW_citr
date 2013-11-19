@@ -13,10 +13,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
@@ -36,6 +42,8 @@ import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 @Path("/group")
 @Scope("singleton")
 public class GroupServiceRestImpl implements IRGroupServices {
+
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceRestImpl.class);
 
 	@Autowired
 	private IDBGroupService groupService;
@@ -101,18 +109,68 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getGroupSubscriptions()
-	 */
-	@Override
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("/listSubscriptions")
 	public ResponseObject<List<GroupDTO>> getGroupSubscriptions() {
-		// TODO Auto-generated method stub
-		return null;
+
+		boolean successfull = true;
+		String message = null;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDVO user = new UserDVO();
+		user.setOpenId(auth.getName());
+
+		user = userService.findPerson(user);
+
+		List<UserGroupDVO> userGroupDVOs = user.getUserGroups();
+		List<GroupDTO> groupDTOs = null;
+		try {
+			groupDTOs = GroupFactory.createUserGroups(userGroupDVOs);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+		}
+
+		if (groupDTOs == null) {
+			successfull = false;
+			message = messageSource.getMessage("msg.user.getGroups.fail", null, null);
+		}
+
+		return new ResponseObject<List<GroupDTO>>(groupDTOs, successfull, message);
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("/listOwnedGroups")
+	public ResponseObject<List<GroupDTO>> getOwnedGroup() {
+
+		boolean successfull = true;
+		String message = null;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDVO user = new UserDVO();
+		user.setOpenId(auth.getName());
+
+		user = userService.findPerson(user);
+
+		List<GroupDVO> groupDVOs = user.getCreatedGroups();
+		List<GroupDTO> groupDTOs = null;
+		try {
+			groupDTOs = GroupFactory.createGroups(groupDVOs);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+		}
+
+		if (groupDTOs == null) {
+			successfull = false;
+			message = messageSource.getMessage("msg.user.getGroups.fail", null, null);
+		}
+
+		return new ResponseObject<List<GroupDTO>>(groupDTOs, successfull, message);
 	}
 
 	/* (non-Javadoc)

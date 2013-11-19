@@ -24,6 +24,10 @@ public class GroupDVO {
 	@OneToMany(mappedBy="group")
 	private List<UserGroupDVO> userGroups;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "owner_usr_id")
+	private UserDVO owner;
+
     public GroupDVO() {
 	// every new group is active
 	this.setState("active");

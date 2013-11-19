@@ -29,6 +29,9 @@ public class UserDVO implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<UserGroupDVO> userGroups;
 
+	@OneToMany(mappedBy="owner", fetch=FetchType.EAGER)
+	private List<GroupDVO> createdGroups;
+
 	/**
 	 * Creates a new instance of this class.
 	 */
@@ -92,5 +95,13 @@ public class UserDVO implements Serializable {
 
 	public void setUserGroups(List<UserGroupDVO> userGroups) {
 		this.userGroups = userGroups;
+	}
+
+	public List<GroupDVO> getCreatedGroups() {
+		return createdGroups;
+	}
+
+	public void setCreatedGroups(List<GroupDVO> createdGroups) {
+		this.createdGroups = createdGroups;
 	}
 }
