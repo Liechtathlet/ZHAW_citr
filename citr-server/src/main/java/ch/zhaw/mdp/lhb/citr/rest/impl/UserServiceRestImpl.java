@@ -7,8 +7,8 @@ import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserFactory;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
@@ -36,8 +36,7 @@ import java.util.List;
 @Scope("singleton")
 public class UserServiceRestImpl implements IRUserServices {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UserServiceRestImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceRestImpl.class);
 
 	@Autowired
 	private IDBUserService userService;
@@ -127,11 +126,7 @@ public class UserServiceRestImpl implements IRUserServices {
 	public ResponseObject<List<GroupDTO>> getGroups() {
 
 		boolean successfull = true;
-		//FIXME: De Text wo zrug geh wird, wird 1:1 im GUI azeigt, wenn nüt sell azeigt werde, würi sege eifacht null zrug geh.
-		//BTW: getGroups isch eigentli s gliche wie getGroupSubscriptions
-		//Würd evtl. e neue UserFactory, bzw. en Helper oder so um de loggedInUser überzcho, sust hesch i de Factory verschideni Theme gmischt...
-		//Evtl. mümer uf de GroupDTO no es Flag mache, wo azeigt wie de "Request" status isch -> approved, pending, ....
-		String message = "ok";
+		String message = null;
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDVO user = new UserDVO();
@@ -140,10 +135,10 @@ public class UserServiceRestImpl implements IRUserServices {
 		user = userService.findPerson(user);
 
 		LOG.info(String.format("/user/groups: Got user: id %d, openId %s", user.getId(), user.getOpenId()));
-		List<GroupDVO> groupDVOs = user.getGroups();
+		List<UserGroupDVO> userGroupDVOs = user.getUserGroups();
 		List<GroupDTO> groupDTOs = null;
 		try {
-			groupDTOs = GroupFactory.createGroups(groupDVOs);
+			groupDTOs = GroupFactory.createUserGroups(userGroupDVOs);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}

@@ -47,9 +47,6 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	private ReloadableResourceBundleMessageSource messageSource;
 	
 
-	/* (non-Javadoc)
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#createGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
-	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

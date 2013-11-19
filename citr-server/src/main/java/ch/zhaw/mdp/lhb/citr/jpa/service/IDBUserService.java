@@ -1,9 +1,9 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service;
 
-import java.util.List;
-
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
+
+import java.util.List;
 
 
 /**
@@ -68,5 +68,5 @@ public interface IDBUserService {
 	 * @param id    The id of the user.
 	 * @return      Groups of the user.
 	 */
-	public List<GroupDVO> getGroups(UserDVO person);
+	public List<UserGroupDVO> getUserGroups(UserDVO person);
 }

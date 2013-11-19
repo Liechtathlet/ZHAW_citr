@@ -1,17 +1,16 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
-import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * @author Daniel Brun
@@ -80,7 +79,7 @@ public class UserServiceJpaImpl implements IDBUserService {
 		queryFindPerson.setParameter("openId", user.getOpenId());
 
 		UserDVO userFromDb = (UserDVO)queryFindPerson.getSingleResult();
-		userFromDb.getGroups().size();
+		userFromDb.getUserGroups().size();
 
 		return userFromDb;
 	}
@@ -88,8 +87,8 @@ public class UserServiceJpaImpl implements IDBUserService {
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<GroupDVO> getGroups(UserDVO user) {
-		return findPerson(user).getGroups();
+	public List<UserGroupDVO> getUserGroups(UserDVO user) {
+		return findPerson(user).getUserGroups();
 	}
 
 	/**

@@ -21,8 +21,8 @@ public class GroupDVO {
     private String state;
     private String mode;
 
-	@ManyToMany(mappedBy="groups")
-	private List<UserDVO> users;
+	@OneToMany(mappedBy="group")
+	private List<UserGroupDVO> userGroups;
 
     public GroupDVO() {
 	// every new group is active
@@ -61,11 +61,11 @@ public class GroupDVO {
 	mode = aMode;
     }
 
-	public List<UserDVO> getUsers() {
-		return users;
+	public List<UserGroupDVO> getUserGroups() {
+		return userGroups;
 	}
 
-	public void setUsers(List<UserDVO> users) {
-		this.users = users;
+	public void setUserGroups(List<UserGroupDVO> userGroups) {
+		this.userGroups = userGroups;
 	}
 }

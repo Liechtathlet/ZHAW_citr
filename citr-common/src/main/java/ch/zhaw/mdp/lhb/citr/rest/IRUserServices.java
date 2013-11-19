@@ -31,11 +31,4 @@ public interface IRUserServices {
 	 * @return The user or null if no corresponding user could be found.
 	 */
 	public ResponseObject<UserDTO> loginUser(String aOpenId);
-
-	/**
-	 * Gets all groups of the current user.
-	 *
-	 * @return List of groups of the user.
-	 */
-	public ResponseObject<List<GroupDTO>> getGroups();
 }

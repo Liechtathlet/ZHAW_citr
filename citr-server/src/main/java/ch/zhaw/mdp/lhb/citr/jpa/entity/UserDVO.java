@@ -26,11 +26,8 @@ public class UserDVO implements Serializable {
 	//TODO: Remove password field if OAuth is implemented.
 	private String password;
 
-	@ManyToMany(cascade= javax.persistence.CascadeType.ALL)
-	@JoinTable(name="tbl_user_group",
-			joinColumns = { @JoinColumn(name = "usr_id") },
-			inverseJoinColumns = { @JoinColumn(name="grp_id")})
-	private List<GroupDVO> groups;
+	@OneToMany(mappedBy="user")
+	private List<UserGroupDVO> userGroups;
 
 	/**
 	 * Creates a new instance of this class.
@@ -89,11 +86,11 @@ public class UserDVO implements Serializable {
 		username = aUsername;
 	}
 
-	public List<GroupDVO> getGroups() {
-		return groups;
+	public List<UserGroupDVO> getUserGroups() {
+		return userGroups;
 	}
 
-	public void setGroups(List<GroupDVO> groups) {
-		this.groups = groups;
+	public void setUserGroups(List<UserGroupDVO> userGroups) {
+		this.userGroups = userGroups;
 	}
 }

@@ -52,15 +52,4 @@ public class UserFactory {
 		return convUser;
 	}
 
-	/**
-	 * Gets the currently logged in user.
-	 *
-	 * @return The logged in user.
-	 */
-	public static UserDVO getLoggedInUser() {
-		UserDVO userDVO = new UserDVO();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		userDVO.setOpenId(auth.getName());
-		return userDVO;
-	}
 }
