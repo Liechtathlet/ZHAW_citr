@@ -138,9 +138,21 @@ public class UserServiceRestImpl implements IRUserServices {
 		//Evtl. mümer uf de GroupDTO no es Flag mache, wo azeigt wie de "Request" status isch -> approved, pending, ....
 		String message = "ok";
 
-		UserDVO userDVO = UserFactory.getLoggedInUser();
-		List<GroupDVO> groupDVOs = userDVO.getGroups();
-		List<GroupDTO> groupDTOs = GroupFactory.createGroups(groupDVOs);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDVO user = new UserDVO();
+		user.setOpenId(auth.getName());
+
+		user = userService.findPerson(user);
+
+		LOG.info(String.format("/user/groups: Got user: id %d, openId %s", user.getId(), user.getOpenId()));
+		List<GroupDVO> groupDVOs = user.getGroups();
+		List<GroupDTO> groupDTOs = null;
+		try {
+			groupDTOs = GroupFactory.createGroups(groupDVOs);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+		}
+		LOG.info("Got groups");
 
 		if (groupDTOs == null) {
 			successfull = false;

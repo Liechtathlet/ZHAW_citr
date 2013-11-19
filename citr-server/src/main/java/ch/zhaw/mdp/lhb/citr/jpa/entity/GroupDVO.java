@@ -1,6 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Simon Lang
@@ -19,6 +20,9 @@ public class GroupDVO {
     private String name;
     private String state;
     private String mode;
+
+	@ManyToMany(mappedBy="groups")
+	private List<UserDVO> users;
 
     public GroupDVO() {
 	// every new group is active
@@ -57,4 +61,11 @@ public class GroupDVO {
 	mode = aMode;
     }
 
+	public List<UserDVO> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserDVO> users) {
+		this.users = users;
+	}
 }
