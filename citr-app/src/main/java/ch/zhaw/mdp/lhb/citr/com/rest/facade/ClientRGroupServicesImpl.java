@@ -118,11 +118,16 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#searchGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
-     */
+	@Override
+	public ResponseObject<List<GroupDTO>> getOwnedGroup() {
+		return null;    
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#searchGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
+	 */
     @Override
     public ResponseObject<List<GroupDTO>> searchGroup(GroupDTO aGroup) {
         preInit(RESTBackgroundTask.HTTP_POST_TASK);
