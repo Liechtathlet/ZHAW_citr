@@ -1,16 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.adapters;
 
-/**
- * Created with IntelliJ IDEA.
- * User: michael
- * Date: 18.11.13
- * Time: 09:38
- * Adapter for used to show groups in view lists
- */
-
-
-import java.util.List;
-
+import ch.zhaw.mdp.lhb.citr.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author michael

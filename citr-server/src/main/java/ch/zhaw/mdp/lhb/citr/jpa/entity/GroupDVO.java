@@ -1,14 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
+import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 /**
  * @author Simon Lang
@@ -28,9 +21,9 @@ public class GroupDVO {
     private String state;
     private String mode;
 
-    @ManyToMany(cascade = javax.persistence.CascadeType.ALL,mappedBy = "groups")
-    private List<UserDVO> users;
-    
+	@ManyToMany(mappedBy="groups")
+	private List<UserDVO> users;
+
     public GroupDVO() {
 	// every new group is active
 	this.setState("active");
@@ -68,20 +61,11 @@ public class GroupDVO {
 	mode = aMode;
     }
 
-    /**
-     * @return the users
-     */
-    public List<UserDVO> getUsers() {
-        return users;
-    }
+	public List<UserDVO> getUsers() {
+		return users;
+	}
 
-    /**
-     * @param aUsers the users to set
-     */
-    public void setUsers(List<UserDVO> aUsers) {
-        users = aUsers;
-    }
-
-  
-    
+	public void setUsers(List<UserDVO> users) {
+		this.users = users;
+	}
 }
