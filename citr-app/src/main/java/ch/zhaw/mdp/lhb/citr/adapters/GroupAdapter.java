@@ -9,17 +9,16 @@ package ch.zhaw.mdp.lhb.citr.adapters;
  */
 
 
-import ch.zhaw.mdp.lhb.citr.R;
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GroupAdapter extends ArrayAdapter<GroupDTO> {
     private final Context context;
