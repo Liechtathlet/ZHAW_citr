@@ -1,5 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NamedQueries( { @NamedQuery(name = "User.findAll", query = "SELECT p FROM UserDVO p"),
 		@NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.openId = :openId or p.username = :username")
 	})
-public class UserDVO {
+public class UserDVO implements Serializable {
 	
 	@Id
 	@GeneratedValue
@@ -25,7 +26,7 @@ public class UserDVO {
 	//TODO: Remove password field if OAuth is implemented.
 	private String password;
 
-	@ManyToMany(cascade= javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade= javax.persistence.CascadeType.ALL)
 	@JoinTable(name="tbl_user_group",
 			joinColumns = { @JoinColumn(name = "usr_id") },
 			inverseJoinColumns = { @JoinColumn(name="grp_id")})

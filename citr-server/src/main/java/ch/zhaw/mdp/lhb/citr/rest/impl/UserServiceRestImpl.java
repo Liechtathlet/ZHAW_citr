@@ -45,11 +45,6 @@ public class UserServiceRestImpl implements IRUserServices {
 	@Autowired
 	private ReloadableResourceBundleMessageSource messageSource;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRUserServices#getUser(java.lang.String)
-	 */
 	@GET
 	@Override
 	@Produces(MediaType.APPLICATION_JSON)

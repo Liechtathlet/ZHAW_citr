@@ -13,8 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -38,9 +36,6 @@ import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 @Path("/group")
 @Scope("singleton")
 public class GroupServiceRestImpl implements IRGroupServices {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(GroupServiceRestImpl.class);
 
 	@Autowired
 	private IDBGroupService groupService;

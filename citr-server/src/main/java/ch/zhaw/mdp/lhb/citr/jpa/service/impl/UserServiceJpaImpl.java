@@ -74,19 +74,15 @@ public class UserServiceJpaImpl implements IDBUserService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public UserDVO findPerson(UserDVO user) {
-		UserDVO result = null;
-		
+
 		Query queryFindPerson = entityManager.createNamedQuery("User.findUser");
 		queryFindPerson.setParameter("username", user.getUsername());
 		queryFindPerson.setParameter("openId", user.getOpenId());
-		
-		List<UserDVO> users = queryFindPerson.getResultList();
-		
-		if(users.size() > 0) {
-			result = users.get(0);
-		}
-		
-		return result;
+
+		UserDVO userFromDb = (UserDVO)queryFindPerson.getSingleResult();
+		userFromDb.getGroups().size();
+
+		return userFromDb;
 	}
 
 	@Override
