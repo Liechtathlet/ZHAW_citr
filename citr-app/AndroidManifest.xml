@@ -11,20 +11,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/citr"
         android:label="Citr"
         android:theme="@style/AppTheme" >
-
-        <activity android:name=".activities.ListViewLoader" android:label="Citr">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <activity android:name=".activities.LoginActivity" android:label="Citr">
             <intent-filter>
@@ -35,8 +26,7 @@
 
         <activity android:name=".activities.MainActivity"
           android:label="Citr"
-          android:parentActivityName="Login"
-        >
+          android:parentActivityName="Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -44,25 +34,22 @@
 
         <activity android:name=".activities.GroupCreateActivity"
           android:label="Gruppe erstellen"
-          android:parentActivityName="Main"
-        >
+          android:parentActivityName="Main">
         </activity>
 
         <activity android:name=".activities.CitrCreateActivity"
                   android:label="Citr veröffentlichen"
-                  android:parentActivityName="Main"
-                >
+                  android:parentActivityName="Main">
         </activity>
 
         <activity android:name=".activities.GroupList"
                   android:label="Gruppe suchen"
-                  android:parentActivityName="Main"
-                >
+                  android:parentActivityName="Main">
         </activity>
         
          <activity
             android:name=".activities.ErrorActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
         </activity>
     </application>
 

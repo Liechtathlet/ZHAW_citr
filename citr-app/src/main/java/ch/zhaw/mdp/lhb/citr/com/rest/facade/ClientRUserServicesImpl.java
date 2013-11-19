@@ -29,6 +29,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class ClientRUserServicesImpl extends AbstractClientRBaseServiceImpl
 		implements IRUserServices {
 
+    /**
+     * Tag of intent
+     */
 	public static final String TAG = "ClientIRUserServicesImpl";
 
 	/**

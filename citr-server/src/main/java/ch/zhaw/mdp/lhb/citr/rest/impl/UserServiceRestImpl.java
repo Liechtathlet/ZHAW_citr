@@ -139,7 +139,7 @@ public class UserServiceRestImpl implements IRUserServices {
 		String message = "ok";
 
 		UserDVO userDVO = UserFactory.getLoggedInUser();
-		List<GroupDVO> groupDVOs = userDVO.getGroups();
+		List<GroupDVO> groupDVOs = userService.getGroups(userDVO);
 		List<GroupDTO> groupDTOs = GroupFactory.createGroups(groupDVOs);
 
 		if (groupDTOs == null) {

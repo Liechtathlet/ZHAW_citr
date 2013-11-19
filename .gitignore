@@ -26,6 +26,7 @@ gen/
 
 # Mac
 .DS_Store
+C:
 
 # Maven
 log/
