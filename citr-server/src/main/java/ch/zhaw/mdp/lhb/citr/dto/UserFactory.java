@@ -8,9 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
+ * Provides methods to create DTOs from DVOs and backwards.
+ *
  * @author Daniel Brun
- * 
- *         Provides methods to create DTOs from DVOs and backwards.
  */
 public class UserFactory {
 

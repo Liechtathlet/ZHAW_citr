@@ -1,5 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
+import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserGroupService;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * @author Simon Lang
@@ -27,6 +30,16 @@ public class UserGroupServiceJpaImpl implements IDBUserGroupService {
 		entityManager.flush();
 
 		return true;
+	}
+
+	@Override
+	public List<UserGroupDVO> getSubscriptionRequestByGroup(GroupDVO group) {
+		//Query q = entityManager.createQuery("select UserGroupDVO from UserGroupDVO where groupId = :groupId and state = :state");
+		Query q = entityManager.createQuery("select ug from UserGroupDVO ug where ug.groupId = :groupId and ug.state = :state");
+		q.setParameter("groupId", group.getId());
+		q.setParameter("state", "open");
+		List<UserGroupDVO> userGroupDVOs = q.getResultList();
+		return userGroupDVOs;
 	}
 
 	/**

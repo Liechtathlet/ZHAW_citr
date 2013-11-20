@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
+import ch.zhaw.mdp.lhb.citr.dto.UserGroupFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserGroupService;
@@ -99,9 +101,6 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		return new ResponseObject<List<GroupDTO>>(groups, true, null);
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#createRequestForGroupSubscription(int)
-	 */
 	@Override
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -134,12 +133,36 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		return new ResponseObject<Boolean>(succ, succ, msg);
 	}
 
+	@Override
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("{groupId}/getSubscriptions")
+	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptions(@PathParam("groupId") int aGroupId) {
+
+		String msg = null;
+		Boolean succ = true;
+
+		List<SubscriptionDTO> subscriptionDTOs = null;
+		try {
+			GroupDVO groupDVO = groupService.getById(aGroupId);
+			List<UserGroupDVO> userGroupDVOs = userGroupService.getSubscriptionRequestByGroup(groupDVO);
+			subscriptionDTOs = UserGroupFactory.createSubscriptionDTOs(userGroupDVOs);
+		} catch (Exception e)    {
+			msg = String.format("Unable to get group subscriptions. Error: %s", e.getMessage());
+			LOG.error(msg);
+		}
+
+		return new ResponseObject<List<SubscriptionDTO>>(subscriptionDTOs, succ, msg);
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("/listSubscriptions")
-	public ResponseObject<List<GroupDTO>> getGroupSubscriptions() {
+	public ResponseObject<List<GroupDTO>> getUserSubscriptions() {
 
 		boolean successfull = true;
 		String message = null;

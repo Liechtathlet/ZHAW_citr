@@ -15,10 +15,7 @@ public class GroupFactory {
 
 		//TODO: Mode evtl. als boolean?
 		for (GroupDVO groupDVO : groupDVOs) {
-			GroupDTO dto = new GroupDTO();
-			dto.setName(groupDVO.getName());
-			dto.setPublicGroup(groupDVO.getMode() == "public");
-			groups.add(dto);
+			groups.add(createGroupDTO(groupDVO));
 		}
 
 		return groups;
@@ -38,5 +35,12 @@ public class GroupFactory {
 		}
 
 		return groups;
+	}
+
+	public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
+		GroupDTO dto = new GroupDTO();
+		dto.setName(groupDVO.getName());
+		dto.setPublicGroup(groupDVO.getMode() == "public");
+		return dto;
 	}
 }

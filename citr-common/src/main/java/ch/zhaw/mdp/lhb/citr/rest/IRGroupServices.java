@@ -6,6 +6,7 @@ package ch.zhaw.mdp.lhb.citr.rest;
 import java.util.List;
 
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 
 /**
@@ -43,7 +44,7 @@ public interface IRGroupServices {
 	 * 
 	 * @return All group subscriptions of the current user.
 	 */
-	public ResponseObject<List<GroupDTO>> getGroupSubscriptions();
+	public ResponseObject<List<GroupDTO>> getUserSubscriptions();
 
 	/**
 	 * Gets the groups of a user.
@@ -60,4 +61,13 @@ public interface IRGroupServices {
 	 * @return True if the request could be created successfully.
 	 */
 	public ResponseObject<Boolean> createRequestForGroupSubscription(int aGroupId);
+
+
+	/**
+	 * Gets the subscriptions for a group
+	 *
+	 * @param aGroupId The id of the group
+	 * @return True if the request could be created successfully.
+	 */
+	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptions(int aGroupId);
 }
