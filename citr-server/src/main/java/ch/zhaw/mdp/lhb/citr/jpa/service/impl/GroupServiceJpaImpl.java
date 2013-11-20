@@ -30,6 +30,11 @@ public class GroupServiceJpaImpl implements IDBGroupService {
 	}
 
 	@Override
+	public GroupDVO getById(int id) {
+		return entityManager.find(GroupDVO.class, id);
+	}
+
+	@Override
 	@Transactional(readOnly = true)
 	public List<GroupDVO> getAll() {
 		Query query = entityManager.createNamedQuery("Group.findAll");

@@ -21,8 +21,12 @@ public class GroupDVO {
     private String state;
     private String mode;
 
-	@ManyToMany(mappedBy="groups")
-	private List<UserDVO> users;
+	@OneToMany(mappedBy="group")
+	private List<SubscriptionDVO> subscriptions;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "owner_usr_id")
+	private UserDVO owner;
 
     public GroupDVO() {
 	// every new group is active
@@ -61,11 +65,11 @@ public class GroupDVO {
 	mode = aMode;
     }
 
-	public List<UserDVO> getUsers() {
-		return users;
+	public List<SubscriptionDVO> getSubscriptions() {
+		return subscriptions;
 	}
 
-	public void setUsers(List<UserDVO> users) {
-		this.users = users;
+	public void setSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
+		this.subscriptions = subscriptionDVOs;
 	}
 }

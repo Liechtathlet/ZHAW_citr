@@ -107,6 +107,7 @@ CREATE  TABLE IF NOT EXISTS `citr`.`tbl_user_group` (
   `grp_id` INT(11) NOT NULL ,
   `usr_id` INT(11) NOT NULL ,
   `usg_role` TINYINT(4) NULL DEFAULT NULL COMMENT 'role types: admin, moderator, guest' ,
+  `usg_request_state` ENUM('approved','open')  NULL DEFAULT NULL,
   PRIMARY KEY (`usg_id`, `grp_id`, `usr_id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

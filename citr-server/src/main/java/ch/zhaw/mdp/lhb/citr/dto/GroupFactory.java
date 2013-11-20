@@ -1,46 +1,45 @@
 package ch.zhaw.mdp.lhb.citr.dto;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
-import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.impl.GroupServiceRestImpl;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.annotation.Secured;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+public class GroupFactory {
 
-	public static List<GroupDTO> createGroups(List<GroupDVO> groupDVOs) {
-		Logger LOG = LoggerFactory.getLogger(GroupFactory.class);
-		LOG.info("Test4...");
-		List<GroupDTO> groups = new ArrayList<GroupDTO>();
-		LOG.info("Test5...");
+        public static List<GroupDTO> createGroups(List<GroupDVO> groupDVOs) {
+                List<GroupDTO> groups = new ArrayList<GroupDTO>();
 
-		//TODO: Mode evtl. als boolean?
-		for (GroupDVO dvo : groupDVOs) {
-			LOG.info("Test6...");
-			GroupDTO dto = new GroupDTO();
-			dto.setName(dvo.getName());
-			dto.setPublicGroup(dvo.getMode() == "public");
-			groups.add(dto);
-		}
+                //TODO: Mode evtl. als boolean?
+                for (GroupDVO groupDVO : groupDVOs) {
+                        groups.add(createGroupDTO(groupDVO));
+                }
 
-	// TODO: Mode evtl. als boolean?
-	if (groupDVOs != null) {
-	    for (GroupDVO dvo : groupDVOs) {
-		GroupDTO dto = new GroupDTO();
-		dto.setName(dvo.getName());
-		dto.setPublicGroup(dvo.getMode() == "public");
-		groups.add(dto);
-	    }
-	}
+                return groups;
+        }
 
-	return groups;
-    }
+        public static List<GroupDTO> createSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
+                List<GroupDTO> groups = new ArrayList<GroupDTO>();
+
+                for (SubscriptionDVO subscriptionDVO : subscriptionDVOs) {
+                        GroupDVO groupDVO = subscriptionDVO.getGroup();
+                        GroupDTO dto = new GroupDTO();
+                        dto.setName(groupDVO.getName());
+                        dto.setPublicGroup(groupDVO.getMode() == "public");
+                        dto.setState(subscriptionDVO.getState() == "approved" ? GroupDTO.State.approved : GroupDTO.State.open);
+                        groups.add(dto);
+                }
+
+                return groups;
+        }
+
+        public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
+                GroupDTO dto = new GroupDTO();
+                dto.setName(groupDVO.getName());
+                dto.setPublicGroup(groupDVO.getMode() == "public");
+                return dto;
+        }
 }

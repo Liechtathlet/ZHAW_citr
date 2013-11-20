@@ -1,5 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
@@ -11,10 +12,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tbl_user")
-@NamedQueries({
-	@NamedQuery(name = "User.findAll", query = "SELECT p FROM UserDVO p"),
-	@NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.openId = :openId or p.username = :username") })
-public class UserDVO {
+@NamedQueries( { @NamedQuery(name = "User.findAll", query = "SELECT p FROM UserDVO p"),
+                @NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.openId = :openId or p.username = :username")
+        })
+public class UserDVO implements Serializable {
 	
 	@Id
 	@GeneratedValue
@@ -25,11 +26,11 @@ public class UserDVO {
 	//TODO: Remove password field if OAuth is implemented.
 	private String password;
 
-	@ManyToMany(cascade= javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name="tbl_user_group",
-			joinColumns = { @JoinColumn(name = "usr_id") },
-			inverseJoinColumns = { @JoinColumn(name="grp_id")})
-	private List<GroupDVO> groups;
+	@OneToMany(mappedBy="user")
+	private List<SubscriptionDVO> subscription;
+
+	@OneToMany(mappedBy="owner", fetch = FetchType.EAGER)
+	private List<GroupDVO> createdGroups;
 
 	/**
 	 * Creates a new instance of this class.
@@ -88,11 +89,19 @@ public class UserDVO {
 		username = aUsername;
 	}
 
-	public List<GroupDVO> getGroups() {
-		return groups;
+	public List<SubscriptionDVO> getSubscriptions() {
+		return subscription;
 	}
 
-	public void setGroups(List<GroupDVO> groups) {
-		this.groups = groups;
+	public void setSubscription(List<SubscriptionDVO> subscriptionDVOs) {
+		this.subscription = subscriptionDVOs;
+	}
+
+	public List<GroupDVO> getCreatedGroups() {
+		return createdGroups;
+	}
+
+	public void setCreatedGroups(List<GroupDVO> createdGroups) {
+		this.createdGroups = createdGroups;
 	}
 }

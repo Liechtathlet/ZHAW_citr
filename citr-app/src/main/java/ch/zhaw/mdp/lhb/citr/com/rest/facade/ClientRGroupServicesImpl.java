@@ -10,6 +10,7 @@ import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.com.rest.AbstractClientRBaseServiceImpl;
 import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
@@ -102,13 +103,25 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>(){});
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getGroupSubscriptions()
-     */
+	@Override
+	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptions(int aGroupId) {
+		preInit(RESTBackgroundTask.HTTP_POST_TASK);
+
+		StringBuffer url = new StringBuffer();
+		url.append(PropertyHelper.get("rest.service.group"));
+		url.append(aGroupId);
+		url.append("/getSubscriptions");
+
+		return execute(url.toString(), new TypeReference<ResponseObject<List<SubscriptionDTO>>>(){});
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getGroupSubscriptions()
+	 */
     @Override
-    public ResponseObject<List<GroupDTO>> getGroupSubscriptions() {
+    public ResponseObject<List<GroupDTO>> getUserSubscriptions() {
         preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
         StringBuffer url = new StringBuffer();
@@ -118,11 +131,22 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#searchGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
-     */
+	@Override
+	public ResponseObject<List<GroupDTO>> getOwnedGroup() {
+		preInit(RESTBackgroundTask.HTTP_POST_TASK);
+
+		StringBuffer url = new StringBuffer();
+		url.append(PropertyHelper.get("rest.service.group"));
+		url.append("/listOwnedGroups");
+
+		return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>(){});
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#searchGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
+	 */
     @Override
     public ResponseObject<List<GroupDTO>> searchGroup(GroupDTO aGroup) {
         preInit(RESTBackgroundTask.HTTP_POST_TASK);

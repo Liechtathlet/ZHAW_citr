@@ -1,17 +1,16 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
-import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * @author Daniel Brun
@@ -20,13 +19,20 @@ import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
  * Implementation of the DB-Service interface {@link IDBUserService}
  */
 @Service("userService")
-public class UserServiceJpaImpl implements IDBUserService {
+	public class UserServiceJpaImpl implements IDBUserService {
 
 	private EntityManager entityManager;
 
 	@Transactional(readOnly = true)
 	public UserDVO getById(int id) {
 		return entityManager.find(UserDVO.class, id);
+	}
+
+	@Transactional(readOnly = true)
+	public UserDVO getByOpenId(String openId) {
+		UserDVO user = new UserDVO();
+		user.setOpenId(openId);
+		return findPerson(user);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -74,26 +80,23 @@ public class UserServiceJpaImpl implements IDBUserService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public UserDVO findPerson(UserDVO user) {
-		UserDVO result = null;
-		
+
 		Query queryFindPerson = entityManager.createNamedQuery("User.findUser");
 		queryFindPerson.setParameter("username", user.getUsername());
 		queryFindPerson.setParameter("openId", user.getOpenId());
-		
-		List<UserDVO> users = queryFindPerson.getResultList();
-		
-		if(users.size() > 0) {
-			result = users.get(0);
-		}
-		
-		return result;
+
+		UserDVO userFromDb = (UserDVO)queryFindPerson.getSingleResult();
+		userFromDb.getSubscriptions().size();
+		userFromDb.getCreatedGroups().size();
+
+		return userFromDb;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<GroupDVO> getGroups(UserDVO user) {
-		return findPerson(user).getGroups();
+	public List<SubscriptionDVO> getsubscriptions(UserDVO user) {
+		return findPerson(user).getSubscriptions();
 	}
 
 	/**

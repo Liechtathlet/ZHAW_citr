@@ -4,15 +4,13 @@
 package ch.zhaw.mdp.lhb.citr.dto;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
+ * Provides methods to create DTOs from DVOs and backwards.
+ *
  * @author Daniel Brun
- * 
- *         Provides methods to create DTOs from DVOs and backwards.
  */
 public class UserFactory {
 
@@ -53,25 +51,5 @@ public class UserFactory {
 
 		return convUser;
 	}
-
-	/**
-	 * Gets the currently logged in user.
-	 *
-	 * @return The logged in user.
-	 */
-	public static UserDVO getLoggedInUser() {
-		UserDVO userDVO = new UserDVO();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Logger LOG = LoggerFactory.getLogger(UserFactory.class);
-		LOG.info(String.format("getLoggedInUser: auth user  %s", auth.getName()));
-		userDVO.setOpenId(auth.getName());
-
-		LOG.info(String.format("userDVO: open id %s, id %d, username %s", userDVO.getOpenId(), userDVO.getId(), userDVO.getUsername()));
-		return userDVO;
-	}
-
-
-
-
 
 }

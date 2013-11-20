@@ -1,9 +1,9 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service;
 
-import java.util.List;
-
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+
+import java.util.List;
 
 
 /**
@@ -17,7 +17,7 @@ public interface IDBUserService {
 	 * Saves the given user to the database.
 	 * No check / validation will be performed.
 	 * 
-	 * @param user The user to save.
+	 * @param person The user to save.
 	 * @return True if the user was saved successfully.
 	 */
 	public boolean save(UserDVO person);
@@ -29,7 +29,6 @@ public interface IDBUserService {
 	 */
 	public List<UserDVO> getAll();
 	
-	
 	/**
 	 * Gets the user by id.
 	 * 
@@ -37,11 +36,20 @@ public interface IDBUserService {
 	 * @return The user or null if no user could be found.
 	 */
 	public UserDVO getById(int id);
+
+
+	/**
+	 * Gets the user by openId.
+	 *
+	 * @param openId The openId of the user.
+	 * @return The user or null if no user could be found.
+	 */
+	public UserDVO getByOpenId(String openId);
 	
 	/**
 	 * Deletes the given user.
 	 * 
-	 * @param user The user to delete.
+	 * @param person The user to delete.
 	 * @return True if the user was deleted successfully.
 	 */
 	public boolean delete(UserDVO person);
@@ -50,7 +58,7 @@ public interface IDBUserService {
 	 * Updates the given user.
 	 * No check / validation will be performed.
 	 * 
-	 * @param user The user to update.
+	 * @param person The user to update.
 	 * @return True if the user was updated successfully.
 	 */
 	public boolean update(UserDVO person);
@@ -58,15 +66,15 @@ public interface IDBUserService {
 	/**
 	 * Finds the user which matchs the given criteria.
 	 * 
-	 * @param user The user to find.
+	 * @param person The user to find.
 	 * @return The user or null if no match could be found.
 	 */
 	public UserDVO findPerson(UserDVO person);
 
 	/**
 	 * Gets the groups of the provided user id.
-	 * @param id    The id of the user.
+	 * @param person The user to get the groups from.
 	 * @return      Groups of the user.
 	 */
-	public List<GroupDVO> getGroups(UserDVO person);
+	public List<SubscriptionDVO> getsubscriptions(UserDVO person);
 }

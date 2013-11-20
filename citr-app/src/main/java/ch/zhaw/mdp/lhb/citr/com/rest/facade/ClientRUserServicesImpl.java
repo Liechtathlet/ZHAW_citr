@@ -87,14 +87,4 @@ public class ClientRUserServicesImpl extends AbstractClientRBaseServiceImpl
 
 		return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>(){});
 	}
-
-	/* (non-Javadoc)
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRUserServices#getGroups()
-	 */
-	@Override
-	public ResponseObject<List<GroupDTO>> getGroups() {
-	    // TODO FIX-It, First Clean-Up server side
-	    return null;
-	}
-
 }

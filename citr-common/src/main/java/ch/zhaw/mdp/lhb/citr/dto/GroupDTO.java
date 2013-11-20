@@ -9,8 +9,15 @@ package ch.zhaw.mdp.lhb.citr.dto;
 public class GroupDTO {
 	
 	private String name;
+	private State state;
 	private String hashId;
 	private boolean publicGroup;
+
+	public enum State {
+		approved,
+		open,
+		none,
+	}
 	
 	/**
 	 * @return the name
@@ -24,6 +31,15 @@ public class GroupDTO {
 	public void setName(String aName) {
 		name = aName;
 	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
 	/**
 	 * @return the hashId
 	 */
@@ -49,9 +65,6 @@ public class GroupDTO {
 		publicGroup = aPublicGroup;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int hashCode = 17;
@@ -63,9 +76,6 @@ public class GroupDTO {
 		return hashCode;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object anObj) {
 		if(anObj == this){
