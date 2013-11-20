@@ -7,7 +7,7 @@
 		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO</class>
 		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO</class>
 		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO</class>
-		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO</class>
+		<class>ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO</class>
 
 		<properties>
 		    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>

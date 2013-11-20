@@ -3,12 +3,9 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
-import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
-import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
@@ -24,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 /**
  * @author Daniel Brun

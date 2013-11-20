@@ -1,7 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -86,7 +86,7 @@ import java.util.List;
 		queryFindPerson.setParameter("openId", user.getOpenId());
 
 		UserDVO userFromDb = (UserDVO)queryFindPerson.getSingleResult();
-		userFromDb.getUserGroups().size();
+		userFromDb.getSubscriptions().size();
 		userFromDb.getCreatedGroups().size();
 
 		return userFromDb;
@@ -95,8 +95,8 @@ import java.util.List;
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<UserGroupDVO> getUserGroups(UserDVO user) {
-		return findPerson(user).getUserGroups();
+	public List<SubscriptionDVO> getsubscriptions(UserDVO user) {
+		return findPerson(user).getSubscriptions();
 	}
 
 	/**

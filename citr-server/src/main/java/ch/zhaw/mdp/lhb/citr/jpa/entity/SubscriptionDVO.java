@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "tbl_user_group")
-public class UserGroupDVO implements Serializable {
+public class SubscriptionDVO implements Serializable {
 	@Id
 	@Column(name = "usr_id")
 	private int userId;

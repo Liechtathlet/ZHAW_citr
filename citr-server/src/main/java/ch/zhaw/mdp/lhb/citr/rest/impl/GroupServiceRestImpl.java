@@ -14,10 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
-import ch.zhaw.mdp.lhb.citr.dto.UserGroupFactory;
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionFactory;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserGroupDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserGroupService;
+import ch.zhaw.mdp.lhb.citr.jpa.service.IDBSubscriptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	private IDBUserService userService;
 
 	@Autowired
-	private IDBUserGroupService userGroupService;
+	private IDBSubscriptionService subscriptionService;
 	
 	@Autowired
 	private ReloadableResourceBundleMessageSource messageSource;
@@ -115,15 +115,15 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		UserDVO currentUser = getCurrentUser();
 		GroupDVO groupDVO = groupService.getById(aGroupId);
 
-		UserGroupDVO userGroup = new UserGroupDVO();
-		userGroup.setUserId(currentUser.getId());
-		userGroup.setUser(currentUser);
-		userGroup.setGroupId(groupDVO.getId());
-		userGroup.setGroup(groupDVO);
-		userGroup.setState("open");
+		SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
+		subscriptionDVO.setUserId(currentUser.getId());
+		subscriptionDVO.setUser(currentUser);
+		subscriptionDVO.setGroupId(groupDVO.getId());
+		subscriptionDVO.setGroup(groupDVO);
+		subscriptionDVO.setState("open");
 
 		try {
-			userGroupService.save(userGroup);
+			subscriptionService.save(subscriptionDVO);
 		} catch (Exception e) {
 			msg = String.format("Unable to store group subscription. Error: %s", e.getMessage());
 			LOG.error(msg);
@@ -147,8 +147,8 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		List<SubscriptionDTO> subscriptionDTOs = null;
 		try {
 			GroupDVO groupDVO = groupService.getById(aGroupId);
-			List<UserGroupDVO> userGroupDVOs = userGroupService.getSubscriptionRequestByGroup(groupDVO);
-			subscriptionDTOs = UserGroupFactory.createSubscriptionDTOs(userGroupDVOs);
+			List<SubscriptionDVO> subscriptionDVOs = subscriptionService.getSubscriptionRequestByGroup(groupDVO);
+			subscriptionDTOs = SubscriptionFactory.createSubscriptionDTOs(subscriptionDVOs);
 		} catch (Exception e)    {
 			msg = String.format("Unable to get group subscriptions. Error: %s", e.getMessage());
 			LOG.error(msg);
@@ -167,10 +167,10 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		boolean successfull = true;
 		String message = null;
 
-		List<UserGroupDVO> userGroupDVOs = getCurrentUser().getUserGroups();
+		List<SubscriptionDVO> subscriptionDVOs = getCurrentUser().getSubscriptions();
 		List<GroupDTO> groupDTOs = null;
 		try {
-			groupDTOs = GroupFactory.createUserGroups(userGroupDVOs);
+			groupDTOs = GroupFactory.createSubscriptions(subscriptionDVOs);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}

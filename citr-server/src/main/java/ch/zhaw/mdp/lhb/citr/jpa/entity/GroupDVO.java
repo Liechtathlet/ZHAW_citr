@@ -22,7 +22,7 @@ public class GroupDVO {
     private String mode;
 
 	@OneToMany(mappedBy="group")
-	private List<UserGroupDVO> userGroups;
+	private List<SubscriptionDVO> subscriptions;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "owner_usr_id")
@@ -65,11 +65,11 @@ public class GroupDVO {
 	mode = aMode;
     }
 
-	public List<UserGroupDVO> getUserGroups() {
-		return userGroups;
+	public List<SubscriptionDVO> getSubscriptions() {
+		return subscriptions;
 	}
 
-	public void setUserGroups(List<UserGroupDVO> userGroups) {
-		this.userGroups = userGroups;
+	public void setSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
+		this.subscriptions = subscriptionDVOs;
 	}
 }

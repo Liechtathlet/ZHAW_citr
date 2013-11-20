@@ -27,7 +27,7 @@ public class UserDVO implements Serializable {
 	private String password;
 
 	@OneToMany(mappedBy="user")
-	private List<UserGroupDVO> userGroups;
+	private List<SubscriptionDVO> subscription;
 
 	@OneToMany(mappedBy="owner", fetch = FetchType.EAGER)
 	private List<GroupDVO> createdGroups;
@@ -89,12 +89,12 @@ public class UserDVO implements Serializable {
 		username = aUsername;
 	}
 
-	public List<UserGroupDVO> getUserGroups() {
-		return userGroups;
+	public List<SubscriptionDVO> getSubscriptions() {
+		return subscription;
 	}
 
-	public void setUserGroups(List<UserGroupDVO> userGroups) {
-		this.userGroups = userGroups;
+	public void setSubscription(List<SubscriptionDVO> subscriptionDVOs) {
+		this.subscription = subscriptionDVOs;
 	}
 
 	public List<GroupDVO> getCreatedGroups() {
