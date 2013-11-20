@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Data-Class for 'User Group'.
  */
 @Entity
-@Table(name = "tbl_user_group")
+@Table(name = "tbl_subscription")
 public class SubscriptionDVO implements Serializable {
 	@Id
 	@Column(name = "usr_id")

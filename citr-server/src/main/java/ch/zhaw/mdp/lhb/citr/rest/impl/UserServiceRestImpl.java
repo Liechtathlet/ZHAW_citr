@@ -3,6 +3,8 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
@@ -32,7 +34,7 @@ import javax.ws.rs.core.MediaType;
 @Scope("singleton")
 public class UserServiceRestImpl implements IRUserServices {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserServiceRestImpl.class);
+	private static final LoggingStrategy LOG = LoggingFactory.get();
 
 	@Autowired
 	private IDBUserService userService;
@@ -62,13 +64,10 @@ public class UserServiceRestImpl implements IRUserServices {
 
 			if (resUser == null) {
 				LOG.info("Authentication for user: + " + anOpenId + " failed");
-				msg = messageSource.getMessage("msg.user.auth.failed", null,
-						null);
+				msg = messageSource.getMessage("msg.user.auth.failed", null, null);
 			} else {
-				LOG.info("Authentication for user: + " + anOpenId
-						+ " was successfull");
-				msg = messageSource.getMessage("msg.user.auth.succ",
-						new String[] { resUser.getUsername() }, null);
+				LOG.info("Authentication for user: + " + anOpenId + " was successfull");
+				msg = messageSource.getMessage("msg.user.auth.succ", new String[] { resUser.getUsername() }, null);
 				successfull = true;
 			}
 		} else {
@@ -90,8 +89,7 @@ public class UserServiceRestImpl implements IRUserServices {
 		String msg = "";
 
 		if (user == null) {
-			throw new IllegalArgumentException(
-					"The argument aUser must not be null!");
+			throw new IllegalArgumentException("The argument aUser must not be null!");
 		}
 
 		if (userService.findPerson(user) == null) {
@@ -99,16 +97,13 @@ public class UserServiceRestImpl implements IRUserServices {
 				if (userService.save(user)) {
 					result = Boolean.TRUE;
 				} else {
-					msg = messageSource.getMessage("msg.user.create.fail",
-							null, null);
+					msg = messageSource.getMessage("msg.user.create.fail", null, null);
 				}
 			} else {
-				msg = messageSource.getMessage("msg.user.data.invalid", null,
-						null);
+				msg = messageSource.getMessage("msg.user.data.invalid", null, null);
 			}
 		} else {
-			msg = messageSource
-					.getMessage("msg.user.alreadyExists", null, null);
+			msg = messageSource.getMessage("msg.user.alreadyExists", null, null);
 		}
 
 		return new ResponseObject<Boolean>(result, result.booleanValue(), msg);

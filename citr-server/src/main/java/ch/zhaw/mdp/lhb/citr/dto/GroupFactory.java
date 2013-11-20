@@ -23,7 +23,6 @@ public class GroupFactory {
 
 	public static List<GroupDTO> createSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
 		List<GroupDTO> groups = new ArrayList<GroupDTO>();
-		Logger LOG = LoggerFactory.getLogger(GroupFactory.class);
 
 		for (SubscriptionDVO subscriptionDVO : subscriptionDVOs) {
 			GroupDVO groupDVO = subscriptionDVO.getGroup();

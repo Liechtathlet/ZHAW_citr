@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.dto.SubscriptionFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
@@ -46,7 +48,7 @@ import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 @Scope("singleton")
 public class GroupServiceRestImpl implements IRGroupServices {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserServiceRestImpl.class);
+	private static final LoggingStrategy LOG = LoggingFactory.get();
 
 	@Autowired
 	private IDBGroupService groupService;
