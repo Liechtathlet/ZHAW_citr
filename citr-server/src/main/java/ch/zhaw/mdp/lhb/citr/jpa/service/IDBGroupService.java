@@ -34,4 +34,6 @@ public interface IDBGroupService {
 	 * @return  Id of the created group.
 	 */
 	public int create(GroupDVO group);
+
+
 }

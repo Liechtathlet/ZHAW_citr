@@ -230,7 +230,24 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Secured("ROLE_USER")
 	@Path("{groupId}/subscribe")
 	public ResponseObject<Boolean> subscribe(@PathParam("groupId") int aGroupId) {
-		return new ResponseObject<Boolean>(true, true, null);
+
+		boolean success = false;
+		String message = null;
+		GroupDVO groupDVO = groupService.getById(aGroupId);
+
+		//LOG.info(String.format("Group id: %d Mode: %s", groupDVO.getId(), groupDVO.getMode()));
+		if (groupDVO.getMode().equals("public")) {
+			UserDVO userDVO = getCurrentUser();
+			SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
+			subscriptionDVO.setUserId(userDVO.getId());
+			subscriptionDVO.setGroupId(aGroupId);
+			subscriptionDVO.setState("approved");
+			subscriptionService.save(subscriptionDVO);
+			success = true;
+		} else {
+			message = "Group is not public. Send subscription request.";
+		}
+		return new ResponseObject<Boolean>(success, success, message);
 	}
 
 	private UserDVO getCurrentUser() {
