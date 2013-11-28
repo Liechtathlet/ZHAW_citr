@@ -6,6 +6,7 @@ package ch.zhaw.mdp.lhb.citr.rest;
 import java.util.List;
 
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
 import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 
@@ -75,8 +76,16 @@ public interface IRGroupServices {
 	/**
 	 * Subscribe to a group.
 	 *
-	 * @param aGroup The group to subscribe
+	 * @param aGroupId The group to subscribe to.
 	 * @return True if the subscribed successfully.
 	 */
-	public ResponseObject<Boolean> subscribe(GroupDTO aGroup);
+	public ResponseObject<Boolean> subscribe(int aGroupId);
+
+	/**
+	 * Gets messages of a group
+	 *
+	 * @param aGroupId The id of the group
+	 * @return List of messages of the group.
+	 */
+	public ResponseObject<List<MessageDTO>> getMessage(int aGroupId);
 }

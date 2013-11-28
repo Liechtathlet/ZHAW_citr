@@ -3,6 +3,7 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -15,8 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
-import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
-import ch.zhaw.mdp.lhb.citr.dto.SubscriptionFactory;
+import ch.zhaw.mdp.lhb.citr.dto.*;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBSubscriptionService;
@@ -30,8 +30,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
-import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBGroupService;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
@@ -230,13 +228,32 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
-	@Path("/subscribe")
-	public ResponseObject<Boolean> subscribe(GroupDTO aGroup) {
+	@Path("{groupId}/subscribe")
+	public ResponseObject<Boolean> subscribe(@PathParam("groupId") int aGroupId) {
 		return new ResponseObject<Boolean>(true, true, null);
 	}
 
 	private UserDVO getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return userService.getByOpenId(auth.getName());
+	}
+
+	@GET
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("{groupId}/getMessages")
+	public ResponseObject<List<MessageDTO>> getMessage(@PathParam("groupId") int aGroupId) {
+		List<MessageDTO> list = new ArrayList<MessageDTO>();
+		MessageDTO m1 = new MessageDTO();
+		m1.setGroupId(aGroupId);
+		m1.setMessageText("Voll cool");
+		MessageDTO m2 = new MessageDTO();
+		m2.setGroupId(aGroupId);
+		m2.setMessageText("Voll uncool");
+		list.add(m1);
+		list.add(m2);
+		return new ResponseObject<List<MessageDTO>>(list, true, null);
 	}
 }
