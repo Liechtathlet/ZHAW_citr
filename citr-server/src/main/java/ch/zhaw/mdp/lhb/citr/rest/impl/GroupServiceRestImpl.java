@@ -225,6 +225,16 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		return null;
 	}
 
+	@Override
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("/subscribe")
+	public ResponseObject<Boolean> subscribe(GroupDTO aGroup) {
+		return new ResponseObject<Boolean>(true, true, null);
+	}
+
 	private UserDVO getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return userService.getByOpenId(auth.getName());

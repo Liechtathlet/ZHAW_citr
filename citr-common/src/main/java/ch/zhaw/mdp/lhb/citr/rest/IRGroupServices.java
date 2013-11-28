@@ -64,10 +64,19 @@ public interface IRGroupServices {
 
 
 	/**
-	 * Gets the subscriptions for a group
+	 * Gets the subscriptions for a group.
 	 *
 	 * @param aGroupId The id of the group
 	 * @return True if the request could be created successfully.
 	 */
 	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptions(int aGroupId);
+
+
+	/**
+	 * Subscribe to a group.
+	 *
+	 * @param aGroup The group to subscribe
+	 * @return True if the subscribed successfully.
+	 */
+	public ResponseObject<Boolean> subscribe(GroupDTO aGroup);
 }
