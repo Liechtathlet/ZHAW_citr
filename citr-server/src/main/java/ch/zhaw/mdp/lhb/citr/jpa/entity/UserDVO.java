@@ -7,14 +7,14 @@ import javax.persistence.*;
 
 /**
  * @author Daniel Brun
- *
- * Data-Class for 'User'.
+ * 
+ *         Data-Class for 'User'.
  */
 @Entity
 @Table(name = "tbl_user")
 @NamedQueries( { @NamedQuery(name = "User.findAll", query = "SELECT p FROM UserDVO p"),
-		@NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.openId = :openId or p.username = :username")
-	})
+                @NamedQuery(name = "User.findUser", query = "SELECT p FROM UserDVO p where p.openId = :openId or p.username = :username")
+        })
 public class UserDVO implements Serializable {
 	
 	@Id

@@ -8,36 +8,36 @@ import java.util.List;
 
 public class GroupFactory {
 
-	public static List<GroupDTO> createGroups(List<GroupDVO> groupDVOs) {
-		List<GroupDTO> groups = new ArrayList<GroupDTO>();
+        public static List<GroupDTO> createGroups(List<GroupDVO> groupDVOs) {
+                List<GroupDTO> groups = new ArrayList<GroupDTO>();
 
-		//TODO: Mode evtl. als boolean?
-		for (GroupDVO groupDVO : groupDVOs) {
-			groups.add(createGroupDTO(groupDVO));
-		}
+                //TODO: Mode evtl. als boolean?
+                for (GroupDVO groupDVO : groupDVOs) {
+                        groups.add(createGroupDTO(groupDVO));
+                }
 
-		return groups;
-	}
+                return groups;
+        }
 
-	public static List<GroupDTO> createSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
-		List<GroupDTO> groups = new ArrayList<GroupDTO>();
+        public static List<GroupDTO> createSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
+                List<GroupDTO> groups = new ArrayList<GroupDTO>();
 
-		for (SubscriptionDVO subscriptionDVO : subscriptionDVOs) {
-			GroupDVO groupDVO = subscriptionDVO.getGroup();
-			GroupDTO dto = new GroupDTO();
-			dto.setName(groupDVO.getName());
-			dto.setPublicGroup(groupDVO.getMode() == "public");
-			dto.setState(subscriptionDVO.getState() == "approved" ? GroupDTO.State.approved : GroupDTO.State.open);
-			groups.add(dto);
-		}
+                for (SubscriptionDVO subscriptionDVO : subscriptionDVOs) {
+                        GroupDVO groupDVO = subscriptionDVO.getGroup();
+                        GroupDTO dto = new GroupDTO();
+                        dto.setName(groupDVO.getName());
+                        dto.setPublicGroup(groupDVO.getMode() == "public");
+                        dto.setState(subscriptionDVO.getState() == "approved" ? GroupDTO.State.approved : GroupDTO.State.open);
+                        groups.add(dto);
+                }
 
-		return groups;
-	}
+                return groups;
+        }
 
-	public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
-		GroupDTO dto = new GroupDTO();
-		dto.setName(groupDVO.getName());
-		dto.setPublicGroup(groupDVO.getMode() == "public");
-		return dto;
-	}
+        public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
+                GroupDTO dto = new GroupDTO();
+                dto.setName(groupDVO.getName());
+                dto.setPublicGroup(groupDVO.getMode() == "public");
+                return dto;
+        }
 }

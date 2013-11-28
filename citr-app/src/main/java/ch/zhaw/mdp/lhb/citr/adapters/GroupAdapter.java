@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 
 import java.util.ArrayList;

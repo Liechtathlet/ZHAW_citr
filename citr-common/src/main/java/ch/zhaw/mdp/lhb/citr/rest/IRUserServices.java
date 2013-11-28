@@ -3,11 +3,8 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest;
 
-import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-
-import java.util.List;
 
 /**
  * @author Daniel Brun

@@ -10,47 +10,71 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.COMPONENT_ENABLED_STATE_ENABLED" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/citr"
         android:label="Citr"
         android:theme="@style/AppTheme" >
-
-        <activity android:name=".activities.LoginActivity" android:label="Citr">
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="Citr" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activities.MainActivity"
-          android:label="Citr"
-          android:parentActivityName="Login">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="Citr"
+            android:parentActivityName="Login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activities.GroupCreateActivity"
-          android:label="Gruppe erstellen"
-          android:parentActivityName="Main">
+        <activity
+            android:name=".activities.GroupCreateActivity"
+            android:label="Gruppe erstellen"
+            android:parentActivityName="Main" >
         </activity>
-
-        <activity android:name=".activities.CitrCreateActivity"
-                  android:label="Citr veröffentlichen"
-                  android:parentActivityName="Main">
+        <activity
+            android:name=".activities.CitrCreateActivity"
+            android:label="Citr veröffentlichen"
+            android:parentActivityName="Main" >
         </activity>
-
-        <activity android:name=".activities.GroupList"
-                  android:label="Gruppe suchen"
-                  android:parentActivityName="Main">
+        <activity
+            android:name=".activities.GroupList"
+            android:label="Gruppe suchen"
+            android:parentActivityName="Main" >
+        </activity>
+        <activity
+            android:name=".activities.ErrorActivity"
+            android:label="@string/app_name" >
         </activity>
         
-         <activity
-            android:name=".activities.ErrorActivity"
-            android:label="@string/app_name">
+        <activity android:name=".activities.ConfigureWidgetActivity" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".widget.CitrWidgetProvider"
+            android:icon="@drawable/citr"
+            android:label="Citr" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <service android:name=".widget.CitrWidgetUpdateService" >
+        </service>
     </application>
 
 </manifest>
