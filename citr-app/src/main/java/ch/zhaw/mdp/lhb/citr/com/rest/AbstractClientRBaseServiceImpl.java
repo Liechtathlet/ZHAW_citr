@@ -6,9 +6,9 @@ package ch.zhaw.mdp.lhb.citr.com.rest;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import ch.zhaw.mdp.lhb.citr.activities.CitrBaseActivity;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
@@ -27,19 +27,19 @@ public abstract class AbstractClientRBaseServiceImpl {
 
     private static final String TAG = "AbstractClientRBaseServiceImpl";
 
-    protected CitrBaseActivity activity;
+    protected Context context;
     protected RESTBackgroundTask restTask;
     protected ObjectMapper mapper;
 
+   
     /**
      * Creates a new instance of this class.
      *
-     * @param aActivity The underlining activity.
+     * @param aContext The context.
      */
-    public AbstractClientRBaseServiceImpl(CitrBaseActivity aActivity) {
-        super();
-        activity = aActivity;
-
+    public AbstractClientRBaseServiceImpl(Context aContext) {
+        context = aContext;
+        
         mapper = new ObjectMapper();
     }
 
@@ -49,7 +49,7 @@ public abstract class AbstractClientRBaseServiceImpl {
      * @param aHttpType The http type.
      */
     protected void preInit(int aHttpType) {
-        restTask = new RESTBackgroundTask(activity);
+        restTask = new RESTBackgroundTask(context);
         restTask.setHttpRequestType(aHttpType);
     }
 

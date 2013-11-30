@@ -1,19 +1,21 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.adapters.GroupAdapter;
 import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 import ch.zhaw.mdp.lhb.citr.util.SharedPreferencHelper;
 import ch.zhaw.mdp.lhb.citr.widget.CitrWidgetProvider;
@@ -37,7 +39,7 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
     /**
      * container for all groups where i'm member of it
      */
-    private List groupsMemberOf = new ArrayList();
+    private List<GroupDTO> groupsMemberOf;
 
     private int widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
@@ -49,17 +51,20 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
-	groupServices = new ClientRGroupServicesImpl(this);
+	Log.i(TAG, "Starting widget configuration");
 
-	// FIXME:Remove
-	// starts: dummy groups
-	GroupDTO group1 = new GroupDTO();
-	group1.setName("Gruppe 1");
-	GroupDTO group2 = new GroupDTO();
-	group2.setName("Gruppe 2");
-	groupsMemberOf.add(group1);
-	groupsMemberOf.add(group2);
-	// end: dummy groups
+	//Load group subscriptions.
+	groupServices = new ClientRGroupServicesImpl(this);
+	
+	ResponseObject<List<GroupDTO>> resp = groupServices
+		.getUserSubscriptions();
+	
+	groupsMemberOf = resp.getResponseObject();
+
+	if(!resp.isSuccessfull() || groupsMemberOf.isEmpty()){
+	    Toast.makeText(getApplicationContext(), resp.getDisplayMessage(),
+		    Toast.LENGTH_LONG).show();
+	}	
 
 	// Set the result to CANCELED. This will cause the widget host to cancel
 	// out of the widget placement if they press the back button.
@@ -82,6 +87,7 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
 		GroupDTO group = (GroupDTO) aParent.getItemAtPosition(aPos);
 
 		// Store config
+		//TODO: Change id
 		sharedPrefs.storeString(
 			SharedPreferencHelper.SHARED_PREF_WIDGET, "config-"
 				+ widgetId, group.getHashId());

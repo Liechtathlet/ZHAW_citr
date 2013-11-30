@@ -3,14 +3,14 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;

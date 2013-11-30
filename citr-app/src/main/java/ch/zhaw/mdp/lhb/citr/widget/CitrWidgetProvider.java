@@ -3,6 +3,7 @@
  */
 package ch.zhaw.mdp.lhb.citr.widget;
 
+import java.util.List;
 import java.util.Random;
 
 import android.appwidget.AppWidgetManager;
@@ -12,6 +13,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import ch.zhaw.mdp.lhb.citr.R;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
+import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
+import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
+import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 import ch.zhaw.mdp.lhb.citr.util.SharedPreferencHelper;
 
 /**
@@ -65,7 +70,17 @@ public class CitrWidgetProvider extends AppWidgetProvider {
 		SharedPreferencHelper.SHARED_PREF_WIDGET, "config-"
 			+ appWidgetId);
 	
-	// TODO: Call Service
+	IRGroupServices groupServices = new ClientRGroupServicesImpl(context);
+	
+	// TODO: Group Id
+	ResponseObject<List<MessageDTO>> resp = groupServices.getMessage(0);
+	
+	if(resp.isSuccessfull()){
+	
+	}else{
+	    
+	}
+	
 	String citrText = groupIdHash + "-" + (new Random().nextInt(100));
 
 	RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
