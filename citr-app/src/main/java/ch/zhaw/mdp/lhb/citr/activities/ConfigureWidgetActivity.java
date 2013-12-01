@@ -2,8 +2,10 @@ package ch.zhaw.mdp.lhb.citr.activities;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
+import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 import ch.zhaw.mdp.lhb.citr.util.SharedPreferencHelper;
 import ch.zhaw.mdp.lhb.citr.widget.CitrWidgetProvider;
 
@@ -42,6 +45,7 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
     private List<GroupDTO> groupsMemberOf;
 
     private int widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private SessionHelper preferences;
 
     /**
      * Called when the activity is first created.
@@ -51,75 +55,97 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
+	preferences = new SessionHelper(this);
+	
 	Log.i(TAG, "Starting widget configuration");
 
-	//Load group subscriptions.
-	groupServices = new ClientRGroupServicesImpl(this);
-	
-	ResponseObject<List<GroupDTO>> resp = groupServices
-		.getUserSubscriptions();
-	
-	groupsMemberOf = resp.getResponseObject();
+	// Check if user data is present
+	if (preferences.getPreferenceDefaultNull(SessionHelper.KEY_USERNAME) == null
+		|| preferences
+			.getPreferenceDefaultNull(SessionHelper.KEY_PASSWORD) == null) {
+	    AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
+	    adBuilder.setCancelable(false); // This blocks the 'BACK' button
+	    adBuilder.setMessage(R.string.auth_required);
+	    adBuilder.setPositiveButton(R.string.ok,
+		    new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			    dialog.dismiss();
+			    System.exit(0);
+			}
+		    });
+	    AlertDialog ad = adBuilder.create();
+	    ad.show();
+	} else {
 
-	if(!resp.isSuccessfull() || groupsMemberOf.isEmpty()){
-	    Toast.makeText(getApplicationContext(), resp.getDisplayMessage(),
-		    Toast.LENGTH_LONG).show();
-	}	
+	    // Load group subscriptions.
+	    groupServices = new ClientRGroupServicesImpl(this);
 
-	// Set the result to CANCELED. This will cause the widget host to cancel
-	// out of the widget placement if they press the back button.
-	setResult(RESULT_CANCELED);
+	    ResponseObject<List<GroupDTO>> resp = groupServices
+		    .getUserSubscriptions();
 
-	// Set the view layout resource to use.
-	setContentView(R.layout.widget_configure_layout);
+	    groupsMemberOf = resp.getResponseObject();
 
-	// Get the list view
-	ListView list = (ListView) findViewById(R.id.lvMyGroupResult);
-	final GroupAdapter adapterMemberOf = new GroupAdapter(this,
-		this.groupsMemberOf);
-	list.setAdapter(adapterMemberOf);
+	    if (!resp.isSuccessfull() || groupsMemberOf.isEmpty()) {
+		Toast.makeText(getApplicationContext(),
+			resp.getDisplayMessage(), Toast.LENGTH_LONG).show();
+	    }
 
-	// add listener
-	list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView<?> aParent, View aView,
-		    int aPos, long anId) {
-		GroupDTO group = (GroupDTO) aParent.getItemAtPosition(aPos);
+	    // Set the result to CANCELED. This will cause the widget host to cancel
+	    // out of the widget placement if they press the back button.
+	    setResult(RESULT_CANCELED);
 
-		// Store config
-		//TODO: Change id
-		sharedPrefs.storeString(
-			SharedPreferencHelper.SHARED_PREF_WIDGET, "config-"
-				+ widgetId, group.getHashId());
+	    // Set the view layout resource to use.
+	    setContentView(R.layout.widget_configure_layout);
 
-		// Update Widget
-		final Context context = ConfigureWidgetActivity.this;
-		AppWidgetManager appWidgetManager = AppWidgetManager
-			.getInstance(context);
+	    // Get the list view
+	    ListView list = (ListView) findViewById(R.id.lvMyGroupResult);
+	    final GroupAdapter adapterMemberOf = new GroupAdapter(this,
+		    this.groupsMemberOf);
+	    list.setAdapter(adapterMemberOf);
 
-		CitrWidgetProvider.updateAppWidget(context, appWidgetManager,
-			widgetId);
+	    // add listener
+	    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> aParent, View aView,
+			int aPos, long anId) {
+		    GroupDTO group = (GroupDTO) aParent.getItemAtPosition(aPos);
 
-		// Return
-		Intent resultValue = new Intent();
-		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-			widgetId);
-		setResult(RESULT_OK, resultValue);
+		    // Store config
+		    // TODO: Change id
+		    sharedPrefs.storeString(
+			    SharedPreferencHelper.SHARED_PREF_WIDGET, "config-"
+				    + widgetId, group.getHashId());
+
+		    // Update Widget
+		    final Context context = ConfigureWidgetActivity.this;
+		    AppWidgetManager appWidgetManager = AppWidgetManager
+			    .getInstance(context);
+
+		    CitrWidgetProvider.updateAppWidget(context,
+			    appWidgetManager, widgetId);
+
+		    // Return
+		    Intent resultValue = new Intent();
+		    resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+			    widgetId);
+		    setResult(RESULT_OK, resultValue);
+		    finish();
+		}
+	    });
+
+	    // Get widget id
+	    Intent intent = getIntent();
+	    Bundle extras = intent.getExtras();
+	    if (extras != null) {
+		widgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+			AppWidgetManager.INVALID_APPWIDGET_ID);
+	    }
+
+	    // Fail if no valid id
+	    if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
 		finish();
 	    }
-	});
-
-	// Get widget id
-	Intent intent = getIntent();
-	Bundle extras = intent.getExtras();
-	if (extras != null) {
-	    widgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
-		    AppWidgetManager.INVALID_APPWIDGET_ID);
-	}
-
-	// Fail if no valid id
-	if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-	    finish();
 	}
     }
 }

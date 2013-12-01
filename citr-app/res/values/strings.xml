@@ -12,9 +12,14 @@
     <string name="login_button">anmelden</string>
 
 	<!-- ToRemove -->
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Div -->
+    <string name="ok">OK</string>
+    
+    <!-- Auth -->
+    <string name="auth_required">Bitte melden Sie sich initial in der Citr-App an!</string>
+    
     <!--
     <string name="hello">Hello citr-app!</string>
 	<string name="text">Jersey Text</string>

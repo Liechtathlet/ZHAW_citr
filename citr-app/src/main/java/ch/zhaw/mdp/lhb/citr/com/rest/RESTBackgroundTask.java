@@ -221,7 +221,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String aResult) {
 	parameters.clear();
-	
+
 	if (uiProgressDialog != null) {
 	    uiProgressDialog.dismiss();
 	}

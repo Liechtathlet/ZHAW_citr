@@ -17,6 +17,7 @@ import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
+import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 import ch.zhaw.mdp.lhb.citr.util.SharedPreferencHelper;
 
 /**
@@ -65,31 +66,38 @@ public class CitrWidgetProvider extends AppWidgetProvider {
 	    AppWidgetManager appWidgetManager, int appWidgetId) {
 	Log.d(TAG, "updateAppWidget appWidgetId=" + appWidgetId);
 	SharedPreferencHelper prefs = new SharedPreferencHelper(context);
+	SessionHelper sessPrefs = new SessionHelper(context);
 
-	String groupIdHash = prefs.getString(
-		SharedPreferencHelper.SHARED_PREF_WIDGET, "config-"
-			+ appWidgetId);
-	
-	IRGroupServices groupServices = new ClientRGroupServicesImpl(context);
-	
-	// TODO: Group Id
-	ResponseObject<List<MessageDTO>> resp = groupServices.getMessage(0);
-	
-	if(resp.isSuccessfull()){
-	
-	}else{
-	    
+	if (sessPrefs.getPreferenceDefaultNull(SessionHelper.KEY_USERNAME) != null
+		&& sessPrefs
+			.getPreferenceDefaultNull(SessionHelper.KEY_PASSWORD) != null) {
+
+	    String groupIdHash = prefs.getString(
+		    SharedPreferencHelper.SHARED_PREF_WIDGET, "config-"
+			    + appWidgetId);
+
+	    IRGroupServices groupServices = new ClientRGroupServicesImpl(
+		    context);
+
+	    // TODO: Group Id
+	    ResponseObject<List<MessageDTO>> resp = groupServices.getMessage(0);
+
+	    if (resp.isSuccessfull()) {
+
+	    } else {
+
+	    }
+
+	    String citrText = groupIdHash + "-" + (new Random().nextInt(100));
+
+	    RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+		    R.layout.widget_layout);
+
+	    // Set the text
+	    remoteViews.setTextViewText(R.id.citrText, citrText);
+
+	    // Tell the widget manager
+	    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
 	}
-	
-	String citrText = groupIdHash + "-" + (new Random().nextInt(100));
-
-	RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-		R.layout.widget_layout);
-
-	// Set the text
-	remoteViews.setTextViewText(R.id.citrText, citrText);
-
-	// Tell the widget manager
-	appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 }
