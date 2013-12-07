@@ -1,5 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.adapters;
 
+import android.graphics.Color;
+import android.widget.RelativeLayout;
 import ch.zhaw.mdp.lhb.citr.R;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import sun.plugin2.util.ColorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +59,45 @@ public class GroupAdapter extends ArrayAdapter<GroupDTO> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.row_group, parent, false);
 
+        RelativeLayout rowEntry = (RelativeLayout) rowView.findViewById(R.id.rlRowGroup);
         TextView groupName = (TextView) rowView.findViewById(R.id.tvGroupName);
         TextView groupTextLeft = (TextView) rowView.findViewById(R.id.tvGroupTextLeft);
         TextView groupTextRight = (TextView) rowView.findViewById(R.id.tvGroupTextRight);
 
+        // defaults android color from: http://developer.android.com/design/style/color.html
+        int bgInt = Color.WHITE;
+        int textColor = Color.BLACK;
+        String userStateText = "";
+
+        GroupDTO.State userGroupState = (GroupDTO.State) this.groups.get(position).getState();
+        if (userGroupState == null) {
+            userGroupState = GroupDTO.State.none;
+        }
+
+        switch (userGroupState) {
+            case approved:
+                // bgInt = Color.parseColor("#99CC00");
+                textColor = Color.parseColor("#669900");
+                userStateText = "Mitglied";
+                break;
+            case open:
+                // bgInt = Color.parseColor("#FFBB33");
+                textColor = Color.parseColor("#FF8800");
+                userStateText = "Anfrage ausstehend";
+                break;
+            default: // none
+                // bgInt = Color.parseColor("#FF4444");
+                // textColor = Color.parseColor("#CC0000");
+                userStateText = "";
+                break;
+        }
+
+        // rowEntry.setBackgroundColor(bgInt);
+
         groupName.setText(this.groups.get(position).getName());
         groupTextLeft.setText("");
-        groupTextRight.setText("");
+        groupTextRight.setText(userStateText);
+        groupTextRight.setTextColor(textColor);
 
         // textView.setText(values[position]);
 

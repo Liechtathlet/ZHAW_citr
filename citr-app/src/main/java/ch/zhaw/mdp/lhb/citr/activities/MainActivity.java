@@ -40,12 +40,12 @@ public class MainActivity extends CitrBaseActivity {
     /**
      * container for all groups where i'm the owner
      */
-    private List groupsOwn = new ArrayList();
+    private ResponseObject<List<GroupDTO>> groupsOwn;
 
     /**
      * container for all groups where i'm member of it
      */
-    private List groupsMemberOf = new ArrayList();
+    private ResponseObject<List<GroupDTO>> groupsMemberOf;
 
     /**
      * Service to manage user data via rest
@@ -81,6 +81,8 @@ public class MainActivity extends CitrBaseActivity {
         preferences = new SessionHelper(this);
         groupServices = new ClientRGroupServicesImpl(this);
 
+
+        /*
         // starts: dummy groups
         GroupDTO group1 = new GroupDTO();
         group1.setName("Gruppe 1");
@@ -91,6 +93,14 @@ public class MainActivity extends CitrBaseActivity {
         this.groupsOwn.add(group2);
         this.groupsMemberOf  = this.groupsOwn;
         // end: dummy groups
+        */
+
+
+        // get groups via rest
+
+        this.groupsOwn = groupServices.getOwnedGroup();
+        this.groupsMemberOf = groupServices.getUserSubscriptions();
+
 
         // load groups via rest
         //Set values to session
@@ -111,13 +121,13 @@ public class MainActivity extends CitrBaseActivity {
 
         // set list with own groups
         final ListView lvOwnGroups = (ListView) findViewById(R.id.lvOwnGroups);
-        final GroupAdapter adapterOwn = new GroupAdapter(this, this.groupsOwn);
+        final GroupAdapter adapterOwn = new GroupAdapter(this, (List<GroupDTO>) this.groupsOwn);
         lvOwnGroups.setAdapter(adapterOwn);
         this.setIntentOfGroupDetails(lvOwnGroups);
 
         // set list with "member of"-groups
         final ListView lvMemberOfGroups = (ListView) findViewById(R.id.lvMemberOfGroups);
-        final GroupAdapter adapterMemberOf = new GroupAdapter(this, this.groupsMemberOf);
+        final GroupAdapter adapterMemberOf = new GroupAdapter(this, (List<GroupDTO>) this.groupsMemberOf);
         lvMemberOfGroups.setAdapter(adapterMemberOf);
         this.setIntentOfGroupDetails(lvMemberOfGroups);
 

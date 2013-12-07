@@ -51,20 +51,8 @@ public class GroupList extends CitrBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_list);
 
+        // get groups via rest
         groupServices = new ClientRGroupServicesImpl(this);
-
-        /*
-        // starts: dummy groups
-        GroupDTO group1 = new GroupDTO();
-        group1.setName("Gruppe 1");
-        GroupDTO group2 = new GroupDTO();
-        group2.setName("Gruppe 2");
-        this.groupsResult = new ArrayList();
-        this.groupsResult.add(group1);
-        this.groupsResult.add(group2);
-        // end: dummy groups
-        */
-
 
         ResponseObject<List<GroupDTO>> respGroupsAll = groupServices.getAllGroups();
 
