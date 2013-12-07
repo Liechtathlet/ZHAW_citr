@@ -1,31 +1,22 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
+import java.util.List;
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.adapters.GroupAdapter;
 import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRUserServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
-import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
 import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Michael Hadorn
@@ -121,13 +112,13 @@ public class MainActivity extends CitrBaseActivity {
 
         // set list with own groups
         final ListView lvOwnGroups = (ListView) findViewById(R.id.lvOwnGroups);
-        final GroupAdapter adapterOwn = new GroupAdapter(this, (List<GroupDTO>) this.groupsOwn);
+        final GroupAdapter adapterOwn = new GroupAdapter(this, this.groupsOwn.getResponseObject());
         lvOwnGroups.setAdapter(adapterOwn);
         this.setIntentOfGroupDetails(lvOwnGroups);
 
         // set list with "member of"-groups
         final ListView lvMemberOfGroups = (ListView) findViewById(R.id.lvMemberOfGroups);
-        final GroupAdapter adapterMemberOf = new GroupAdapter(this, (List<GroupDTO>) this.groupsMemberOf);
+        final GroupAdapter adapterMemberOf = new GroupAdapter(this, this.groupsMemberOf.getResponseObject());
         lvMemberOfGroups.setAdapter(adapterMemberOf);
         this.setIntentOfGroupDetails(lvMemberOfGroups);
 

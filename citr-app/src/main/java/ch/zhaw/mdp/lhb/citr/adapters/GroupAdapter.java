@@ -1,20 +1,17 @@
 package ch.zhaw.mdp.lhb.citr.adapters;
 
-import android.graphics.Color;
-import android.widget.RelativeLayout;
-import ch.zhaw.mdp.lhb.citr.R;
+import java.util.List;
+
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
-import sun.plugin2.util.ColorUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author michael

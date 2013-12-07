@@ -145,7 +145,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
 
     @Override
     public ResponseObject<List<GroupDTO>> getOwnedGroup() {
-        preInit(RESTBackgroundTask.HTTP_POST_TASK);
+        preInit(RESTBackgroundTask.HTTP_GET_TASK);
 
         StringBuffer url = new StringBuffer();
         url.append(PropertyHelper.get("rest.service.group"));
