@@ -72,43 +72,9 @@ public class MainActivity extends CitrBaseActivity {
         preferences = new SessionHelper(this);
         groupServices = new ClientRGroupServicesImpl(this);
 
-
-        /*
-        // starts: dummy groups
-        GroupDTO group1 = new GroupDTO();
-        group1.setName("Gruppe 1");
-        GroupDTO group2 = new GroupDTO();
-        group2.setName("Gruppe 2");
-        this.groupsOwn = new ArrayList();
-        this.groupsOwn.add(group1);
-        this.groupsOwn.add(group2);
-        this.groupsMemberOf  = this.groupsOwn;
-        // end: dummy groups
-        */
-
-
         // get groups via rest
-
         this.groupsOwn = groupServices.getOwnedGroup();
         this.groupsMemberOf = groupServices.getUserSubscriptions();
-
-
-        // load groups via rest
-        //Set values to session
-        /*
-        preferences.setPreference(SessionHelper.KEY_USERNAME, openId);
-        //TODO: Remove if OAuth is implemented
-        preferences.setPreference(SessionHelper.KEY_PASSWORD, "strongpassword1");
-        */
-
-        /*
-        ResponseObject<List<GroupDTO>> respGroupsUser = userServices.getGroups();
-
-
-        ResponseObject<List<GroupDTO>> respGroupsAll = groupServices.getAllGroups();
-         */
-
-
 
         // set list with own groups
         final ListView lvOwnGroups = (ListView) findViewById(R.id.lvOwnGroups);
@@ -122,37 +88,6 @@ public class MainActivity extends CitrBaseActivity {
         lvMemberOfGroups.setAdapter(adapterMemberOf);
         this.setIntentOfGroupDetails(lvMemberOfGroups);
 
-
-        /*
-        super.onCreate(savedInstanceState);
-
-        // Get the message from the intent
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Login.CITR_MAINPAGE);
-
-        // Create the text view
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message + " hallo");
-
-        // Set the text view as the activity layout
-        setContentView(textView);
-
-        // Make sure we're running on Honeycomb or higher to use ActionBar APIs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-*/
-        // setContentView(R.layout.main);
-
-       /*
-        // Make sure we're running on Honeycomb or higher to use ActionBar APIs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        */
     }
 
 
