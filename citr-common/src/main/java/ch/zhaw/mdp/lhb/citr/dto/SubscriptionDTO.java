@@ -9,13 +9,13 @@ public class SubscriptionDTO {
 	
 	private UserDTO user;
 	private GroupDTO group;
-	private State state;
+	private SubscriptionDTO.State state;
 
-	public State getState() {
+	public SubscriptionDTO.State getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(SubscriptionDTO.State state) {
 		this.state = state;
 	}
 

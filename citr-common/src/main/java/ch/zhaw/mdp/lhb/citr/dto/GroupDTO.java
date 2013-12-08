@@ -24,9 +24,8 @@ public class GroupDTO {
 	}
 
 	public enum State {
-		approved,
-		open,
-		none,
+		ACTIVE,
+		PASSIVE
 	}
 	
 	/**

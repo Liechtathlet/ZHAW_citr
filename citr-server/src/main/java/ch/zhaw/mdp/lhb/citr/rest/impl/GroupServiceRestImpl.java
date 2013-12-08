@@ -175,7 +175,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		List<SubscriptionDVO> subscriptionDVOs = getCurrentUser().getSubscriptions();
 		List<GroupDTO> groupDTOs = null;
 		try {
-			groupDTOs = GroupFactory.createSubscriptions(subscriptionDVOs);
+			groupDTOs = GroupFactory.createGroupsFromSubscriptions(subscriptionDVOs);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}
