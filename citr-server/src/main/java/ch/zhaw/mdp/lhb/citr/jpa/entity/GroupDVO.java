@@ -18,8 +18,16 @@ public class GroupDVO {
     private int id;
 
     private String name;
-    private String state;
-    private String mode;
+
+	private String mode;
+
+	@Enumerated(EnumType.STRING)
+    private State state;
+
+	public enum State {
+		ACTIVE,
+		PASSIVE
+	}
 
 	@OneToMany(mappedBy="group")
 	private List<SubscriptionDVO> subscriptions;
@@ -29,40 +37,40 @@ public class GroupDVO {
 	private UserDVO owner;
 
     public GroupDVO() {
-	// every new group is active
-	this.setState("active");
+		// every new group is active
+		this.setState(State.ACTIVE);
     }
 
     public int getId() {
-	return id;
+		return id;
     }
 
     public void setId(int aId) {
-	id = aId;
+		id = aId;
     }
 
     public String getName() {
-	return name;
+		return name;
     }
 
     public void setName(String aName) {
-	name = aName;
+		name = aName;
     }
 
-    public String getState() {
-	return state;
+    public State getState() {
+		return state;
     }
 
-    public void setState(String aState) {
-	state = aState;
+    public void setState(State aState) {
+		state = aState;
     }
 
     public String getMode() {
-	return mode;
+		return mode;
     }
 
     public void setMode(String aMode) {
-	mode = aMode;
+		mode = aMode;
     }
 
 	public List<SubscriptionDVO> getSubscriptions() {
@@ -81,3 +89,4 @@ public class GroupDVO {
 		this.owner = owner;
 	}
 }
+
