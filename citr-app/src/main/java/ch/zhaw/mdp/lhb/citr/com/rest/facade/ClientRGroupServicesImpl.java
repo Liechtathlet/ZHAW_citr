@@ -85,9 +85,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         url.append(PropertyHelper.get("rest.service.group"));
         url.append("list");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<List<GroupDTO>>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>() {});
     }
 
     /*
@@ -105,9 +103,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         url.append(aGroupId);
         url.append("/requestSubscription");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<Boolean>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>() {});
     }
 
     @Override
@@ -120,9 +116,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         url.append(aGroupId);
         url.append("/getSubscriptions");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<List<SubscriptionDTO>>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<List<SubscriptionDTO>>>() {});
     }
 
     /*
@@ -131,16 +125,14 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
      * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getGroupSubscriptions()
      */
     @Override
-    public ResponseObject<List<GroupDTO>> getUserSubscriptions() {
+    public ResponseObject<List<SubscriptionDTO>> getUserSubscriptions() {
         preInit(RESTBackgroundTask.HTTP_GET_TASK);
 
         StringBuffer url = new StringBuffer();
         url.append(PropertyHelper.get("rest.service.group"));
         url.append("listSubscriptions");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<List<GroupDTO>>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<List<SubscriptionDTO>>>() {});
     }
 
     @Override
@@ -151,9 +143,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         url.append(PropertyHelper.get("rest.service.group"));
         url.append("listOwnedGroups");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<List<GroupDTO>>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>() {});
     }
 
     /*
@@ -178,9 +168,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         url.append(PropertyHelper.get("rest.service.group"));
         url.append("search");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<List<GroupDTO>>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<List<GroupDTO>>>() {});
     }
 
     /*
@@ -197,9 +185,7 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         url.append(aGroupId);
         url.append("/getNewestMessage");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<MessageDTO>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<MessageDTO>>() {});
     }
 
     /*
@@ -215,8 +201,6 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
         url.append(aGroupId);
         url.append("/subscribe");
 
-        return execute(url.toString(),
-                new TypeReference<ResponseObject<Boolean>>() {
-                });
+        return execute(url.toString(), new TypeReference<ResponseObject<Boolean>>() {});
     }
 }

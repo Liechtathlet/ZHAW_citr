@@ -167,25 +167,25 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("/listSubscriptions")
-	public ResponseObject<List<GroupDTO>> getUserSubscriptions() {
+	public ResponseObject<List<SubscriptionDTO>> getUserSubscriptions() {
 
 		boolean successfull = true;
 		String message = null;
 
 		List<SubscriptionDVO> subscriptionDVOs = getCurrentUser().getSubscriptions();
-		List<GroupDTO> groupDTOs = null;
+		List<SubscriptionDTO> subscriptionDTOs = null;
 		try {
-			groupDTOs = GroupFactory.createGroupsFromSubscriptions(subscriptionDVOs);
+			subscriptionDTOs = SubscriptionFactory.createSubscriptionDTOs(subscriptionDVOs);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}
 
-		if (groupDTOs == null) {
+		if (subscriptionDTOs == null) {
 			successfull = false;
 			message = messageSource.getMessage("msg.user.getGroups.fail", null, null);
 		}
 
-		return new ResponseObject<List<GroupDTO>>(groupDTOs, successfull, message);
+		return new ResponseObject<List<SubscriptionDTO>>(subscriptionDTOs, successfull, message);
 	}
 
 	@GET

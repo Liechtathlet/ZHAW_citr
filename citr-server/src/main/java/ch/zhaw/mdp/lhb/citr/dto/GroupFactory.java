@@ -26,7 +26,7 @@ public class GroupFactory {
                         GroupDVO groupDVO = subscriptionDVO.getGroup();
                         GroupDTO groupDTO = new GroupDTO();
                         groupDTO.setName(groupDVO.getName());
-                        groupDTO.setPublicGroup(groupDVO.getMode() == "public");
+                        groupDTO.setPublicGroup(groupDVO.getMode().equals("public"));
                         groupDTO.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupDTO.State.ACTIVE : GroupDTO.State.PASSIVE);
                         groups.add(groupDTO);
                 }
@@ -37,7 +37,7 @@ public class GroupFactory {
         public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
                 GroupDTO dto = new GroupDTO();
                 dto.setName(groupDVO.getName());
-                dto.setPublicGroup(groupDVO.getMode() == "public");
+                dto.setPublicGroup(groupDVO.getMode().equals("public"));
 	            dto.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupDTO.State.ACTIVE : GroupDTO.State.PASSIVE);
                 return dto;
         }

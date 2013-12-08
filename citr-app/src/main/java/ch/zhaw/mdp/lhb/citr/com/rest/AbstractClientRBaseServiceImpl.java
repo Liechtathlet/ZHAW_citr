@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Daniel Brun
  * 
- *         Abstract base class for all Client-Side implementations of the REST-Services.
+ * Abstract base class for all Client-Side implementations of the REST-Services.
  */
 public abstract class AbstractClientRBaseServiceImpl {
 
@@ -39,10 +39,10 @@ public abstract class AbstractClientRBaseServiceImpl {
      * @param aContext The context.
      */
     public AbstractClientRBaseServiceImpl(Context aContext) {
-	context = aContext;
+		context = aContext;
 
-	mapper = new ObjectMapper();
-	preferences = new  SessionHelper(context);
+		mapper = new ObjectMapper();
+		preferences = new  SessionHelper(context);
     }
 
     /**
@@ -51,8 +51,8 @@ public abstract class AbstractClientRBaseServiceImpl {
      * @param aHttpType The http type.
      */
     protected void preInit(int aHttpType) {
-	restTask = new RESTBackgroundTask(context);
-	restTask.setHttpRequestType(aHttpType);
+		restTask = new RESTBackgroundTask(context);
+		restTask.setHttpRequestType(aHttpType);
     }
 
     /**
@@ -64,31 +64,30 @@ public abstract class AbstractClientRBaseServiceImpl {
      */
     protected <T> ResponseObject<T> execute(String aUrl,
 	    TypeReference<ResponseObject<T>> aReference) {
-	if (aUrl == null) {
-	    throw new IllegalArgumentException(
-		    "The argument aUrl must not be null!");
-	}
+		if (aUrl == null) {
+		    throw new IllegalArgumentException("The argument aUrl must not be null!");
+		}
 
-	ResponseObject<T> resObj = null;
-	try {
-	    AsyncTask<String, Integer, String> task = restTask.execute(aUrl);
+		ResponseObject<T> resObj = null;
+		try {
+		    AsyncTask<String, Integer, String> task = restTask.execute(aUrl);
 
-	    if (task != null) {
-		resObj = map(task.get(), aReference);
-	    }
-	} catch (InterruptedException e) {
-	    Log.e(TAG, "Exception during task processing", e);
-	    throw new CitrCommunicationException(
-		    "Exception during task processing", e,
-		    CitrExceptionTypeEnum.BACKGROUND_ERROR);
-	} catch (ExecutionException e) {
-	    Log.e(TAG, "Exception during task processing", e);
-	    throw new CitrCommunicationException(
-		    "Exception during task processing", e,
-		    CitrExceptionTypeEnum.BACKGROUND_ERROR);
-	}
+		    if (task != null) {
+			resObj = map(task.get(), aReference);
+		    }
+		} catch (InterruptedException e) {
+		    Log.e(TAG, "Exception during task processing", e);
+		    throw new CitrCommunicationException(
+			    "Exception during task processing", e,
+			    CitrExceptionTypeEnum.BACKGROUND_ERROR);
+		} catch (ExecutionException e) {
+		    Log.e(TAG, "Exception during task processing", e);
+		    throw new CitrCommunicationException(
+			    "Exception during task processing", e,
+			    CitrExceptionTypeEnum.BACKGROUND_ERROR);
+		}
 
-	return resObj;
+		return resObj;
     }
 
     /**
@@ -101,30 +100,30 @@ public abstract class AbstractClientRBaseServiceImpl {
      */
     private <T> ResponseObject<T> map(String aResult,
 	    TypeReference<ResponseObject<T>> aReference) {
-	ResponseObject<T> resp = null;
+		ResponseObject<T> resp = null;
 
-	if (aResult != null && aResult.trim().length() > 0) {
-	    try {
-		resp = mapper.readValue(aResult, aReference);
-	    } catch (JsonParseException e) {
-		Log.e(TAG, "Exception during parse process of JSON-Data", e);
-		throw new CitrCommunicationException(
-			"Exception during parse process of JSON-Data", e,
-			CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
-	    } catch (JsonMappingException e) {
-		Log.e(TAG, "Exception during map process of JSON-Data", e);
-		throw new CitrCommunicationException(
-			"Exception during map process of JSON-Data", e,
-			CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
-	    } catch (IOException e) {
-		Log.e(TAG, "Exception during io process of JSON-Data", e);
-		throw new CitrCommunicationException(
-			"Exception during io process of JSON-Data", e,
-			CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
-	    }
-	}
+		if (aResult != null && aResult.trim().length() > 0) {
+		    try {
+			resp = mapper.readValue(aResult, aReference);
+		    } catch (JsonParseException e) {
+			Log.e(TAG, "Exception during parse process of JSON-Data", e);
+			throw new CitrCommunicationException(
+				"Exception during parse process of JSON-Data", e,
+				CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
+		    } catch (JsonMappingException e) {
+			Log.e(TAG, "Exception during map process of JSON-Data", e);
+			throw new CitrCommunicationException(
+				"Exception during map process of JSON-Data", e,
+				CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
+		    } catch (IOException e) {
+			Log.e(TAG, "Exception during io process of JSON-Data", e);
+			throw new CitrCommunicationException(
+				"Exception during io process of JSON-Data", e,
+				CitrExceptionTypeEnum.DESERIALIZATION_ERROR);
+		    }
+		}
 
-	return resp;
+		return resp;
     }
 
 }

@@ -45,7 +45,7 @@ public interface IRGroupServices {
 	 * 
 	 * @return All group subscriptions of the current user.
 	 */
-	public ResponseObject<List<GroupDTO>> getUserSubscriptions();
+	public ResponseObject<List<SubscriptionDTO>> getUserSubscriptions();
 
 	/**
 	 * Gets the groups of a user.
@@ -56,7 +56,7 @@ public interface IRGroupServices {
 	
 	
 	/**
-	 * Creates a request for a subscription for a private group.	
+	 * Creates a request for a subscription for a private group.
 	 * 
 	 * @param aGroupId The id of the group
 	 * @return True if the request could be created successfully.

@@ -10,9 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.adapters.GroupAdapter;
+import ch.zhaw.mdp.lhb.citr.adapters.SubscriptionAdapter;
 import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRUserServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
@@ -36,7 +38,7 @@ public class MainActivity extends CitrBaseActivity {
     /**
      * container for all groups where i'm member of it
      */
-    private ResponseObject<List<GroupDTO>> groupsMemberOf;
+    private ResponseObject<List<SubscriptionDTO>> groupsMemberOf;
 
     /**
      * Service to manage user data via rest
@@ -73,23 +75,22 @@ public class MainActivity extends CitrBaseActivity {
         groupServices = new ClientRGroupServicesImpl(this);
 
         // get groups via rest
-        this.groupsOwn = groupServices.getOwnedGroup();
-        this.groupsMemberOf = groupServices.getUserSubscriptions();
+        groupsOwn = groupServices.getOwnedGroup();
+        groupsMemberOf = groupServices.getUserSubscriptions();
 
         // set list with own groups
         final ListView lvOwnGroups = (ListView) findViewById(R.id.lvOwnGroups);
-        final GroupAdapter adapterOwn = new GroupAdapter(this, this.groupsOwn.getResponseObject());
+        final GroupAdapter adapterOwn = new GroupAdapter(this, groupsOwn.getResponseObject());
         lvOwnGroups.setAdapter(adapterOwn);
         this.setIntentOfGroupDetails(lvOwnGroups);
 
         // set list with "member of"-groups
         final ListView lvMemberOfGroups = (ListView) findViewById(R.id.lvMemberOfGroups);
-        final GroupAdapter adapterMemberOf = new GroupAdapter(this, this.groupsMemberOf.getResponseObject());
+        final SubscriptionAdapter adapterMemberOf = new SubscriptionAdapter(this, groupsMemberOf.getResponseObject());
         lvMemberOfGroups.setAdapter(adapterMemberOf);
         this.setIntentOfGroupDetails(lvMemberOfGroups);
 
     }
-
 
     /**
      * Create intent to create a new group
