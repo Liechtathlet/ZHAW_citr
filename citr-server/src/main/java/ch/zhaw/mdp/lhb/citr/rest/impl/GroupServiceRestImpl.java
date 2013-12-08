@@ -75,9 +75,12 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		
 		Boolean result = Boolean.FALSE;
 		String msg = "";
+		UserDVO userDVO = getCurrentUser();
 		
 		GroupDVO group = new GroupDVO();
 		group.setName(aGroup.getName());
+		group.setMode(aGroup.getMode());
+		group.setOwner(userDVO);
 		groupService.create(group);
 		
 		//TODO: Validate group & set group owner

@@ -72,4 +72,12 @@ public class GroupDVO {
 	public void setSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
 		this.subscriptions = subscriptionDVOs;
 	}
+
+	public UserDVO getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UserDVO owner) {
+		this.owner = owner;
+	}
 }
