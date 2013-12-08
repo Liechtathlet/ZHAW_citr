@@ -38,7 +38,6 @@ public class SubscriptionDTO {
 	public enum State {
 		approved,
 		open,
-		none,
 	}
 	
 	/* (non-Javadoc)

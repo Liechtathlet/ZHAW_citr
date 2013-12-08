@@ -1,13 +1,8 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
-/**
- * @author Simon Lang
- *
- * Data-Class for 'User Group'.
- */
+import java.io.Serializable;
 @Entity
 @Table(name = "tbl_subscription")
 public class SubscriptionDVO implements Serializable {
@@ -28,8 +23,19 @@ public class SubscriptionDVO implements Serializable {
 	private GroupDVO group;
 
 	@Column(name = "usg_state")
-	private String state;
+	@Enumerated(EnumType.STRING)
+	private State state;
 
+
+	/**
+	 * @author Simon Lang
+	 *
+	 * Data-Class for 'User Group'.
+	 */
+	public enum State {
+		APPROVED,
+		OPEN,
+	}
 
 	public int getUserId() {
 		return userId;
@@ -63,11 +69,11 @@ public class SubscriptionDVO implements Serializable {
 		this.group = group;
 	}
 
-	public String getState() {
+	public State getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(State state) {
 		this.state = state;
 	}
 }

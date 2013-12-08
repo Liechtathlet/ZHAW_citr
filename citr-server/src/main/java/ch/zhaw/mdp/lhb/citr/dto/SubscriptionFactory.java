@@ -17,7 +17,7 @@ public class SubscriptionFactory {
 			SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
 			subscriptionDTO.setUser(UserFactory.createUserDTO(subscriptionDVO.getUser()));
 			subscriptionDTO.setGroup(GroupFactory.createGroupDTO(subscriptionDVO.getGroup()));
-			subscriptionDTO.setState(subscriptionDVO.getState().equals("approved") ?
+			subscriptionDTO.setState(subscriptionDVO.getState() == SubscriptionDVO.State.APPROVED ?
 										SubscriptionDTO.State.approved :
 										SubscriptionDTO.State.open);
 			subscriptionDTOs.add(subscriptionDTO);

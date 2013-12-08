@@ -125,7 +125,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		subscriptionDVO.setUser(currentUser);
 		subscriptionDVO.setGroupId(groupDVO.getId());
 		subscriptionDVO.setGroup(groupDVO);
-		subscriptionDVO.setState("open");
+		subscriptionDVO.setState(SubscriptionDVO.State.OPEN);
 
 		try {
 			subscriptionService.save(subscriptionDVO);
@@ -249,11 +249,11 @@ public class GroupServiceRestImpl implements IRGroupServices {
 			return new ResponseObject<Boolean>(false, false, "User is already registered");
 		}
 
-		if (groupDVO.getMode().equals("public")) {
+		if (groupDVO.getMode() == GroupDVO.Mode.PUBLIC) {
 			SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
 			subscriptionDVO.setUserId(userDVO.getId());
 			subscriptionDVO.setGroupId(aGroupId);
-			subscriptionDVO.setState("approved");
+			subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
 			subscriptionService.save(subscriptionDVO);
 			success = true;
 		} else {

@@ -39,7 +39,7 @@ public class SubscriptionServiceJpaImpl implements IDBSubscriptionService {
 	public List<SubscriptionDVO> getSubscriptionRequestByGroup(GroupDVO group) {
 		Query q = entityManager.createQuery("select ug from SubscriptionDVO ug where ug.groupId = :groupId and ug.state = :state");
 		q.setParameter("groupId", group.getId());
-		q.setParameter("state", "open");
+		q.setParameter("state", SubscriptionDVO.State.OPEN);
 		List<SubscriptionDVO> subscriptionDVOs = q.getResultList();
 		return subscriptionDVOs;
 	}
