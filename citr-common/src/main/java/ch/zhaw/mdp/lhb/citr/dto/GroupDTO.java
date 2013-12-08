@@ -9,19 +9,10 @@ package ch.zhaw.mdp.lhb.citr.dto;
 public class GroupDTO {
 	
 	private String name;
-	private String mode;
 	private State state;
 	private String hashId;
 	private int ownerId;
 	private boolean publicGroup;
-
-	public String getMode() {
-		return mode;
-	}
-
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
 
 	public enum State {
 		ACTIVE,

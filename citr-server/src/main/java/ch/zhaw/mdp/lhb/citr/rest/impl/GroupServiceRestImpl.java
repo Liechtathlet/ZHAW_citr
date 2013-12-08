@@ -79,7 +79,7 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		
 		GroupDVO group = new GroupDVO();
 		group.setName(aGroup.getName());
-		group.setMode(aGroup.getMode());
+		group.setMode(aGroup.isPublicGroup() ? GroupDVO.Mode.PUBLIC : GroupDVO.Mode.PRIVATE);
 		group.setOwner(userDVO);
 		groupService.create(group);
 		

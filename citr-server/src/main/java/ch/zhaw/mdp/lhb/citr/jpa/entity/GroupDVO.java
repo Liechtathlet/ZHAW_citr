@@ -19,7 +19,13 @@ public class GroupDVO {
 
     private String name;
 
-	private String mode;
+	@Enumerated(EnumType.STRING)
+	private Mode mode;
+
+	public enum Mode {
+		PUBLIC,
+		PRIVATE,
+	}
 
 	@Enumerated(EnumType.STRING)
     private State state;
@@ -65,11 +71,11 @@ public class GroupDVO {
 		state = aState;
     }
 
-    public String getMode() {
+    public Mode getMode() {
 		return mode;
     }
 
-    public void setMode(String aMode) {
+    public void setMode(Mode aMode) {
 		mode = aMode;
     }
 
