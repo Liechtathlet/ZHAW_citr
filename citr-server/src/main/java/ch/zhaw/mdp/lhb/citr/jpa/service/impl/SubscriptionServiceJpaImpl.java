@@ -1,7 +1,10 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.IDBSubscriptionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,12 +37,21 @@ public class SubscriptionServiceJpaImpl implements IDBSubscriptionService {
 
 	@Override
 	public List<SubscriptionDVO> getSubscriptionRequestByGroup(GroupDVO group) {
-		//Query q = entityManager.createQuery("select SubscriptionDVO from SubscriptionDVO where groupId = :groupId and state = :state");
 		Query q = entityManager.createQuery("select ug from SubscriptionDVO ug where ug.groupId = :groupId and ug.state = :state");
 		q.setParameter("groupId", group.getId());
 		q.setParameter("state", "open");
 		List<SubscriptionDVO> subscriptionDVOs = q.getResultList();
 		return subscriptionDVOs;
+	}
+
+	private static final LoggingStrategy LOG = LoggingFactory.get();
+
+	@Override
+	public boolean hasUserGroupSubscription(UserDVO user, GroupDVO group) {
+		Query q = entityManager.createQuery("select s from SubscriptionDVO s where s.groupId = :groupId and s.userId = :userId");
+		q.setParameter("groupId", group.getId());
+		q.setParameter("userId", user.getId());
+		return q.getResultList().size() > 0;
 	}
 
 	/**

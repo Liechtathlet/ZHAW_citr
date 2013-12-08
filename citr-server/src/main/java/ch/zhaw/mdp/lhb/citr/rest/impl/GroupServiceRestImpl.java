@@ -3,7 +3,6 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,6 +13,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.zhaw.mdp.lhb.citr.dto.*;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.service.IDBMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -24,11 +26,6 @@ import org.springframework.stereotype.Component;
 
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
-import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
-import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
-import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
-import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
-import ch.zhaw.mdp.lhb.citr.dto.SubscriptionFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
@@ -58,6 +55,9 @@ public class GroupServiceRestImpl implements IRGroupServices {
 
 	@Autowired
 	private IDBSubscriptionService subscriptionService;
+
+	@Autowired
+	private IDBMessageService messageService;
 	
 	@Autowired
 	private ReloadableResourceBundleMessageSource messageSource;
@@ -236,10 +236,17 @@ public class GroupServiceRestImpl implements IRGroupServices {
 		boolean success = false;
 		String message = null;
 		GroupDVO groupDVO = groupService.getById(aGroupId);
+		UserDVO userDVO = getCurrentUser();
 
-		//LOG.info(String.format("Group id: %d Mode: %s", groupDVO.getId(), groupDVO.getMode()));
+		if (groupDVO == null) {
+			return new ResponseObject<Boolean>(false, false, "Group does not exist");
+		}
+
+		if (subscriptionService.hasUserGroupSubscription(userDVO, groupDVO)) {
+			return new ResponseObject<Boolean>(false, false, "User is already registered");
+		}
+
 		if (groupDVO.getMode().equals("public")) {
-			UserDVO userDVO = getCurrentUser();
 			SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
 			subscriptionDVO.setUserId(userDVO.getId());
 			subscriptionDVO.setGroupId(aGroupId);
@@ -262,17 +269,21 @@ public class GroupServiceRestImpl implements IRGroupServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
-	@Path("{groupId}/getMessages")
-	public ResponseObject<List<MessageDTO>> getMessage(@PathParam("groupId") int aGroupId) {
-		List<MessageDTO> list = new ArrayList<MessageDTO>();
-		MessageDTO m1 = new MessageDTO();
-		m1.setGroupId(aGroupId);
-		m1.setMessageText("Voll cool");
-		MessageDTO m2 = new MessageDTO();
-		m2.setGroupId(aGroupId);
-		m2.setMessageText("Voll uncool");
-		list.add(m1);
-		list.add(m2);
-		return new ResponseObject<List<MessageDTO>>(list, true, null);
+	@Path("{groupId}/getNewestMessage")
+	public ResponseObject<MessageDTO> getNewestMessage(@PathParam("groupId") int aGroupId) {
+
+		MessageDVO messageDVO = messageService.GetNewestMessageFromGroup(aGroupId);
+		MessageDTO messageDTO = null;
+
+		boolean success = false;
+		String message = null;
+
+		if (messageDVO == null) {
+		} else {
+			messageDTO = MessageFactory.createMessageDTO(messageDVO);
+			success = true;
+		}
+
+		return new ResponseObject<MessageDTO>(messageDTO, success, message);
 	}
 }

@@ -2,6 +2,7 @@ package ch.zhaw.mdp.lhb.citr.jpa.service;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 
 import java.util.List;
 
@@ -25,4 +26,13 @@ public interface IDBSubscriptionService {
 	 * @return List of subscriptions.
 	 */
 	List<SubscriptionDVO> getSubscriptionRequestByGroup(GroupDVO group);
+
+	/**
+	 * Checks if a user is already subscripted to a group.
+	 *
+	 * @param user User to check.
+	 * @param group Group to check.
+	 * @return TRUE = User is subscripted. | FALSE = User is not subscripted.
+	 */
+	boolean hasUserGroupSubscription(UserDVO user, GroupDVO group);
 }

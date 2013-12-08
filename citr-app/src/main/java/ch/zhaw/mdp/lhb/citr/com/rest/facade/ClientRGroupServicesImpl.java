@@ -189,16 +189,16 @@ public class ClientRGroupServicesImpl extends AbstractClientRBaseServiceImpl
      * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getMessage(int)
      */
     @Override
-    public ResponseObject<List<MessageDTO>> getMessage(int aGroupId) {
+    public ResponseObject<MessageDTO> getNewestMessage(int aGroupId) {
         preInit(RESTBackgroundTask.HTTP_GET_TASK);
 
         StringBuffer url = new StringBuffer();
         url.append(PropertyHelper.get("rest.service.group"));
         url.append(aGroupId);
-        url.append("/getMessages");
+        url.append("/getNewestMessage");
 
         return execute(url.toString(),
-                new TypeReference<ResponseObject<List<MessageDTO>>>() {
+                new TypeReference<ResponseObject<MessageDTO>>() {
                 });
     }
 

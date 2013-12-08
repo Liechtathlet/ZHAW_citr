@@ -82,10 +82,10 @@ public interface IRGroupServices {
 	public ResponseObject<Boolean> subscribe(int aGroupId);
 
 	/**
-	 * Gets messages of a group
+	 * Gets the newest messages of a group.
 	 *
-	 * @param aGroupId The id of the group
-	 * @return List of messages of the group.
+	 * @param aGroupId The id of the group.
+	 * @return Newest message of the group.
 	 */
-	public ResponseObject<List<MessageDTO>> getMessage(int aGroupId);
+	public ResponseObject<MessageDTO> getNewestMessage(int aGroupId);
 }

@@ -80,7 +80,7 @@ public class CitrWidgetProvider extends AppWidgetProvider {
 		    context);
 
 	    // TODO: Group Id
-	    ResponseObject<List<MessageDTO>> resp = groupServices.getMessage(0);
+	    ResponseObject<MessageDTO> resp = groupServices.getNewestMessage(0);
 
 	    if (resp.isSuccessfull()) {
 

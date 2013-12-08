@@ -29,4 +29,12 @@ public interface IDBMessageService {
 	 * @return the corresponding message or null if no message for the given id could be found.
 	 */
 	public MessageDVO getMessageById(long anId);
+
+	/**
+	 * Gets the newest message of a group.
+	 *
+	 * @param aGroupId the group id to look into.
+	 * @return newest message.
+	 */
+	public MessageDVO GetNewestMessageFromGroup(int aGroupId);
 }
