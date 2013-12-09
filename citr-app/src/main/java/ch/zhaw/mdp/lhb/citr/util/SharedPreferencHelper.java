@@ -25,7 +25,7 @@ public class SharedPreferencHelper {
      * @param aContext The context
      */
     public SharedPreferencHelper(Context aContext) {
-	context = aContext;
+		context = aContext;
     }
 
     /**
@@ -36,11 +36,11 @@ public class SharedPreferencHelper {
      * @param aValue The value
      */
     public void storeString(String aPreference, String aKey, String aValue){
-	SharedPreferences prefs = context.getSharedPreferences(aPreference, 0);
-	Editor prefEditor = prefs.edit();
-	
-	prefEditor.putString(aKey,aValue);
-	prefEditor.commit();
+		SharedPreferences prefs = context.getSharedPreferences(aPreference, 0);
+		Editor prefEditor = prefs.edit();
+
+		prefEditor.putString(aKey,aValue);
+		prefEditor.commit();
     }
     
     /**
@@ -51,9 +51,9 @@ public class SharedPreferencHelper {
      * @return The value.
      */
     public String getString(String aPreference, String aKey){
-	SharedPreferences prefs = context.getSharedPreferences(aPreference, 0);
-	
-	return prefs.getString(aKey, null);
+		SharedPreferences prefs = context.getSharedPreferences(aPreference, 0);
+
+		return prefs.getString(aKey, null);
     }
     
     /**
@@ -63,9 +63,9 @@ public class SharedPreferencHelper {
      * @param aKey The key.
      */
     public void delete(String aPreference, String aKey){
-	SharedPreferences prefs = context.getSharedPreferences(aPreference, 0);
-	Editor prefEditor = prefs.edit();
-	prefEditor.remove(aKey);
-	prefEditor.commit();
+		SharedPreferences prefs = context.getSharedPreferences(aPreference, 0);
+		Editor prefEditor = prefs.edit();
+		prefEditor.remove(aKey);
+		prefEditor.commit();
     }
 }

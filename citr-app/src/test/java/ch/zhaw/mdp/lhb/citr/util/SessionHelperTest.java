@@ -29,6 +29,7 @@ public class SessionHelperTest {
 
 		// Verification.
 		verify(e, times(1)).putString(key, value);
+		verify(e, times(1)).commit();
 	}
 
 	@Test
