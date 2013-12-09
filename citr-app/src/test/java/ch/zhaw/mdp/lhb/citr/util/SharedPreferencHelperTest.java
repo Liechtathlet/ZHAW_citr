@@ -2,27 +2,37 @@ package ch.zhaw.mdp.lhb.citr.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import junit.extensions.TestSetup;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
 public class SharedPreferencHelperTest {
+
+	private final String aPreference = "preference";
+	private final String aKey = "key";
+	private final String aValue = "value";
+
+	private Context ctx;
+	private SharedPreferences sp;
+
+	@Before
+	public void Setup() {
+		ctx = mock(Context.class);
+		sp = mock(SharedPreferences.class);
+
+		when(ctx.getSharedPreferences(aPreference, 0)).thenReturn(sp);
+	}
+
 	@Test
 	public void testStoreString() throws Exception {
 
-		// Testdata
-		String aPreference = "preference";
-		String aKey = "key";
-		String aValue = "value";
-
-		// Mocks
-		Context ctx = mock(Context.class);
-		SharedPreferences sp = mock(SharedPreferences.class);
+		// Mock
 		SharedPreferences.Editor e = mock(SharedPreferences.Editor.class);
 
 		// Stubbing
-		when(ctx.getSharedPreferences(aPreference, 0)).thenReturn(sp);
 		when(sp.edit()).thenReturn(e);
 
 		// Calling code.
@@ -37,17 +47,7 @@ public class SharedPreferencHelperTest {
 	@Test
 	public void testGetString() throws Exception {
 
-		// Testdata
-		String aPreference = "preference";
-		String aKey = "key";
-		String aValue = "value";
-
-		// Mocks
-		Context ctx = mock(Context.class);
-		SharedPreferences sp = mock(SharedPreferences.class);
-
 		// Stubbing
-		when(ctx.getSharedPreferences(aPreference, 0)).thenReturn(sp);
 		when(sp.getString(aKey, null)).thenReturn(aValue);
 
 		// Calling code.
@@ -60,18 +60,10 @@ public class SharedPreferencHelperTest {
 	@Test
 	public void testDelete() throws Exception {
 
-		// Testdata
-		String aPreference = "preference";
-		String aKey = "key";
-		String aValue = "value";
-
-		// Mocks
-		Context ctx = mock(Context.class);
-		SharedPreferences sp = mock(SharedPreferences.class);
+		// Mock
 		SharedPreferences.Editor e = mock(SharedPreferences.Editor.class);
 
 		// Stubbing
-		when(ctx.getSharedPreferences(aPreference, 0)).thenReturn(sp);
 		when(sp.edit()).thenReturn(e);
 
 		// Calling code.
