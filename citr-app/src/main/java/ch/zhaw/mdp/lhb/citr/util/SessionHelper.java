@@ -27,7 +27,7 @@ public class SessionHelper {
 	 * @param anApplicationContext The application context.
 	 */
 	public SessionHelper(Context anApplicationContext) {
-	    	settings = anApplicationContext.getSharedPreferences("citr-prefs", 0);
+	    settings = anApplicationContext.getSharedPreferences("citr-prefs", 0);
 		
 		editor = settings.edit();
 	}
