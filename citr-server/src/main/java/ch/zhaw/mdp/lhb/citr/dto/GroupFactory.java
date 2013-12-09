@@ -28,7 +28,9 @@ public class GroupFactory {
                         groupDTO.setName(groupDVO.getName());
                         groupDTO.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
                         groupDTO.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupDTO.State.ACTIVE : GroupDTO.State.PASSIVE);
+                        groupDTO.setId(groupDVO.getId());
                         groups.add(groupDTO);
+
                 }
 
                 return groups;
@@ -39,6 +41,7 @@ public class GroupFactory {
                 dto.setName(groupDVO.getName());
                 dto.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
 	            dto.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupDTO.State.ACTIVE : GroupDTO.State.PASSIVE);
+                dto.setId(groupDVO.getId());
                 return dto;
         }
 }

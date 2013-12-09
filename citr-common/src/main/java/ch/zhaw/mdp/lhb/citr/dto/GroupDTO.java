@@ -7,8 +7,9 @@ package ch.zhaw.mdp.lhb.citr.dto;
  * DTO-Class for 'Group'.
  */
 public class GroupDTO {
-	
-	private String name;
+
+    private int id;
+    private String name;
 	private State state;
 	private String hashId;
 	private int ownerId;
@@ -18,7 +19,23 @@ public class GroupDTO {
 		ACTIVE,
 		PASSIVE
 	}
-	
+
+    public int getId() {
+        return id;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
 	/**
 	 * @return the name
 	 */

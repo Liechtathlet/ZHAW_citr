@@ -11,6 +11,7 @@ import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.adapters.GroupAdapter;
 import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
 
@@ -55,6 +56,9 @@ public class GroupList extends CitrBaseActivity {
         groupServices = new ClientRGroupServicesImpl(this);
 
         ResponseObject<List<GroupDTO>> respGroupsAll = groupServices.getAllGroups();
+        // ResponseObject<List<SubscriptionDTO>> userSubs = groupServices.getUserSubscriptions();
+
+        // match state to each group
 
         List groupsResult = respGroupsAll.getResponseObject();
         if (groupsResult.size() > 0) {
