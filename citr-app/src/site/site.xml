@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="Citr-Server" xsi:schemaLocation="http://maven.apache.org/xsd/decoration-1.3.0.xsd">
+<project name="Citr-App" xsi:schemaLocation="http://maven.apache.org/xsd/decoration-1.3.0.xsd">
 	<bannerLeft>
-		<name>Proficio</name>
-		<href>http://maven.apache.org/</href>
+		<name>Citr-App</name>
+		<href>http://dublin.zhaw.ch/~brundan1/Module/Methoden%20der%20Programmierung/citr/citr-app/</href>
 	</bannerLeft>
 	<bannerRight>
-		<name>Proficio</name>
-		<src>http://maven.apache.org/images/apache-maven project.png</src>
+		<name>Citr-App</name>
+		<src>./citr.png</src>
 	</bannerRight>
 	<publishDate format="dd MMM yyyy" />
 	<version position="right" />
@@ -30,14 +30,15 @@
 			<item name="Continuum" href="http://maven.apache.org/continuum" />
 		</links>
 		<head>
-			<meta name="faq" content="proficio" />
+			<meta name="faq" content="citr" />
 		</head>
-		<menu name="Quick Links">
-			<item name="Features" href="/maven-features.html" />
+			<menu name="Citr">
+			<item name="Github" href="https://github.com/Liechtathlet/citr"/>
+			<item name="CI" href="https://drone.io/github.com/Liechtathlet/citr" />
+			<item name="Projekt-Wiki" href="https://github.com/Liechtathlet/citr/wiki" />
+			<item name="Projekt-Management" href="https://www.gravitydev.com/project/51943" />
 		</menu>
-		<menu name="About Proficio">
-			<item name="What is Proficio?" href="/what-is-maven.html" />
-		</menu>
+		<menu ref="reports"/>
 		<footer/>
 	</body>
 </project>
