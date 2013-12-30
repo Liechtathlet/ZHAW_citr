@@ -43,6 +43,19 @@ Lokaler-Setup
   </servers>
 6. local.properties definieren (gemäss Vorlage)
 
+Google-Cloud-Messaging:
+----------------
+1. SHA-Key der Developer-Version in der Developer-Console hinterlegen (http://developer.android.com/google/gcm/gs.html)
+2. Google-Play-Services SDK installieren (http://developer.android.com/google/play-services/setup.html)
+3. git clone git@github.com:mosabua/maven-android-sdk-deployer.git (https://github.com/mosabua/maven-android-sdk-deployer)
+4. mvn clean install -N in gewünschtem Ordner (maven-android-sdk-deployer/extras/google-play-services)
+5. 
+
+OAuth:
+----------------
+1. App in Developer Console für OAuth registrieren.
+2. 
+
 Build & Installation (Common)
 ----------------
 1. mvn clean install
