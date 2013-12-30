@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRMessageServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientMessageServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.IRMessageServices;
+import ch.zhaw.mdp.lhb.citr.rest.MessageServices;
 
 /**
  * @author Michael Hadorn
@@ -22,7 +22,7 @@ public class CitrCreateActivity extends CitrBaseActivity {
 
 	private static final String TAG = "CitrCreateActivity";
 
-	private IRMessageServices messageServices;
+	private MessageServices messageServices;
 
 	/**
 	 * Called when the activity is first created.
@@ -38,7 +38,7 @@ public class CitrCreateActivity extends CitrBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.citr_create);
 
-		messageServices = new ClientRMessageServicesImpl(this);
+		messageServices = new ClientMessageServicesImpl(this);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class CitrCreateActivity extends CitrBaseActivity {
 		if (msgStr != null && !msgStr.equals("")) {
 			MessageDTO message = new MessageDTO();
 			message.setMessageText(msgStr);
-
+			//FIXME: Group id
 			ResponseObject<Boolean> resp = messageServices
 					.createMessage(message);
 

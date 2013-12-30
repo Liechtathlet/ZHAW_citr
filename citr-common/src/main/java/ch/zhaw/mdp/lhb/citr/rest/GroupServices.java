@@ -15,7 +15,7 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
  *
  * Interface for the 'Group' Rest-Services.
  */
-public interface IRGroupServices {
+public interface GroupServices {
 
 	/**
 	 * Gets a list with all available groups.
@@ -41,6 +41,14 @@ public interface IRGroupServices {
 	public ResponseObject<Boolean> createGroup(GroupDTO aGroup);
 	
 	/**
+	 * Deletes the group with the given id.
+	 * 
+	 * @param aGroupId the group to delete.
+	 * @return true if the group could be deleted successfully.
+	 */
+	public ResponseObject<Boolean> deleteGroup(int aGroupId);
+	
+	/**
 	 * Gets the group subscriptions of a user.
 	 * 
 	 * @return All group subscriptions of the current user.
@@ -52,32 +60,29 @@ public interface IRGroupServices {
 	 *
 	 * @return All group the user owns.
 	 */
-	public ResponseObject<List<GroupDTO>> getOwnedGroup();
-	
+	public ResponseObject<List<GroupDTO>> getUserGroups();
 	
 	/**
-	 * Creates a request for a subscription for a private group.
-	 * 
-	 * @param aGroupId The id of the group
-	 * @return True if the request could be created successfully.
-	 */
-	public ResponseObject<Boolean> createRequestForGroupSubscription(int aGroupId);
-
-
-	/**
-	 * Gets the subscriptions for a group.
+	 * Gets the subscription request for a group.
 	 *
 	 * @param aGroupId The id of the group
 	 * @return True if the request could be created successfully.
 	 */
-	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptions(int aGroupId);
+	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptionRequests(int aGroupId);
 
-
+	/**
+	 * Updates the given subscription.
+	 * 
+	 * @param aSubscription The subscription to update.
+	 * @return True if the update was successfull.
+	 */
+	public ResponseObject<Boolean> updateGroupSubscriptionRequest(SubscriptionDTO aSubscription);
+	
 	/**
 	 * Subscribe to a group.
 	 *
 	 * @param aGroupId The group to subscribe to.
-	 * @return True if the subscribed successfully.
+	 * @return True if the subscription was successfully.
 	 */
 	public ResponseObject<Boolean> subscribe(int aGroupId);
 

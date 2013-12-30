@@ -13,9 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import ch.zhaw.mdp.lhb.citr.dto.*;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -26,267 +23,308 @@ import org.springframework.stereotype.Component;
 
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
+import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
+import ch.zhaw.mdp.lhb.citr.dto.GroupFactory;
+import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
+import ch.zhaw.mdp.lhb.citr.dto.MessageFactory;
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
+import ch.zhaw.mdp.lhb.citr.dto.SubscriptionFactory;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBGroupService;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBSubscriptionService;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
+import ch.zhaw.mdp.lhb.citr.jpa.service.GroupRepository;
+import ch.zhaw.mdp.lhb.citr.jpa.service.MessageRepository;
+import ch.zhaw.mdp.lhb.citr.jpa.service.SubscriptionRepository;
+import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
+import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
 
 /**
  * @author Daniel Brun
- *
- * Implementation of the Service-Interface {@link IRGroupServices}.
+ * 
+ *         Implementation of the Service-Interface {@link IRGroupServices}.
  */
 @Component
 @Path("/group")
 @Scope("singleton")
-public class GroupServiceRestImpl implements IRGroupServices {
+public class GroupServiceRestImpl implements GroupServices {
 
-	private static final LoggingStrategy LOG = LoggingFactory.get();
+    private static final LoggingStrategy LOG = LoggingFactory.get();
 
-	@Autowired
-	private IDBGroupService groupService;
+    @Autowired
+    private GroupRepository groupRepo;
 
-	@Autowired
-	private IDBUserService userService;
+    @Autowired
+    private UserRepository userRepo;
 
-	@Autowired
-	private IDBSubscriptionService subscriptionService;
+    @Autowired
+    private SubscriptionRepository subscriptionRepo;
 
-	@Autowired
-	private IDBMessageService messageService;
-	
-	@Autowired
-	private ReloadableResourceBundleMessageSource messageSource;
-	
+    @Autowired
+    private MessageRepository messageRepo;
 
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("/create")
-	public ResponseObject<Boolean> createGroup(GroupDTO aGroup) {
-		if(aGroup == null){
-			throw new IllegalArgumentException("The argument aGroup must not be null!");
-		}
-		
-		Boolean result = Boolean.FALSE;
-		String msg = "";
-		UserDVO userDVO = getCurrentUser();
-		
-		GroupDVO group = new GroupDVO();
-		group.setName(aGroup.getName());
-		group.setMode(aGroup.isPublicGroup() ? GroupDVO.Mode.PUBLIC : GroupDVO.Mode.PRIVATE);
-		group.setOwner(userDVO);
-		groupService.create(group);
-		
-		//TODO: Validate group & set group owner
-		
-		//TODO: Implement different texts
-		
-		msg = messageSource.getMessage("msg.group.create.succ", new String[]{group.getName()}, null);
-		result = Boolean.TRUE;
-		
-		return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
+    @Autowired
+    private ReloadableResourceBundleMessageSource messageSource;
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("/create")
+    public ResponseObject<Boolean> createGroup(GroupDTO aGroup) {
+	if (aGroup == null) {
+	    throw new IllegalArgumentException(
+		    "The argument aGroup must not be null!");
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getAllGroups()
-	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("/list")
-	public ResponseObject<List<GroupDTO>> getAllGroups() {
-		List<GroupDTO> groups = GroupFactory.createGroups(groupService.getAll());
-		return new ResponseObject<List<GroupDTO>>(groups, true, null);
+	Boolean result = Boolean.FALSE;
+	String msg = "";
+	UserDVO userDVO = getCurrentUser();
+
+	GroupDVO group = new GroupDVO();
+	group.setName(aGroup.getName());
+	group.setMode(aGroup.isPublicGroup() ? GroupDVO.Mode.PUBLIC
+		: GroupDVO.Mode.PRIVATE);
+	group.setOwner(userDVO);
+	groupRepo.create(group);
+
+	// TODO: Validate group & set group owner
+
+	// TODO: Implement different texts
+
+	msg = messageSource.getMessage("msg.group.create.succ",
+		new String[] { group.getName() }, null);
+	result = Boolean.TRUE;
+
+	return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getAllGroups()
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("/list")
+    public ResponseObject<List<GroupDTO>> getAllGroups() {
+	List<GroupDTO> groups = GroupFactory.createGroups(groupRepo.getAll());
+	return new ResponseObject<List<GroupDTO>>(groups, true, null);
+    }
+
+    @Override
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("{groupId}/getSubscriptions")
+    public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptionRequests(
+	    @PathParam("groupId") int aGroupId) {
+
+	String msg = null;
+	Boolean succ = true;
+
+	List<SubscriptionDTO> subscriptionDTOs = null;
+	try {
+	    GroupDVO groupDVO = groupRepo.getById(aGroupId);
+	    List<SubscriptionDVO> subscriptionDVOs = subscriptionRepo
+		    .getSubscriptionByGroup(groupDVO, SubscriptionDVO.State.OPEN);
+	    subscriptionDTOs = SubscriptionFactory
+		    .createSubscriptionDTOs(subscriptionDVOs);
+	} catch (Exception e) {
+	    msg = String.format("Unable to get group subscriptions. Error: %s",
+		    e.getMessage());
+	    LOG.error(msg);
 	}
 
-	@Override
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("{groupId}/requestSubscription")
-	public ResponseObject<Boolean> createRequestForGroupSubscription(@PathParam("groupId") int aGroupId) {
+	return new ResponseObject<List<SubscriptionDTO>>(subscriptionDTOs,
+		succ, msg);
+    }
 
-		String msg = null;
-		Boolean succ = true;
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("/listSubscriptions")
+    public ResponseObject<List<SubscriptionDTO>> getUserSubscriptions() {
 
-		UserDVO currentUser = getCurrentUser();
-		GroupDVO groupDVO = groupService.getById(aGroupId);
+	boolean successfull = true;
+	String message = null;
 
-		SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
-		subscriptionDVO.setUserId(currentUser.getId());
-		subscriptionDVO.setUser(currentUser);
-		subscriptionDVO.setGroupId(groupDVO.getId());
-		subscriptionDVO.setGroup(groupDVO);
-		subscriptionDVO.setState(SubscriptionDVO.State.OPEN);
-
-		try {
-			subscriptionService.save(subscriptionDVO);
-		} catch (Exception e) {
-			msg = String.format("Unable to store group subscription. Error: %s", e.getMessage());
-			LOG.error(msg);
-			succ = false;
-		}
-
-		return new ResponseObject<Boolean>(succ, succ, msg);
+	List<SubscriptionDVO> subscriptionDVOs = getCurrentUser()
+		.getSubscriptions();
+	List<SubscriptionDTO> subscriptionDTOs = null;
+	try {
+	    subscriptionDTOs = SubscriptionFactory
+		    .createSubscriptionDTOs(subscriptionDVOs);
+	} catch (Exception e) {
+	    LOG.error(e.getMessage());
 	}
 
-	@Override
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("{groupId}/getSubscriptions")
-	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptions(@PathParam("groupId") int aGroupId) {
-
-		String msg = null;
-		Boolean succ = true;
-
-		List<SubscriptionDTO> subscriptionDTOs = null;
-		try {
-			GroupDVO groupDVO = groupService.getById(aGroupId);
-			List<SubscriptionDVO> subscriptionDVOs = subscriptionService.getSubscriptionRequestByGroup(groupDVO);
-			subscriptionDTOs = SubscriptionFactory.createSubscriptionDTOs(subscriptionDVOs);
-		} catch (Exception e)    {
-			msg = String.format("Unable to get group subscriptions. Error: %s", e.getMessage());
-			LOG.error(msg);
-		}
-
-		return new ResponseObject<List<SubscriptionDTO>>(subscriptionDTOs, succ, msg);
+	if (subscriptionDTOs == null) {
+	    successfull = false;
+	    message = messageSource.getMessage("msg.user.getGroups.fail", null,
+		    null);
 	}
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("/listSubscriptions")
-	public ResponseObject<List<SubscriptionDTO>> getUserSubscriptions() {
+	return new ResponseObject<List<SubscriptionDTO>>(subscriptionDTOs,
+		successfull, message);
+    }
 
-		boolean successfull = true;
-		String message = null;
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("/listOwnedGroups")
+    public ResponseObject<List<GroupDTO>> getUserGroups() {
 
-		List<SubscriptionDVO> subscriptionDVOs = getCurrentUser().getSubscriptions();
-		List<SubscriptionDTO> subscriptionDTOs = null;
-		try {
-			subscriptionDTOs = SubscriptionFactory.createSubscriptionDTOs(subscriptionDVOs);
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-		}
+	boolean successfull = true;
+	String message = null;
 
-		if (subscriptionDTOs == null) {
-			successfull = false;
-			message = messageSource.getMessage("msg.user.getGroups.fail", null, null);
-		}
-
-		return new ResponseObject<List<SubscriptionDTO>>(subscriptionDTOs, successfull, message);
+	List<GroupDVO> groupDVOs = getCurrentUser().getCreatedGroups();
+	List<GroupDTO> groupDTOs = null;
+	try {
+	    groupDTOs = GroupFactory.createGroups(groupDVOs);
+	} catch (Exception e) {
+	    LOG.error(e.getMessage());
 	}
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("/listOwnedGroups")
-	public ResponseObject<List<GroupDTO>> getOwnedGroup() {
-
-		boolean successfull = true;
-		String message = null;
-
-		List<GroupDVO> groupDVOs = getCurrentUser().getCreatedGroups();
-		List<GroupDTO> groupDTOs = null;
-		try {
-			groupDTOs = GroupFactory.createGroups(groupDVOs);
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-		}
-
-		if (groupDTOs == null) {
-			successfull = false;
-			message = messageSource.getMessage("msg.user.getGroups.fail", null, null);
-		}
-
-		return new ResponseObject<List<GroupDTO>>(groupDTOs, successfull, message);
+	if (groupDTOs == null) {
+	    successfull = false;
+	    message = messageSource.getMessage("msg.user.getGroups.fail", null,
+		    null);
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#searchGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
-	 */
-	@Override
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("/search")
-	public ResponseObject<List<GroupDTO>> searchGroup(GroupDTO aGroup) {
-		// TODO Auto-generated method stub
-		return null;
+	return new ResponseObject<List<GroupDTO>>(groupDTOs, successfull,
+		message);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#searchGroup(ch.zhaw.mdp.lhb.citr.dto.GroupDTO)
+     */
+    @Override
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("/search")
+    public ResponseObject<List<GroupDTO>> searchGroup(GroupDTO aGroup) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("{groupId}/subscribe")
+    public ResponseObject<Boolean> subscribe(@PathParam("groupId") int aGroupId) {
+
+	boolean success = false;
+	String message = null;
+
+	GroupDVO groupDVO = groupRepo.getById(aGroupId);
+	UserDVO userDVO = getCurrentUser();
+
+	if (groupDVO == null) {
+	    return new ResponseObject<Boolean>(false, false,
+		    "Group does not exist");
 	}
 
-	@Override
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("{groupId}/subscribe")
-	public ResponseObject<Boolean> subscribe(@PathParam("groupId") int aGroupId) {
-
-		boolean success = false;
-		String message = null;
-		GroupDVO groupDVO = groupService.getById(aGroupId);
-		UserDVO userDVO = getCurrentUser();
-
-		if (groupDVO == null) {
-			return new ResponseObject<Boolean>(false, false, "Group does not exist");
-		}
-
-		if (subscriptionService.hasUserGroupSubscription(userDVO, groupDVO)) {
-			return new ResponseObject<Boolean>(false, false, "User is already registered");
-		}
-
-		if (groupDVO.getMode() == GroupDVO.Mode.PUBLIC) {
-			SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
-			subscriptionDVO.setUserId(userDVO.getId());
-			subscriptionDVO.setGroupId(aGroupId);
-			subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
-			subscriptionService.save(subscriptionDVO);
-			success = true;
-		} else {
-			message = "Group is not public. Send subscription request.";
-		}
-		return new ResponseObject<Boolean>(success, success, message);
+	if (subscriptionRepo.hasUserGroupSubscription(userDVO, groupDVO)) {
+	    return new ResponseObject<Boolean>(false, false,
+		    "User is already registered");
 	}
 
-	private UserDVO getCurrentUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return userService.getByOpenId(auth.getName());
+	if (groupDVO.getMode() == GroupDVO.Mode.PUBLIC) {
+	    SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
+	    subscriptionDVO.setUserId(userDVO.getId());
+	    subscriptionDVO.setGroupId(aGroupId);
+	    subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
+	    subscriptionRepo.save(subscriptionDVO);
+	    success = true;
+	} else {
+	    SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
+	    subscriptionDVO.setUserId(userDVO.getId());
+	    subscriptionDVO.setUser(userDVO);
+	    subscriptionDVO.setGroupId(groupDVO.getId());
+	    subscriptionDVO.setGroup(groupDVO);
+	    subscriptionDVO.setState(SubscriptionDVO.State.OPEN);
+
+	    try {
+		subscriptionRepo.save(subscriptionDVO);
+		message = "Subscription Request for privat group was created.";
+	    } catch (Exception e) {
+		message = String.format(
+			"Unable to store group subscription. Error: %s",
+			e.getMessage());
+		LOG.error(message);
+		success = false;
+	    }
+
+	}
+	return new ResponseObject<Boolean>(success, success, message);
+    }
+
+    @GET
+    @Override
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("{groupId}/getNewestMessage")
+    public ResponseObject<MessageDTO> getNewestMessage(
+	    @PathParam("groupId") int aGroupId) {
+
+	MessageDVO messageDVO = messageRepo.GetNewestMessageFromGroup(aGroupId);
+	MessageDTO messageDTO = null;
+
+	boolean success = false;
+	String message = null;
+
+	if (messageDVO == null) {
+	} else {
+	    messageDTO = MessageFactory.createMessageDTO(messageDVO);
+	    success = true;
 	}
 
-	@GET
-	@Override
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("{groupId}/getNewestMessage")
-	public ResponseObject<MessageDTO> getNewestMessage(@PathParam("groupId") int aGroupId) {
+	return new ResponseObject<MessageDTO>(messageDTO, success, message);
+    }
 
-		MessageDVO messageDVO = messageService.GetNewestMessageFromGroup(aGroupId);
-		MessageDTO messageDTO = null;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see ch.zhaw.mdp.lhb.citr.rest.GroupServices#deleteGroup(int)
+     */
+    @Override
+    public ResponseObject<Boolean> deleteGroup(int aArg0) {
+	// TODO Implement
+	return null;
+    }
 
-		boolean success = false;
-		String message = null;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see ch.zhaw.mdp.lhb.citr.rest.GroupServices#updateGroupSubscriptionRequest(ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO)
+     */
+    @Override
+    public ResponseObject<Boolean> updateGroupSubscriptionRequest(
+	    SubscriptionDTO aArg0) {
+	// TODO Implement
+	return null;
+    }
 
-		if (messageDVO == null) {
-		} else {
-			messageDTO = MessageFactory.createMessageDTO(messageDVO);
-			success = true;
-		}
-
-		return new ResponseObject<MessageDTO>(messageDTO, success, message);
-	}
+    /**
+     * @return the current user.
+     */
+    private UserDVO getCurrentUser() {
+	Authentication auth = SecurityContextHolder.getContext()
+		.getAuthentication();
+	return userRepo.getByOpenId(auth.getName());
+    }
 }

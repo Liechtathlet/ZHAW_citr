@@ -1,9 +1,9 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service;
 
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
-
 import java.util.List;
+
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * Interface for the User-Persistence-Services
  */
-public interface IDBUserService {
+public interface UserRepository {
 	
 	/**
 	 * Saves the given user to the database.

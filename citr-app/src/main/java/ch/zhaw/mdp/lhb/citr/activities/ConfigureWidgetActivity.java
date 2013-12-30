@@ -1,5 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -13,16 +15,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.adapters.SubscriptionAdapter;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
+import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
 import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 import ch.zhaw.mdp.lhb.citr.util.SharedPreferencHelper;
 import ch.zhaw.mdp.lhb.citr.widget.CitrWidgetProvider;
-
-import java.util.List;
 
 /**
  * @author Daniel Brun
@@ -38,7 +38,7 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
     /**
      * Service to manage group data via rest
      */
-    private IRGroupServices groupServices;
+    private GroupServices groupServices;
 
     /**
      * container for all groups where i'm member of it
@@ -80,7 +80,7 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
 		} else {
 
 		    // Load group subscriptions.
-		    groupServices = new ClientRGroupServicesImpl(this);
+		    groupServices = new ClientGroupServicesImpl(this);
 
 		    ResponseObject<List<SubscriptionDTO>> resp = groupServices.getUserSubscriptions();
 
@@ -108,11 +108,10 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> aParent, View aView,
 				int aPos, long anId) {
-			    GroupDTO group = (GroupDTO) aParent.getItemAtPosition(aPos);
+			    SubscriptionDTO sub = (SubscriptionDTO) aParent.getItemAtPosition(aPos);
 
 			    // Store config
-			    // TODO: Change id
-			    sharedPrefs.storeString(SharedPreferencHelper.SHARED_PREF_WIDGET, "config-" + widgetId, group.getHashId());
+			    sharedPrefs.storeInt(SharedPreferencHelper.SHARED_PREF_WIDGET, "config-" + widgetId, sub.getGroup().getId());
 
 			    // Update Widget
 			    final Context context = ConfigureWidgetActivity.this;

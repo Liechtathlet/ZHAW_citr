@@ -5,7 +5,7 @@ import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBSubscriptionService;
+import ch.zhaw.mdp.lhb.citr.jpa.service.SubscriptionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +18,10 @@ import java.util.List;
 /**
  * @author Simon Lang
  *
- * Implementation of the DB-Service interface {@link ch.zhaw.mdp.lhb.citr.jpa.service.IDBSubscriptionService}
+ * Implementation of the DB-Service interface {@link ch.zhaw.mdp.lhb.citr.jpa.service.SubscriptionRepository}
  */
 @Service("subscriptionService")
-public class SubscriptionServiceJpaImpl implements IDBSubscriptionService {
+public class SubscriptionRepositoryJpaImpl implements SubscriptionRepository {
 
 	private EntityManager entityManager;
 
@@ -36,10 +36,10 @@ public class SubscriptionServiceJpaImpl implements IDBSubscriptionService {
 	}
 
 	@Override
-	public List<SubscriptionDVO> getSubscriptionRequestByGroup(GroupDVO group) {
+	public List<SubscriptionDVO> getSubscriptionByGroup(GroupDVO group, SubscriptionDVO.State aState) {
 		Query q = entityManager.createQuery("select ug from SubscriptionDVO ug where ug.groupId = :groupId and ug.state = :state");
 		q.setParameter("groupId", group.getId());
-		q.setParameter("state", SubscriptionDVO.State.OPEN);
+		q.setParameter("state", aState);
 		List<SubscriptionDVO> subscriptionDVOs = q.getResultList();
 		return subscriptionDVOs;
 	}

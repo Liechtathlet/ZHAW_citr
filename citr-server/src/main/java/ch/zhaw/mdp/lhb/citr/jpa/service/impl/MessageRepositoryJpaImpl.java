@@ -12,7 +12,7 @@ import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import org.springframework.stereotype.Service;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBMessageService;
+import ch.zhaw.mdp.lhb.citr.jpa.service.MessageRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,10 +21,10 @@ import java.util.List;
  * @author Daniel Brun
  * @author Simon Lang
  *
- * Implementation of the DB-Service interface {@link IDBMessageService}
+ * Implementation of the DB-Service interface {@link MessageRepository}
  */
 @Service("messageService")
-public class MessageServiceJpaImpl implements IDBMessageService{
+public class MessageRepositoryJpaImpl implements MessageRepository{
 
 	private static final LoggingStrategy LOG = LoggingFactory.get();
 

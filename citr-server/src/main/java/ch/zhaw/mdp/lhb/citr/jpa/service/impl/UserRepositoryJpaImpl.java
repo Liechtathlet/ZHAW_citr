@@ -2,7 +2,7 @@ package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
+import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +16,10 @@ import java.util.List;
  * @author Daniel Brun
  * @author Simon Lang
  *
- * Implementation of the DB-Service interface {@link IDBUserService}
+ * Implementation of the DB-Service interface {@link UserRepository}
  */
 @Service("userService")
-	public class UserServiceJpaImpl implements IDBUserService {
+	public class UserRepositoryJpaImpl implements UserRepository {
 
 	private EntityManager entityManager;
 

@@ -1,17 +1,17 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service;
 
+import java.util.List;
+
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-
-import java.util.List;
 
 /**
  * @author Simon Lang
  *
  * Interface for the Subscription-Persistence-Services
  */
-public interface IDBSubscriptionService {
+public interface SubscriptionRepository {
 	/**
 	 * Creates a new subscription.
 	 *
@@ -23,9 +23,10 @@ public interface IDBSubscriptionService {
 	/**
 	 * Gets all subscription requests for a particular group.
 	 * @param group The group to get the subscriptions to.
+	 * @param aState The state.
 	 * @return List of subscriptions.
 	 */
-	List<SubscriptionDVO> getSubscriptionRequestByGroup(GroupDVO group);
+	List<SubscriptionDVO> getSubscriptionByGroup(GroupDVO group, SubscriptionDVO.State aState);
 
 	/**
 	 * Checks if a user is already subscripted to a group.

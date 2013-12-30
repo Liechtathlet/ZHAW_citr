@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
+import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
 
 /**
  * @author Daniel Brun
@@ -24,7 +24,7 @@ import ch.zhaw.mdp.lhb.citr.jpa.service.IDBUserService;
 public class UserServiceRestImplTest {
 
     @Mock
-    private IDBUserService mockDBUserService;
+    private UserRepository mockDBUserService;
 
     @Mock
     private ReloadableResourceBundleMessageSource messageSource;

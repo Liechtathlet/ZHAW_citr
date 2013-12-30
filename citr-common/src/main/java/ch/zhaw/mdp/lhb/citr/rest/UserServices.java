@@ -11,7 +11,7 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
  *
  * Interface for the User-Rest-Services
  */
-public interface IRUserServices {
+public interface UserServices {
 
 	/**
 	 * Registers the given user.
@@ -25,7 +25,8 @@ public interface IRUserServices {
 	 * Performs the login of the given user and returns the user details.
 	 * 
 	 * @param aOpenId The openId
+	 * @param aRegistrationId The registration id.
 	 * @return The user or null if no corresponding user could be found.
 	 */
-	public ResponseObject<UserDTO> loginUser(String aOpenId);
+	public ResponseObject<UserDTO> loginUser(String aOpenId, String aRegistrationId);
 }

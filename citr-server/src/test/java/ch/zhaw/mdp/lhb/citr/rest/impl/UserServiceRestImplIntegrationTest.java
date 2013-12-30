@@ -3,15 +3,13 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
+import ch.zhaw.mdp.lhb.citr.rest.UserServices;
 
 /**
  * @author Daniel Brun
@@ -26,7 +24,7 @@ import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
 public class UserServiceRestImplIntegrationTest { 
 
     @InjectMocks
-    private IRUserServices userServiceRest;
+    private UserServices userServiceRest;
 
     /**
      * Test method for {@link ch.zhaw.mdp.lhb.citr.rest.impl.UserServiceRestImpl#loginUser(java.lang.String)}.

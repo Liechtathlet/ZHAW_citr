@@ -19,80 +19,77 @@ public class GroupDVO {
 
     private String name;
 
-	@Enumerated(EnumType.STRING)
-	private Mode mode;
+    @Enumerated(EnumType.STRING)
+    private Mode mode;
 
-	public enum Mode {
-		PUBLIC,
-		PRIVATE,
-	}
+    public enum Mode {
+	PUBLIC, PRIVATE,
+    }
 
-	@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private State state;
 
-	public enum State {
-		ACTIVE,
-		PASSIVE
-	}
+    public enum State {
+	ACTIVE, PASSIVE
+    }
 
-	@OneToMany(mappedBy="group")
-	private List<SubscriptionDVO> subscriptions;
+    @OneToMany(mappedBy = "group")
+    private List<SubscriptionDVO> subscriptions;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "owner_usr_id")
-	private UserDVO owner;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_usr_id")
+    private UserDVO owner;
 
     public GroupDVO() {
-		// every new group is active
-		this.setState(State.ACTIVE);
+	// every new group is active
+	this.setState(State.ACTIVE);
     }
 
     public int getId() {
-		return id;
+	return id;
     }
 
     public void setId(int aId) {
-		id = aId;
+	id = aId;
     }
 
     public String getName() {
-		return name;
+	return name;
     }
 
     public void setName(String aName) {
-		name = aName;
+	name = aName;
     }
 
     public State getState() {
-		return state;
+	return state;
     }
 
     public void setState(State aState) {
-		state = aState;
+	state = aState;
     }
 
     public Mode getMode() {
-		return mode;
+	return mode;
     }
 
     public void setMode(Mode aMode) {
-		mode = aMode;
+	mode = aMode;
     }
 
-	public List<SubscriptionDVO> getSubscriptions() {
-		return subscriptions;
-	}
+    public List<SubscriptionDVO> getSubscriptions() {
+	return subscriptions;
+    }
 
-	public void setSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
-		this.subscriptions = subscriptionDVOs;
-	}
+    public void setSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
+	this.subscriptions = subscriptionDVOs;
+    }
 
-	public UserDVO getOwner() {
-		return owner;
-	}
+    public UserDVO getOwner() {
+	return owner;
+    }
 
-	public void setOwner(UserDVO owner) {
-		this.owner = owner;
-	}
+    public void setOwner(UserDVO owner) {
+	this.owner = owner;
+    }
 }
-

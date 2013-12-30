@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.IDBGroupService;
+import ch.zhaw.mdp.lhb.citr.jpa.service.GroupRepository;
 
 /**
  * @author Daniel Brun
  * @author Simon Lang
  *
- * Implementation of the DB-Service interface {@link IDBGroupService}
+ * Implementation of the DB-Service interface {@link GroupRepository}
  */
 @Service("groupService")
-public class GroupServiceJpaImpl implements IDBGroupService {
+public class GroupRepositoryJpaImpl implements GroupRepository {
 
 	
 	private EntityManager entityManager;

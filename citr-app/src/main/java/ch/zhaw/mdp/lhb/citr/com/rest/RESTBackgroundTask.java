@@ -19,8 +19,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
@@ -65,6 +67,16 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
      * HTTP GET
      */
     public static final int HTTP_GET_TASK = 2;
+
+    /**
+     * HTTP PUT
+     */
+    public static final int HTTP_PUT_TASK = 3;
+
+    /**
+     * HTTP DELETE
+     */
+    public static final int HTTP_DELETE_TASK = 4;
 
     /**
      * Connection timeout in ms
@@ -119,7 +131,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
     /**
      * Displays a 'Working-Dialog'
      */
-    private void showWorkingDialog() {
+    public void showWorkingDialog() {
 	if (context instanceof Activity) {
 	    uiProgressDialog = new ProgressDialog(context);
 	    uiProgressDialog.setMessage(context
@@ -132,6 +144,16 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	}
     }
 
+    /* (non-Javadoc)
+     * @see android.os.AsyncTask#onProgressUpdate(Progress[])
+     */
+    @Override
+    protected void onProgressUpdate(Integer... aValues) {
+        super.onProgressUpdate(aValues);
+        
+        showWorkingDialog();
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -144,7 +166,7 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	    ((CitrBaseActivity) context).cleanScreen();
 	}
 
-	showWorkingDialog();
+	//showWorkingDialog();
 
 	ConnectivityManager connMgr = (ConnectivityManager) context
 		.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -262,6 +284,32 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 	    switch (httpRequestType) {
 
 	    // Create POST-Request
+		case HTTP_DELETE_TASK:
+		    HttpConnectionParams.setConnectionTimeout(httpParameter,
+			    CONN_TIMEOUT);
+		    HttpConnectionParams.setSoTimeout(httpParameter,
+			    SOCKET_TIMEOUT);
+		    httpParameter.setParameter(HTTP.CONTENT_TYPE,
+			    "application/json");
+
+		    url.append("?");
+		    url.append(URLEncodedUtils.format(parameters, "utf-8"));
+
+		    httpRequest = new HttpDelete(url.toString());
+		    break;
+		case HTTP_PUT_TASK:
+		    httpRequest = new HttpPut(url.toString());
+
+		    if (parameters.size() > 1) {
+			throw new IllegalArgumentException(
+				"Only one paramter is permitted for each put request!");
+		    }
+
+		    if (parameters.size() == 1) {
+			((HttpPut) httpRequest).setEntity(new StringEntity(
+				parameters.get(0).getValue()));
+		    }
+		    break;
 		case HTTP_POST_TASK:
 		    httpRequest = new HttpPost(url.toString());
 

@@ -7,10 +7,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
+import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
 
 /**
  * @author Michael Hadorn
@@ -23,13 +23,13 @@ public class GroupCreateActivity extends CitrBaseActivity {
 
     private static final String TAG = "GroupCreateActivity";
 
-    private IRGroupServices groupServices;
+    private GroupServices groupServices;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_create);
 
-        groupServices = new ClientRGroupServicesImpl(this);
+        groupServices = new ClientGroupServicesImpl(this);
     }
 
     public void onAECreateGroup(View view) {

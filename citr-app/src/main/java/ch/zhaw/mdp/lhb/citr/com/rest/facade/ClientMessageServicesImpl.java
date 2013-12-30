@@ -7,11 +7,11 @@ import android.content.Context;
 import android.util.Log;
 import ch.zhaw.mdp.lhb.citr.com.rest.AbstractClientRBaseServiceImpl;
 import ch.zhaw.mdp.lhb.citr.com.rest.RESTBackgroundTask;
-import ch.zhaw.mdp.lhb.citr.dto.UserDTO;
+import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrCommunicationException;
 import ch.zhaw.mdp.lhb.citr.exceptions.CitrExceptionTypeEnum;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.IRUserServices;
+import ch.zhaw.mdp.lhb.citr.rest.MessageServices;
 import ch.zhaw.mdp.lhb.citr.util.PropertyHelper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,14 +20,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 /**
  * @author Daniel Brun
  * 
- *         Client implementation of the Service-Interface {@link IRUserServices} .
+ *         Client implementation of the Service-Interface {@link IRMessageServices}.
  */
-public class ClientRUserServicesImpl extends AbstractClientRBaseServiceImpl
-	implements IRUserServices {
+public class ClientMessageServicesImpl extends AbstractClientRBaseServiceImpl
+	implements MessageServices {
 
-    /**
-     * Tag of intent
-     */
     public static final String TAG = "ClientIRUserServicesImpl";
 
     /**
@@ -35,40 +32,28 @@ public class ClientRUserServicesImpl extends AbstractClientRBaseServiceImpl
      * 
      * @param aContext The context.
      */
-    public ClientRUserServicesImpl(Context aContext) {
+    public ClientMessageServicesImpl(Context aContext) {
 	super(aContext);
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see ch.zhaw.mdp.lhb.citr.rest.IRUserServices#getUser(java.lang.String)
+     * @see ch.zhaw.mdp.lhb.citr.rest.IRMessageServices#sendMessage(ch.zhaw.mdp.lhb.citr.dto.MessageDTO)
      */
     @Override
-    public ResponseObject<UserDTO> loginUser(String anOpenId) {
-	preInit(RESTBackgroundTask.HTTP_GET_TASK);
+    public ResponseObject<Boolean> createMessage(MessageDTO aMessage) {
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.user"));
-	url.append(anOpenId);
-	url.append("/login");
+	if (aMessage == null) {
+	    throw new IllegalArgumentException(
+		    "The argument aMessage must not be null");
+	}
 
-	return execute(url.toString(),
-		new TypeReference<ResponseObject<UserDTO>>() {
-		});
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.zhaw.mdp.lhb.citr.rest.IRUserServices#registerUser(ch.zhaw.mdp.lhb .citr.dto.UserDTO)
-     */
-    @Override
-    public ResponseObject<Boolean> registerUser(UserDTO aUser) {
 	preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
 	try {
-	    restTask.addParameter("user", mapper.writeValueAsString(aUser));
+	    restTask.addParameter("message",
+		    mapper.writeValueAsString(aMessage));
 	} catch (JsonProcessingException e) {
 	    Log.e(TAG, "Exception during JSON serialization prcoess.", e);
 	    throw new CitrCommunicationException(
@@ -77,11 +62,12 @@ public class ClientRUserServicesImpl extends AbstractClientRBaseServiceImpl
 	}
 
 	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.user"));
-	url.append("registerUser");
+	url.append(PropertyHelper.get("rest.service.message"));
+	url.append("create");
 
 	return execute(url.toString(),
 		new TypeReference<ResponseObject<Boolean>>() {
 		});
     }
+
 }

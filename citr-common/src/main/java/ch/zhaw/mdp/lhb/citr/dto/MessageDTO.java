@@ -14,22 +14,49 @@ public class MessageDTO {
 
 	private int groupId;
 	private int userId;
+	
 	private String messageText;
 
-	public void setGroupId(int aGroupId) {
-		groupId = aGroupId;
-	}
-
-	public void setMessageText(String aMessageText) {
-		messageText = aMessageText;
-	}
-
+	/**
+	 * @return the groupId
+	 */
 	public int getGroupId() {
-		return groupId;
+	    return groupId;
 	}
 
+	/**
+	 * @param aGroupId the groupId to set
+	 */
+	public void setGroupId(int aGroupId) {
+	    groupId = aGroupId;
+	}
+
+	/**
+	 * @return the messageText
+	 */
 	public String getMessageText() {
-		return messageText;
+	    return messageText;
+	}
+
+	/**
+	 * @param aMessageText the messageText to set
+	 */
+	public void setMessageText(String aMessageText) {
+	    messageText = aMessageText;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public int getUserId() {
+	    return userId;
+	}
+
+	/**
+	 * @param aUserId the userId to set
+	 */
+	public void setUserId(int aUserId) {
+	    userId = aUserId;
 	}
 
 	@Override
@@ -37,6 +64,7 @@ public class MessageDTO {
 		int hashCode = 17;
 		
 		hashCode += 37 * hashCode + groupId;
+		hashCode += 37 * hashCode + userId;
 		hashCode += 37 * hashCode + messageText.hashCode();
 		
 		return hashCode;
@@ -54,15 +82,7 @@ public class MessageDTO {
 
 		MessageDTO message = (MessageDTO) anObj;
 		
-		return (groupId == message.getGroupId() &&
+		return (groupId == message.groupId && userId == message.userId &&
 				(messageText == null ? message.getMessageText() == null : messageText.equals(message.getMessageText())));
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 }

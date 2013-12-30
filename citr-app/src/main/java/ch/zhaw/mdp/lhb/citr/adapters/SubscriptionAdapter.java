@@ -1,19 +1,18 @@
 package ch.zhaw.mdp.lhb.citr.adapters;
 
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import ch.zhaw.mdp.lhb.citr.R;
-import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
-
-import java.util.List;
+import ch.zhaw.mdp.lhb.citr.enumeration.SubscriptionStateEnum;
 
 public class SubscriptionAdapter extends ArrayAdapter<SubscriptionDTO>  {
 
@@ -54,17 +53,17 @@ public class SubscriptionAdapter extends ArrayAdapter<SubscriptionDTO>  {
 		TextView groupTextLeft = (TextView) rowView.findViewById(R.id.tvGroupTextLeft);
 		TextView groupTextRight = (TextView) rowView.findViewById(R.id.tvGroupTextRight);
 		subscriptionDTO = subscriptionDTOs.get(position);
-		SubscriptionDTO.State state = subscriptionDTO.getState();
+		SubscriptionStateEnum state = subscriptionDTO.getState();
 
 		String userStateText = "";
 		int textColor = Color.BLACK;
 
 		switch (state) {
-			case approved:
+			case APPROVED:
 				textColor = Color.parseColor("#669900");
 				userStateText = "Mitglied";
 				break;
-			case open:
+			case OPEN:
 				textColor = Color.parseColor("#FF8800");
 				userStateText = "Anfrage ausstehend";
 				break;

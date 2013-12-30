@@ -1,22 +1,15 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
+import java.util.List;
+
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.adapters.GroupAdapter;
-import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientRGroupServicesImpl;
+import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
-import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
-import ch.zhaw.mdp.lhb.citr.rest.IRGroupServices;
-
-import java.util.ArrayList;
-import java.util.List;
+import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
 
 /**
  * @author Michael Hadorn
@@ -35,7 +28,7 @@ public class GroupList extends CitrBaseActivity {
     /**
      * Service to manage group data via rest
      */
-    private IRGroupServices groupServices;
+    private GroupServices groupServices;
 
     // private List groupsResult = new ArrayList();
 
@@ -53,7 +46,7 @@ public class GroupList extends CitrBaseActivity {
         setContentView(R.layout.group_list);
 
         // get groups via rest
-        groupServices = new ClientRGroupServicesImpl(this);
+        groupServices = new ClientGroupServicesImpl(this);
 
         ResponseObject<List<GroupDTO>> respGroupsAll = groupServices.getAllGroups();
         // ResponseObject<List<SubscriptionDTO>> userSubs = groupServices.getUserSubscriptions();

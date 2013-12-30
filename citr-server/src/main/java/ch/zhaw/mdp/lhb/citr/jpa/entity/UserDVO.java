@@ -3,7 +3,14 @@ package ch.zhaw.mdp.lhb.citr.jpa.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author Daniel Brun
@@ -25,6 +32,7 @@ public class UserDVO implements Serializable {
 	private String username;
 	//TODO: Remove password field if OAuth is implemented.
 	private String password;
+	private String registrationId;
 
 	@OneToMany(mappedBy="user")
 	private List<SubscriptionDVO> subscription;
@@ -104,4 +112,19 @@ public class UserDVO implements Serializable {
 	public void setCreatedGroups(List<GroupDVO> createdGroups) {
 		this.createdGroups = createdGroups;
 	}
+
+	/**
+	 * @return the registrationId
+	 */
+	public String getRegistrationId() {
+	    return registrationId;
+	}
+
+	/**
+	 * @param aRegistrationId the registrationId to set
+	 */
+	public void setRegistrationId(String aRegistrationId) {
+	    registrationId = aRegistrationId;
+	}
+	
 }

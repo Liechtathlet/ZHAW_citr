@@ -9,7 +9,7 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
  *
  * Interface for the Message-Rest-Services
  */
-public interface IRMessageServices {
+public interface MessageServices {
 
 	/**
 	 * Commits a message in the given group.
