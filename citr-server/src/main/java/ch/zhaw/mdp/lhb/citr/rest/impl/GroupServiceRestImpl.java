@@ -5,12 +5,7 @@ package ch.zhaw.mdp.lhb.citr.rest.impl;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +125,7 @@ public class GroupServiceRestImpl implements GroupServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("{groupId}/getSubscriptions")
-	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptionRequests(@PathParam("groupId") int aGroupId) {
+	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptionRequests(@PathParam("aGroupId") int aGroupId) {
 
 		String msg = null;
 		Boolean succ = true;
@@ -244,7 +239,7 @@ public class GroupServiceRestImpl implements GroupServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("{groupId}/subscribe")
-	public ResponseObject<Boolean> subscribe(@PathParam("groupId") int aGroupId) {
+	public ResponseObject<Boolean> subscribe(@PathParam("aGroupId") int aGroupId) {
 
 		boolean success = false;
 		String message = null;
@@ -303,7 +298,7 @@ public class GroupServiceRestImpl implements GroupServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("{groupId}/getNewestMessage")
-	public ResponseObject<MessageDTO> getNewestMessage(@PathParam("groupId") int aGroupId) {
+	public ResponseObject<MessageDTO> getNewestMessage(@PathParam("aGroupId") int aGroupId) {
 
 		MessageDVO messageDVO = messageRepo.GetNewestMessageFromGroup(aGroupId);
 		MessageDTO messageDTO = null;
@@ -323,13 +318,26 @@ public class GroupServiceRestImpl implements GroupServices {
 	/**
 	 * Delets a group.
 	 *
-	 * @param aArg0: Id to delete
+	 * @param aGroupId: Id to delete
 	 * @return
 	 */
+	@DELETE
 	@Override
-	public ResponseObject<Boolean> deleteGroup(int aArg0) {
-		// TODO Implement
-		return null;
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("{groupId}/delete")
+	public ResponseObject<Boolean> deleteGroup(@PathParam("groupId") int aGroupId) {
+		boolean success = true;
+		String msg = "";
+
+		try {
+			groupRepo.remove(aGroupId);
+		} catch (Exception e) {
+			msg = e.getMessage();
+			success = false;
+		}
+		return new ResponseObject<Boolean>(success, success, msg);
 	}
 
 	/**

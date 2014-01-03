@@ -35,4 +35,9 @@ public interface GroupRepository {
      */
     public int create(GroupDVO group);
 
+	/**
+	 * Removes a group.
+	 * @param groupId Group id to remove.
+	 */
+	public void remove(int groupId) throws Exception;
 }

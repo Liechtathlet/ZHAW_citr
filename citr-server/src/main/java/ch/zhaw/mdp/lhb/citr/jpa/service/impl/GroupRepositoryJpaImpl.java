@@ -21,7 +21,6 @@ import ch.zhaw.mdp.lhb.citr.jpa.service.GroupRepository;
 @Service("groupService")
 public class GroupRepositoryJpaImpl implements GroupRepository {
 
-	
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -47,5 +46,13 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 		entityManager.persist(group);
 		entityManager.flush();
 		return group.getId();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public void remove(int groupId) throws Exception {
+		Query q = entityManager.createQuery("delete from GroupDVO g where g.id = :groupId");
+		q.setParameter("groupId", groupId);
+		q.executeUpdate();
 	}
 }
