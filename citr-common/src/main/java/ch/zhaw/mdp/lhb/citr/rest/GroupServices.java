@@ -109,4 +109,14 @@ public interface GroupServices {
 	 * @return True if the subscription has been declined.
 	 */
 	public ResponseObject<Boolean> declineSubscription(int aGroupId, int aUserId);
+
+	/**
+	 * Gets the first couple messages of a group.
+	 * Additional query parameters possible:
+	 * - messagesBefore: Gets messages older then the given message. For paging.
+	 * - count: Number of messages.
+	 * @param aGroupId The group id.
+	 * @return Messages of the group.
+	 */
+	public ResponseObject<List<MessageDTO>> getMessages(int aGroupId, int messagesBefore, int count);
 }

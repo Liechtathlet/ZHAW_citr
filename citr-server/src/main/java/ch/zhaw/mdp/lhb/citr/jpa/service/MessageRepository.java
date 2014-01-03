@@ -5,6 +5,9 @@ package ch.zhaw.mdp.lhb.citr.jpa.service;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author Daniel Brun
  * @author Simon Lang
@@ -30,11 +33,20 @@ public interface MessageRepository {
      */
     public MessageDVO getMessageById(long anId);
 
-    /**
-     * Gets the newest message of a group.
-     * 
-     * @param aGroupId the group id to look into.
-     * @return newest message.
-     */
-    public MessageDVO GetNewestMessageFromGroup(int aGroupId);
+	/**
+	 * Gets the messages of a given group.
+	 * @param aGroupId Group id to get the messages from.
+	 * @param count Message count to get.
+	 * @return Found messages.
+	 */
+	List<MessageDVO> getMessagesByGroup(int aGroupId, int count);
+
+	/**
+	 * Gets the messages of a given group older then the providerd Date.
+	 * @param aGroupId Group id to get the messages from.
+	 * @param count Message count to get.
+	 * @param olderThan Get messages older than this Date.
+	 * @return Found messages.
+	 */
+	List<MessageDVO> getMessagesByGroup(int aGroupId, int count, Date olderThan);
 }

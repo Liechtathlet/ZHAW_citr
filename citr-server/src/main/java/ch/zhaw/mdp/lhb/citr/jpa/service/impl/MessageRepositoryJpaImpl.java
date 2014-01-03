@@ -15,6 +15,7 @@ import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.MessageRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,32 +36,76 @@ public class MessageRepositoryJpaImpl implements MessageRepository{
 		this.entityManager = entityManager;
 	}
 
+	/**
+	 * Saves the given message.
+	 *
+	 *
+	 * @param aMessage the message to save.
+	 * @return true if the message was saved successfully, false otherwise.
+	 */
 	@Override
 	@Transactional(readOnly = true)
-	public long save(MessageDVO message) {
-		entityManager.persist(message);
+	public long save(MessageDVO aMessage) {
+		entityManager.persist(aMessage);
 		entityManager.flush();
-		return message.getId();
+		return aMessage.getId();
 	}
 
+	/**
+	 * Looks for the aMessage with the given id.
+	 *
+	 * @param anId the id to look for.
+	 * @return the corresponding aMessage or null if no aMessage for the given id could be found.
+	 */
 	@Override
 	public MessageDVO getMessageById(long anId) {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.find(MessageDVO.class, anId);
 	}
 
+	/**
+	 * Gets the messages of a given group.
+	 * @param aGroupId Group id to get the messages from.
+	 * @param count Message count to get.
+	 * @return Found messages.
+	 */
 	@Override
-	public MessageDVO GetNewestMessageFromGroup(int aGroupId) {
+	public List<MessageDVO> getMessagesByGroup(int aGroupId, int count) {
 
-		Query q = entityManager.createQuery("select m from MessageDVO m where m.groupId = :groupId order by m.sendDate desc");
+		Query q = entityManager.createQuery("select m from MessageDVO m where m.groupId = :groupId " +
+				"order by m.sendDate desc");
 		q.setParameter("groupId", aGroupId);
+		q.setMaxResults(count);
 
 		List list = q.getResultList();
 		if (list.size() == 0) {
 			return null;
 		}
 
-		return (MessageDVO)list.get(0);
+		return list;
 	}
 
+	/**
+	 * Gets the messages of a given group older then the providerd Date.
+	 * @param aGroupId Group id to get the messages from.
+	 * @param count Message count to get.
+	 * @param olderThan Get messages older than this Date.
+	 * @return Found messages.
+	 */
+	@Override
+	public List<MessageDVO> getMessagesByGroup(int aGroupId, int count, Date olderThan) {
+
+		Query q = entityManager.createQuery("select m from MessageDVO m " +
+				"where m.groupId = :groupId and m.sendDate < :olderThan " +
+				"order by m.sendDate desc");
+		q.setParameter("groupId", aGroupId);
+		q.setParameter("olderThan", olderThan);
+		q.setMaxResults(count);
+
+		List list = q.getResultList();
+		if (list.size() == 0) {
+			return null;
+		}
+
+		return list;
+	}
 }

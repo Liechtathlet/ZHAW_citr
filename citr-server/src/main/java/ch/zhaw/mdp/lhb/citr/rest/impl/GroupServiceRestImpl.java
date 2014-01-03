@@ -3,9 +3,11 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -298,21 +300,19 @@ public class GroupServiceRestImpl implements GroupServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("{groupId}/getNewestMessage")
-	public ResponseObject<MessageDTO> getNewestMessage(@PathParam("aGroupId") int aGroupId) {
+	public ResponseObject<MessageDTO> getNewestMessage(@PathParam("groupId") int aGroupId) {
 
-		MessageDVO messageDVO = messageRepo.GetNewestMessageFromGroup(aGroupId);
-		MessageDTO messageDTO = null;
+		List<MessageDVO> messageDVOs = messageRepo.getMessagesByGroup(aGroupId, 1);
 
-		boolean success = false;
-		String message = null;
-
-		if (messageDVO == null) {
-		} else {
-			messageDTO = MessageFactory.createMessageDTO(messageDVO);
-			success = true;
+		if (messageDVOs == null) {
+			LOG.info("No messages found.");
+			return new ResponseObject<MessageDTO>(null, true, "No messages found.");
 		}
 
-		return new ResponseObject<MessageDTO>(messageDTO, success, message);
+		MessageDVO messageDVO = messageDVOs.get(0);
+		MessageDTO messageDTO = MessageFactory.createMessageDTO(messageDVO);
+
+		return new ResponseObject<MessageDTO>(messageDTO, true, null);
 	}
 
 	/**
@@ -413,6 +413,40 @@ public class GroupServiceRestImpl implements GroupServices {
 		subscriptionRepo.remove(subscriptionDVO);
 
 		return new ResponseObject<Boolean>(true, true, null);
+	}
+
+	/**
+	 * Gets the first couple messages of a group.
+	 * Additional query parameters possible:
+	 * - messagesBefore: Gets messages older then the given message. For paging.
+	 * - count: Number of messages.
+	 * @param aGroupId The group id.
+	 * @return Messages of the group.
+	 */
+	@GET
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("{groupId}/messages")
+	public ResponseObject<List<MessageDTO>> getMessages(@PathParam("groupId") int aGroupId,
+	                                                    @DefaultValue("0") @QueryParam("messagesBefore") int messagesBefore,
+	                                                    @DefaultValue("10") @QueryParam("count") int count) {
+
+		List<MessageDVO> messageDVOs;
+		if(messagesBefore == 0) {
+			messageDVOs = messageRepo.getMessagesByGroup(aGroupId, count);
+		} else {
+			MessageDVO messageDVO = messageRepo.getMessageById(messagesBefore);
+
+			if (messageDVO == null) {
+				return new ResponseObject<List<MessageDTO>>(null, false, "MessageBefore not found.");
+			}
+
+			messageDVOs = messageRepo.getMessagesByGroup(aGroupId, count, messageDVO.getSendDate());
+		}
+		List<MessageDTO> messageDTO = MessageFactory.createMessageDTOs(messageDVOs);
+
+		return new ResponseObject<List<MessageDTO>>(messageDTO, true, "");
 	}
 
 	/**
