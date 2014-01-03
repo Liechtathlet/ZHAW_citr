@@ -17,42 +17,42 @@ public class SubscriptionDTO {
      * @return the user
      */
     public UserDTO getUser() {
-	return user;
+		return user;
     }
 
     /**
      * @param aUser the user to set
      */
     public void setUser(UserDTO aUser) {
-	user = aUser;
+		user = aUser;
     }
 
     /**
      * @return the group
      */
     public GroupDTO getGroup() {
-	return group;
+		return group;
     }
 
     /**
      * @param aGroup the group to set
      */
     public void setGroup(GroupDTO aGroup) {
-	group = aGroup;
+		group = aGroup;
     }
 
     /**
      * @return the state
      */
     public SubscriptionStateEnum getState() {
-	return state;
+		return state;
     }
 
     /**
      * @param aState the state to set
      */
     public void setState(SubscriptionStateEnum aState) {
-	state = aState;
+		state = aState;
     }
 
     /*
@@ -62,13 +62,13 @@ public class SubscriptionDTO {
      */
     @Override
     public int hashCode() {
-	int hashCode = 17;
+		int hashCode = 17;
 
-	hashCode += 37 * hashCode + user.hashCode();
-	hashCode += 37 * hashCode + group.hashCode();
-	hashCode += 37 * hashCode + state.hashCode();
+		hashCode += 37 * hashCode + user.hashCode();
+		hashCode += 37 * hashCode + group.hashCode();
+		hashCode += 37 * hashCode + state.hashCode();
 
-	return hashCode;
+		return hashCode;
     }
 
     /*
@@ -78,21 +78,18 @@ public class SubscriptionDTO {
      */
     @Override
     public boolean equals(Object anObj) {
-	if (anObj == this) {
-	    return true;
-	}
+		if (anObj == this) {
+		    return true;
+		}
 
-	if (anObj == null || !(anObj instanceof SubscriptionDTO)) {
-	    return false;
-	}
+		if (anObj == null || !(anObj instanceof SubscriptionDTO)) {
+		    return false;
+		}
 
-	SubscriptionDTO subscription = (SubscriptionDTO) anObj;
+		SubscriptionDTO subscription = (SubscriptionDTO) anObj;
 
-	return ((user == null ? subscription.user == null : user
-		.equals(subscription.user)
-		&& (group == null ? subscription.group == null : group
-			.equals(subscription.group))
-		&& (state == null ? subscription.state == null : state
-			.equals(subscription.state))));
+		return ((user == null ? subscription.user == null : user.equals(subscription.user)
+			&& (group == null ? subscription.group == null : group.equals(subscription.group))
+			&& (state == null ? subscription.state == null : state.equals(subscription.state))));
     }
 }

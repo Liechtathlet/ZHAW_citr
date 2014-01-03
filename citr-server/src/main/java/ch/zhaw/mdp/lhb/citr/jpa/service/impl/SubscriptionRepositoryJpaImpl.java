@@ -1,7 +1,5 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
-import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
-import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
@@ -44,14 +42,31 @@ public class SubscriptionRepositoryJpaImpl implements SubscriptionRepository {
 		return subscriptionDVOs;
 	}
 
-	private static final LoggingStrategy LOG = LoggingFactory.get();
-
 	@Override
 	public boolean hasUserGroupSubscription(UserDVO user, GroupDVO group) {
 		Query q = entityManager.createQuery("select s from SubscriptionDVO s where s.groupId = :groupId and s.userId = :userId");
 		q.setParameter("groupId", group.getId());
 		q.setParameter("userId", user.getId());
 		return q.getResultList().size() > 0;
+	}
+
+	@Override
+	public SubscriptionDVO getSubscription(UserDVO userDVO, GroupDVO groupDVO) {
+		Query q = entityManager.createQuery("select s from SubscriptionDVO s where s.groupId = :groupId and s.userId = :userId");
+		q.setParameter("groupId", groupDVO.getId());
+		q.setParameter("userId", userDVO.getId());
+		List<SubscriptionDVO> subscriptionDVOs = q.getResultList();
+		return subscriptionDVOs.get(0);
+	}
+
+	@Override
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
+	public void updateState(SubscriptionDVO subscriptionDVO, SubscriptionDVO.State state) {
+		Query q = entityManager.createQuery("update SubscriptionDVO s set s.state = :state where s.groupId = :groupId and s.userId = :userId");
+		q.setParameter("state", state);
+		q.setParameter("groupId", subscriptionDVO.getGroupId());
+		q.setParameter("userId", subscriptionDVO.getUserId());
+		q.executeUpdate();
 	}
 
 	/**

@@ -93,4 +93,20 @@ public interface GroupServices {
 	 * @return Newest message of the group.
 	 */
 	public ResponseObject<MessageDTO> getNewestMessage(int aGroupId);
+
+	/**
+	 * Accepts a subscription request.
+	 * @param aGroupId The id of the group.
+	 * @param aUserId The id of the user.
+	 * @return True if the subscription has been accepted.
+	 */
+	public ResponseObject<Boolean> acceptSubscription(int aGroupId, int aUserId);
+
+	/**
+	 * Declines a subscription request.
+	 * @param aGroupId The id of the group.
+	 * @param aUserId The id of the user.
+	 * @return True if the subscription has been declined.
+	 */
+	public ResponseObject<Boolean> declineSubscription(int aGroupId, int aUserId);
 }

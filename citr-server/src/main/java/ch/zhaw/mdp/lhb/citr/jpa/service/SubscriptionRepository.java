@@ -36,4 +36,19 @@ public interface SubscriptionRepository {
 	 * @return TRUE = User is subscripted. | FALSE = User is not subscripted.
 	 */
 	boolean hasUserGroupSubscription(UserDVO user, GroupDVO group);
+
+	/**
+	 * Gets a subscription by user and group.
+	 * @param userDVO The user.
+	 * @param groupDVO The group.
+	 * @return The matching subscription.
+	 */
+	SubscriptionDVO getSubscription(UserDVO userDVO, GroupDVO groupDVO);
+
+	/**
+	 * Updates the state on the subscription.
+	 * @param subscriptionDVO Subscription to update.
+	 * @param state State to set.
+	 */
+	void updateState(SubscriptionDVO subscriptionDVO, SubscriptionDVO.State state);
 }

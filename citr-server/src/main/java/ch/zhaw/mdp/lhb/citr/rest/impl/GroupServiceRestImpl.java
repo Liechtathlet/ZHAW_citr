@@ -341,6 +341,58 @@ public class GroupServiceRestImpl implements GroupServices {
 	}
 
 	/**
+	 * Accepts a subscription request.
+	 * @param aGroupId The id of the group.
+	 * @param aUserId The id of the user.
+	 * @return True if the subscription has been accepted.
+	 */
+	@PUT
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("{groupId}/user/{userId}/acceptSubscription")
+	public ResponseObject<Boolean> acceptSubscription(@PathParam("groupId") int aGroupId,
+	                                                  @PathParam("userId") int aUserId) {
+		GroupDVO groupDVO = groupRepo.getById(aGroupId);
+		UserDVO userDVO = userRepo.getById(aUserId);
+
+		if (groupDVO == null) {
+			return new ResponseObject<Boolean>(false, false, "Group not found.");
+		}
+		if (userDVO == null) {
+			return new ResponseObject<Boolean>(false, false, "User not found.");
+		}
+
+		if (!subscriptionRepo.hasUserGroupSubscription(userDVO, groupDVO)) {
+			return new ResponseObject<Boolean>(false, false, "User does not have a subscription for this group.");
+		}
+
+		SubscriptionDVO subscriptionDVO = subscriptionRepo.getSubscription(userDVO, groupDVO);
+		subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
+		subscriptionRepo.updateState(subscriptionDVO, SubscriptionDVO.State.APPROVED);
+
+		return new ResponseObject<Boolean>(true, true, null);
+	}
+
+	/**
+	 * Declines a subscription request.
+	 * @param aGroupId The id of the group.
+	 * @param aUserId The id of the user.
+	 * @return True if the subscription has been declined.
+	 */
+	@PUT
+	@Override
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_USER")
+	@Path("{groupId}/user/{userId}/declineSubscription")
+	public ResponseObject<Boolean> declineSubscription(@PathParam("groupId") int aGroupId,
+	                                                   @PathParam("userId") int aUserId) {
+		boolean success = true;
+		String msg = "";
+		return new ResponseObject<Boolean>(success, success, msg);
+	}
+
+	/**
 	 *
 	 * @param aArg0
 	 * @return
