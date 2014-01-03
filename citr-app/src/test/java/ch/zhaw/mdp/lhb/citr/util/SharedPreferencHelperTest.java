@@ -2,9 +2,7 @@ package ch.zhaw.mdp.lhb.citr.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import junit.extensions.TestSetup;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
