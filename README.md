@@ -49,7 +49,7 @@ Google-Cloud-Messaging:
 2. Google-Play-Services SDK installieren (http://developer.android.com/google/play-services/setup.html)
 3. git clone git@github.com:mosabua/maven-android-sdk-deployer.git (https://github.com/mosabua/maven-android-sdk-deployer)
 4. mvn clean install -N in gewünschtem Ordner (maven-android-sdk-deployer/extras/google-play-services)
-5. 
+5. IP-Adresse eintragen: https://cloud.google.com/console?redirected=true#/project/apps~citr-zhaw/apiui/credential
 
 OAuth:
 ----------------
