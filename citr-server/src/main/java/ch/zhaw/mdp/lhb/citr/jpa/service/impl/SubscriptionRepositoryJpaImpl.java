@@ -69,6 +69,15 @@ public class SubscriptionRepositoryJpaImpl implements SubscriptionRepository {
 		q.executeUpdate();
 	}
 
+	@Override
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
+	public void remove(SubscriptionDVO subscriptionDVO) {
+		Query q = entityManager.createQuery("delete from SubscriptionDVO s where s.groupId = :groupId and s.userId = :userId");
+		q.setParameter("groupId", subscriptionDVO.getGroupId());
+		q.setParameter("userId", subscriptionDVO.getUserId());
+		q.executeUpdate();
+	}
+
 	/**
 	 * Sets the Entity Manager
 	 *

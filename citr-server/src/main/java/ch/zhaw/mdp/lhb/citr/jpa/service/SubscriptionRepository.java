@@ -51,4 +51,10 @@ public interface SubscriptionRepository {
 	 * @param state State to set.
 	 */
 	void updateState(SubscriptionDVO subscriptionDVO, SubscriptionDVO.State state);
+
+	/**
+	 * Removes a subscription.
+	 * @param subscriptionDVO Subscription to remove.
+	 */
+	void remove(SubscriptionDVO subscriptionDVO);
 }

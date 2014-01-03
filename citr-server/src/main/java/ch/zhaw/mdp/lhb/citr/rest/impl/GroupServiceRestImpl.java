@@ -362,13 +362,16 @@ public class GroupServiceRestImpl implements GroupServices {
 		if (userDVO == null) {
 			return new ResponseObject<Boolean>(false, false, "User not found.");
 		}
-
 		if (!subscriptionRepo.hasUserGroupSubscription(userDVO, groupDVO)) {
 			return new ResponseObject<Boolean>(false, false, "User does not have a subscription for this group.");
 		}
 
 		SubscriptionDVO subscriptionDVO = subscriptionRepo.getSubscription(userDVO, groupDVO);
-		subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
+
+		if (subscriptionDVO.getState() == SubscriptionDVO.State.APPROVED) {
+			return new ResponseObject<Boolean>(false, false, "Subscription already approved.");
+		}
+
 		subscriptionRepo.updateState(subscriptionDVO, SubscriptionDVO.State.APPROVED);
 
 		return new ResponseObject<Boolean>(true, true, null);
@@ -387,9 +390,29 @@ public class GroupServiceRestImpl implements GroupServices {
 	@Path("{groupId}/user/{userId}/declineSubscription")
 	public ResponseObject<Boolean> declineSubscription(@PathParam("groupId") int aGroupId,
 	                                                   @PathParam("userId") int aUserId) {
-		boolean success = true;
-		String msg = "";
-		return new ResponseObject<Boolean>(success, success, msg);
+		GroupDVO groupDVO = groupRepo.getById(aGroupId);
+		UserDVO userDVO = userRepo.getById(aUserId);
+
+		if (groupDVO == null) {
+			return new ResponseObject<Boolean>(false, false, "Group not found.");
+		}
+		if (userDVO == null) {
+			return new ResponseObject<Boolean>(false, false, "User not found.");
+		}
+		if (!subscriptionRepo.hasUserGroupSubscription(userDVO, groupDVO)) {
+			return new ResponseObject<Boolean>(false, false, "User does not have a subscription for this group.");
+		}
+
+		SubscriptionDVO subscriptionDVO = subscriptionRepo.getSubscription(userDVO, groupDVO);
+
+		if (subscriptionDVO.getState() == SubscriptionDVO.State.APPROVED) {
+			return new ResponseObject<Boolean>(false, false, "Subscription already approved.");
+		}
+
+		subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
+		subscriptionRepo.remove(subscriptionDVO);
+
+		return new ResponseObject<Boolean>(true, true, null);
 	}
 
 	/**
