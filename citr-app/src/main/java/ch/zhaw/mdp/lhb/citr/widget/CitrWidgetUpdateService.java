@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ch.zhaw.mdp.lhb.citr.widget;
 
@@ -11,7 +11,7 @@ import android.util.Log;
 
 /**
  * @author Daniel Brun
- * 
+ *
  *         Update-Service for the Widgets.
  */
 public class CitrWidgetUpdateService extends Service {
@@ -25,23 +25,20 @@ public class CitrWidgetUpdateService extends Service {
      */
     @Override
     public int onStartCommand(Intent aIntent, int aFlags, int aStartId) {
-	Log.i(TAG, "Called Widget update");
+        Log.i(TAG, "Called Widget update");
 
-	AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
-		.getApplicationContext());
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this.getApplicationContext());
 
-	int[] allWidgetIds = aIntent
-		.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+        int[] allWidgetIds = aIntent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
-	for (int widgetId : allWidgetIds) {
-	    // Update Widget
-	    CitrWidgetProvider
-		    .updateAppWidget(this, appWidgetManager, widgetId);
-	}
+        for (int widgetId : allWidgetIds) {
+            // Update Widget
+            CitrWidgetProvider.updateAppWidget(this, appWidgetManager, widgetId);
+        }
 
-	stopSelf();
+        stopSelf();
 
-	return super.onStartCommand(aIntent, aFlags, aStartId);
+        return super.onStartCommand(aIntent, aFlags, aStartId);
     }
 
     /*
@@ -51,7 +48,7 @@ public class CitrWidgetUpdateService extends Service {
      */
     @Override
     public IBinder onBind(Intent aArg0) {
-	return null;
+        return null;
     }
 
 }
