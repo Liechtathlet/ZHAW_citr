@@ -46,10 +46,9 @@ Lokaler-Setup
 Google-Cloud-Messaging:
 ----------------
 1. SHA-Key der Developer-Version in der Developer-Console hinterlegen (http://developer.android.com/google/gcm/gs.html)
-2. Google-Play-Services SDK installieren (http://developer.android.com/google/play-services/setup.html)
-3. git clone git@github.com:mosabua/maven-android-sdk-deployer.git (https://github.com/mosabua/maven-android-sdk-deployer)
-4. mvn clean install -N in gewünschtem Ordner (maven-android-sdk-deployer/extras/google-play-services)
-5. IP-Adresse eintragen: https://cloud.google.com/console?redirected=true#/project/apps~citr-zhaw/apiui/credential
+2. IP-Adresse eintragen: https://cloud.google.com/console?redirected=true#/project/apps~citr-zhaw/apiui/credential
+3. Google-Play-Services SDK installieren (http://developer.android.com/google/play-services/setup.html)
+5. Libs von "citr\libs\m2Repo" ins lokale Maven-Repository kopieren.
 
 OAuth:
 ----------------

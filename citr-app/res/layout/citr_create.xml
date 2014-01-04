@@ -87,4 +87,31 @@
                 android:text="Mitglieder"/>
 
     </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/rlAdmin"
+            android:layout_below="@id/rlMembers"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+        <TextView
+                android:id="@+id/tvAdmin"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="Gruppen Administration"/>
+
+        <Button
+                android:id="@+id/buDeleteGroup"
+                android:layout_below="@id/tvAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gruppe löschen"
+                android:layout_alignParentRight="true"
+                android:onClick="onAEDeleteGroup"
+                />
+
+    </RelativeLayout>
 </RelativeLayout>

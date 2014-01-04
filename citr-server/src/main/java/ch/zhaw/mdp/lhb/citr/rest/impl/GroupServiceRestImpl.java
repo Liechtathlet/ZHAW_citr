@@ -347,7 +347,6 @@ public class GroupServiceRestImpl implements GroupServices {
 	 * @return True if the subscription has been accepted.
 	 */
 	@PUT
-	@Override
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("{groupId}/user/{userId}/acceptSubscription")
@@ -384,7 +383,6 @@ public class GroupServiceRestImpl implements GroupServices {
 	 * @return True if the subscription has been declined.
 	 */
 	@PUT
-	@Override
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("{groupId}/user/{userId}/declineSubscription")
@@ -424,7 +422,6 @@ public class GroupServiceRestImpl implements GroupServices {
 	 * @return Messages of the group.
 	 */
 	@GET
-	@Override
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_USER")
 	@Path("{groupId}/messages")

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.android.future</groupId>
+  <artifactId>usb</artifactId>
+  <versioning>
+    <release>19_r2</release>
+    <versions>
+      <version>19_r2</version>
+      <version>10_r2</version>
+      <version>12_r1</version>
+      <version>13_r1</version>
+      <version>14_r2</version>
+      <version>15_r2</version>
+      <version>16_r3</version>
+      <version>17_r3</version>
+      <version>18_r3</version>
+    </versions>
+    <lastUpdated>20131229103349</lastUpdated>
+  </versioning>
+</metadata>

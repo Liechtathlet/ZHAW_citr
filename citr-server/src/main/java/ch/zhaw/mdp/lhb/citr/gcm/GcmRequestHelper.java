@@ -19,6 +19,9 @@ import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
+
 /**
  * @author Daniel Brun
  * 
@@ -29,16 +32,26 @@ public class GcmRequestHelper {
     private static final String GCM_URL = "https://android.googleapis.com/gcm/send";
     private static final String API_KEY = "AIzaSyCGeuPmENKcz9pmQPqiweyoL4xMrbCweBk";
 
-    public void sendHTTPRequest(List<String> someRecipients) throws IOException {
-	/*
-	 * Create the POST request
-	 */
+    private static final LoggingStrategy LOG = LoggingFactory.get();
+
+    /**
+     * Sends a http request with the given recipients to the GCM-Server.
+     * 
+     * @param someRecipients The recipents
+     * @throws IOException thrown if an io error occurs.
+     */
+    public static void sendHTTPRequest(List<String> someRecipients)
+	    throws IOException {
+
+	// Create POst-Request
 	HttpClient httpClient = new DefaultHttpClient();
 	HttpPost httpPost = new HttpPost(GCM_URL);
 
+	// Set Header
 	httpPost.addHeader("Authorization", "key= " + API_KEY);
 	httpPost.addHeader("Content-Type", "application/json");
 
+	// Create json body
 	StringWriter jsonWriter = new StringWriter();
 	JsonFactory factory = new JsonFactory();
 	JsonGenerator generator = factory.createJsonGenerator(jsonWriter);
@@ -57,33 +70,29 @@ public class GcmRequestHelper {
 
 	generator.close();
 
-	System.out.println(jsonWriter.toString());
+	LOG.info("GCM-Request: " + jsonWriter.toString());
 
-	// Request parameters and other properties.
+	// Set Request parameters and other properties.
 	try {
 	    httpPost.setEntity(new StringEntity(jsonWriter.toString()));
 	} catch (UnsupportedEncodingException e) {
-	    // writing error to Log
-	    e.printStackTrace();
+	    LOG.error(e.getMessage());
 	}
-	/*
-	 * Making HTTP Request
-	 */
+
+	// Fire request
 	try {
 	    HttpResponse response = httpClient.execute(httpPost);
 	    HttpEntity respEntity = response.getEntity();
 
 	    if (respEntity != null) {
 		// EntityUtils to get the reponse content
-		String content = EntityUtils.toString(respEntity);
-		System.out.println(content);
+		String respString = EntityUtils.toString(respEntity);
+		LOG.info("GCM-Response: " + respString);
 	    }
 	} catch (ClientProtocolException e) {
-	    // writing exception to log
-	    e.printStackTrace();
+	    LOG.error(e.getMessage());
 	} catch (IOException e) {
-	    // writing exception to log
-	    e.printStackTrace();
+	    LOG.error(e.getMessage());
 	}
     }
 }
