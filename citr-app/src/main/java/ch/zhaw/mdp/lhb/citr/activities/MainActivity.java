@@ -1,5 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +20,6 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
 import ch.zhaw.mdp.lhb.citr.rest.UserServices;
 import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
-
-import java.util.List;
 
 /**
  * @author Michael Hadorn Date: 30.10.13 Time: 21:28
@@ -136,10 +136,9 @@ public class MainActivity extends CitrBaseActivity {
                 // sharedPrefs.storeInt(SharedPreferencHelper.SHARED_PREF_CONTEXT_GROUP, "group", group.getId());
 
                 // Return
-                Intent resultValue = new Intent();
-                resultValue.putExtra("group", group.getId());
-                setResult(RESULT_OK, resultValue);
-                finish();
+                Intent intentGroup = new Intent(getApplicationContext(), CitrCreateActivity.class);
+                intentGroup.putExtra("group", group.getId());
+                startActivity(intentGroup);
             }
         });
 
