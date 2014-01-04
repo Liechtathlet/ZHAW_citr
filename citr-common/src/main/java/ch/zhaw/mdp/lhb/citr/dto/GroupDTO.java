@@ -13,8 +13,8 @@ public class GroupDTO {
     private int id;
 
     private String name;
+    private String tags;
     private GroupStateEnum state;
-
     private boolean publicGroup;
 
     /**
@@ -73,6 +73,14 @@ public class GroupDTO {
         publicGroup = aPublicGroup;
     }
 
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
     @Override
     public int hashCode() {
 	int hashCode = 17;
@@ -100,7 +108,7 @@ public class GroupDTO {
 	return ((name == null ? group.name == null : name.equals(group
 		.name)
 		&& (state == null ? group.state == null : state
-			.equals(group.state)) 
+			.equals(group.state))
 		&& (publicGroup == group
 		    .publicGroup)));
     }

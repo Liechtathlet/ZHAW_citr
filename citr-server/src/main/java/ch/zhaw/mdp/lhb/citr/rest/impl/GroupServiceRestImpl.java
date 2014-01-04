@@ -88,9 +88,10 @@ public class GroupServiceRestImpl implements GroupServices {
 		group.setName(aGroup.getName());
 		group.setMode(aGroup.isPublicGroup() ? GroupDVO.Mode.PUBLIC : GroupDVO.Mode.PRIVATE);
 		group.setOwner(userDVO);
+		group.setTags(aGroup.getTags());
 		groupRepo.create(group);
 
-		// TODO: Validate group & set group owner
+		// TODO: Validate group
 
 		// TODO: Implement different texts
 
@@ -165,8 +166,7 @@ public class GroupServiceRestImpl implements GroupServices {
 				.getSubscriptions();
 		List<SubscriptionDTO> subscriptionDTOs = null;
 		try {
-			subscriptionDTOs = SubscriptionFactory
-					.createSubscriptionDTOs(subscriptionDVOs);
+			subscriptionDTOs = SubscriptionFactory.createSubscriptionDTOs(subscriptionDVOs);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}
