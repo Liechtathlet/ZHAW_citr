@@ -40,4 +40,10 @@ public interface GroupRepository {
 	 * @param groupId Group id to remove.
 	 */
 	public void remove(int groupId) throws Exception;
+
+	/**
+	 * Adds tags to the group.
+	 * @param group Group with the tags.
+	 */
+	void addTagsToGroup(GroupDVO group);
 }

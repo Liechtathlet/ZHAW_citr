@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.TagsDVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,5 +68,18 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 		messageQuery.executeUpdate();
 		tagQuery.executeUpdate();
 		groupQuery.executeUpdate();
+	}
+
+	private static final LoggingStrategy LOG = LoggingFactory.get();
+
+	@Override
+	@Transactional(readOnly = true)
+	public void addTagsToGroup(GroupDVO group) {
+		for (TagsDVO tag : group.getTags()) {
+			LOG.info("Group id of tag: "+group.getId());
+			tag.setGroupId(group.getId());
+			entityManager.persist(tag);
+			entityManager.flush();
+		}
 	}
 }
