@@ -106,11 +106,21 @@ public class CitrCreateActivity extends CitrBaseActivity {
         // create dialog
         new AlertDialog.Builder(this)
                 .setTitle("Gruppe löschen")
-                .setMessage("Gruppe wirklich löschen?")
+                .setMessage("Gruppe wirklich löschen? (Dies betrifft auch alle Zitate.)")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete
-                        groupServices.deleteGroup(groupId);
+
+                        Log.i("MAIN", "MY Group id: " + groupId);
+
+                        ResponseObject<Boolean> deleteGroup = groupServices.deleteGroup(groupId);
+                        Toast.makeText(getApplicationContext(), deleteGroup.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+
+
+                        Intent intentMain = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intentMain);
+
+
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
