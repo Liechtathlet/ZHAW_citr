@@ -26,8 +26,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
  *
  *         Client implementation of the Service-Interface {@link IRGroupServices}.
  */
-public class ClientGroupServicesImpl extends AbstractClientRBaseServiceImpl
-        implements GroupServices {
+public class ClientGroupServicesImpl extends AbstractClientRBaseServiceImpl implements GroupServices {
 
     public static final String TAG = "ClientIRGroupServicesImpl";
 
@@ -180,6 +179,21 @@ public class ClientGroupServicesImpl extends AbstractClientRBaseServiceImpl
         return execute(url.toString(),
                 new TypeReference<ResponseObject<MessageDTO>>() {
                 });
+    }
+
+    @Override
+    public ResponseObject<Boolean> acceptSubscription(int i, int i2) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ResponseObject<Boolean> declineSubscription(int i, int i2) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ResponseObject<List<MessageDTO>> getMessages(int i, int i2, int i3) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /*
