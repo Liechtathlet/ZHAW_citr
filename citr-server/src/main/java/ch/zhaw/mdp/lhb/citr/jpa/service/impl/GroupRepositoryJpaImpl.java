@@ -40,7 +40,11 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 	@Transactional(readOnly = true)
 	public List<GroupDVO> getAll() {
 		Query query = entityManager.createNamedQuery("Group.findAll");
-		return query.getResultList();
+		List<GroupDVO> groups =  query.getResultList();
+		for (GroupDVO group : groups) {
+			group.getTags().size();
+		}
+		return groups;
 	}
 
 	@Override
