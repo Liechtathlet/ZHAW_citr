@@ -6,6 +6,7 @@ import java.util.List;
 import ch.zhaw.mdp.lhb.citr.enumeration.GroupStateEnum;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.TagsDVO;
 
 public class GroupFactory {
 
@@ -37,11 +38,20 @@ public class GroupFactory {
         }
 
         public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
-                GroupDTO dto = new GroupDTO();
-                dto.setName(groupDVO.getName());
-                dto.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
-	            dto.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupStateEnum.ACTIVE : GroupStateEnum.PASSIVE);
-                dto.setId(groupDVO.getId());
-                return dto;
+				GroupDTO dto = new GroupDTO();
+				dto.setName(groupDVO.getName());
+				dto.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
+				dto.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupStateEnum.ACTIVE : GroupStateEnum.PASSIVE);
+				dto.setId(groupDVO.getId());
+
+				String tags = "";
+	            if (groupDVO.getTags().size() > 0) {
+					for (TagsDVO tag : groupDVO.getTags()) {
+						tags += tag.getTitle()+", ";
+					}
+					dto.setTags(tags.substring(0, tags.length()-2));
+	            }
+
+				return dto;
         }
 }

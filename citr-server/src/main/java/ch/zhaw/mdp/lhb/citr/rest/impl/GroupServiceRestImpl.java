@@ -88,8 +88,11 @@ public class GroupServiceRestImpl implements GroupServices {
 		group.setName(aGroup.getName());
 		group.setMode(aGroup.isPublicGroup() ? GroupDVO.Mode.PUBLIC : GroupDVO.Mode.PRIVATE);
 		group.setOwner(userDVO);
-		group.setTags(aGroup.getTags());
 		groupRepo.create(group);
+
+		group.setTags(aGroup.getTags());
+		groupRepo.addTagsToGroup(group);
+
 
 		// TODO: Validate group
 

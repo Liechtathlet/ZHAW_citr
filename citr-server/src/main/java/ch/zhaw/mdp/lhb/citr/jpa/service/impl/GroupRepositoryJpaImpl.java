@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.TagsDVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +40,11 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 	@Transactional(readOnly = true)
 	public List<GroupDVO> getAll() {
 		Query query = entityManager.createNamedQuery("Group.findAll");
-		return query.getResultList();
+		List<GroupDVO> groups =  query.getResultList();
+		for (GroupDVO group : groups) {
+			group.getTags().size();
+		}
+		return groups;
 	}
 
 	@Override
@@ -51,8 +58,32 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 	@Override
 	@Transactional(readOnly = true)
 	public void remove(int groupId) throws Exception {
-		Query q = entityManager.createQuery("delete from GroupDVO g where g.id = :groupId");
-		q.setParameter("groupId", groupId);
-		q.executeUpdate();
+		Query subscriptionQuery = entityManager.createQuery("delete from SubscriptionDVO s where s.groupId = :groupId");
+		Query messageQuery = entityManager.createQuery("delete from MessageDVO m where m.groupId = :groupId");
+		Query tagQuery = entityManager.createQuery("delete from TagsDVO t where t.groupId = :groupId");
+		Query groupQuery = entityManager.createQuery("delete from GroupDVO g where g.id = :groupId");
+
+		subscriptionQuery.setParameter("groupId", groupId);
+		messageQuery.setParameter("groupId", groupId);
+		tagQuery.setParameter("groupId", groupId);
+		groupQuery.setParameter("groupId", groupId);
+
+		subscriptionQuery.executeUpdate();
+		messageQuery.executeUpdate();
+		tagQuery.executeUpdate();
+		groupQuery.executeUpdate();
+	}
+
+	private static final LoggingStrategy LOG = LoggingFactory.get();
+
+	@Override
+	@Transactional(readOnly = true)
+	public void addTagsToGroup(GroupDVO group) {
+		for (TagsDVO tag : group.getTags()) {
+			LOG.info("Group id of tag: "+group.getId());
+			tag.setGroupId(group.getId());
+			entityManager.persist(tag);
+			entityManager.flush();
+		}
 	}
 }
