@@ -46,82 +46,86 @@ import ch.zhaw.mdp.lhb.citr.rest.MessageServices;
 @Scope("singleton")
 public class MessageServiceRestImpl implements MessageServices {
 
-	private static final LoggingStrategy LOG = LoggingFactory.get();
+    private static final LoggingStrategy LOG = LoggingFactory.get();
 
-	@Autowired
-	private MessageRepository messageRepo;
+    @Autowired
+    private MessageRepository messageRepo;
 
-	@Autowired
-	private GroupRepository groupRepo;
+    @Autowired
+    private GroupRepository groupRepo;
 
-	@Autowired
-	private SubscriptionRepository subscriptionRepo;
+    @Autowired
+    private SubscriptionRepository subscriptionRepo;
 
-	@Autowired
-	private ReloadableResourceBundleMessageSource messageSource;
+    @Autowired
+    private ReloadableResourceBundleMessageSource messageSource;
 
-	/**
-	 * Creates a message.
-	 *
-	 * @param aMessageDTO Message to create.
-	 * @return
-	 */
-	@POST
-	@Override
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_USER")
-	@Path("/create")
-	public ResponseObject<Boolean> createMessage(MessageDTO aMessageDTO) {
-		if (aMessageDTO == null) {
-			throw new IllegalArgumentException(
-					"The argument aMessageDTO must not be null");
-		}
-
-		Boolean result = Boolean.FALSE;
-		String msg = "";
-
-		// TODO: Get user credentials
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-
-		// TODO: Check permission for group
-
-		// TODO: Validate message
-		MessageDVO messageDVO = new MessageDVO();
-		messageDVO.setMessage(aMessageDTO.getMessageText());
-		messageDVO.setGroupId(aMessageDTO.getGroupId());
-
-		//FIXME: Sort doesn't work with this date
-		Calendar today = Calendar.getInstance();
-		today.set(Calendar.HOUR_OF_DAY, 0);
-		messageDVO.setSendDate(today.getTime());
-
-		//TODO: evtl. Check if failed
-		messageRepo.save(messageDVO);
-		result = Boolean.TRUE;
-		msg = messageSource.getMessage("msg.message.succ", null, null);
-		// TODO: Implement different return texts.
-
-		// Fire Push-Notification:
-		//FIXME: GroupId
-		List<String> recipients = new ArrayList<String>();
-		GroupDVO group = groupRepo.getById(1);
-		List<SubscriptionDVO> subscriptionDVOs = subscriptionRepo
-				.getSubscriptionByGroup(group, SubscriptionDVO.State.APPROVED);
-		if (subscriptionDVOs != null) {
-			LOG.debug("Push notification: " + subscriptionDVOs);
-			for (SubscriptionDVO subscription : subscriptionDVOs) {
-				LOG.debug("Send push to: " + subscription.getUser().getUsername());
-				recipients.add(subscription.getUser().getRegistrationId());
-			}
-			GcmRequestHelper helper = new GcmRequestHelper();
-			try {
-				helper.sendHTTPRequest(recipients);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
+    /**
+     * Creates a message.
+     * 
+     * @param aMessageDTO Message to create.
+     * @return
+     */
+    @POST
+    @Override
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured("ROLE_USER")
+    @Path("/create")
+    public ResponseObject<Boolean> createMessage(MessageDTO aMessageDTO) {
+	if (aMessageDTO == null) {
+	    throw new IllegalArgumentException(
+		    "The argument aMessageDTO must not be null");
 	}
+
+	Boolean result = Boolean.FALSE;
+	String msg = "";
+
+	// TODO: Get user credentials
+	Authentication auth = SecurityContextHolder.getContext()
+		.getAuthentication();
+
+	// TODO: Check permission for group
+
+	// TODO: Validate message
+	MessageDVO messageDVO = new MessageDVO();
+	messageDVO.setMessage(aMessageDTO.getMessageText());
+	messageDVO.setGroupId(aMessageDTO.getGroupId());
+
+	// FIXME: Sort doesn't work with this date
+	Calendar today = Calendar.getInstance();
+	today.set(Calendar.HOUR_OF_DAY, 0);
+	messageDVO.setSendDate(today.getTime());
+
+	// TODO: evtl. Check if failed
+	messageRepo.save(messageDVO);
+	result = Boolean.TRUE;
+	msg = messageSource.getMessage("msg.message.succ", null, null);
+	// TODO: Implement different return texts.
+
+	// Fire Push-Notification:
+	List<String> recipients = new ArrayList<String>();
+
+	// Get group
+	GroupDVO group = groupRepo.getById(aMessageDTO.getGroupId());
+
+	// Get approved subscriptions
+	List<SubscriptionDVO> subscriptionDVOs = subscriptionRepo
+		.getSubscriptionByGroup(group, SubscriptionDVO.State.APPROVED);
+
+	if (subscriptionDVOs != null) {
+	    LOG.debug("Send push notification to: " + subscriptionDVOs);
+
+	    for (SubscriptionDVO subscription : subscriptionDVOs) {
+		recipients.add(subscription.getUser().getRegistrationId());
+	    }
+
+	    try {
+		GcmRequestHelper.sendHTTPRequest(recipients);
+	    } catch (IOException e) {
+		LOG.error(e.toString());
+	    }
+	}
+	return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
+    }
 }

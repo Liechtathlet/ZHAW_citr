@@ -3,6 +3,7 @@ package ch.zhaw.mdp.lhb.citr.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -130,6 +131,7 @@ public class MainActivity extends CitrBaseActivity {
                 // get clicked group
                 GroupDTO group = (GroupDTO) parent.getItemAtPosition(position);
 
+                Log.i("MAIN", "MY Group id: " + group.getId());
                 // store selected group
                 // sharedPrefs.storeInt(SharedPreferencHelper.SHARED_PREF_CONTEXT_GROUP, "group", group.getId());
 
