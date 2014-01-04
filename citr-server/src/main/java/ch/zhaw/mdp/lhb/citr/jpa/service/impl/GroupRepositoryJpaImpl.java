@@ -51,8 +51,19 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 	@Override
 	@Transactional(readOnly = true)
 	public void remove(int groupId) throws Exception {
-		Query q = entityManager.createQuery("delete from GroupDVO g where g.id = :groupId");
-		q.setParameter("groupId", groupId);
-		q.executeUpdate();
+		Query subscriptionQuery = entityManager.createQuery("delete from SubscriptionDVO s where s.groupId = :groupId");
+		Query messageQuery = entityManager.createQuery("delete from MessageDVO m where m.groupId = :groupId");
+		Query tagQuery = entityManager.createQuery("delete from TagsDVO t where t.groupId = :groupId");
+		Query groupQuery = entityManager.createQuery("delete from GroupDVO g where g.id = :groupId");
+
+		subscriptionQuery.setParameter("groupId", groupId);
+		messageQuery.setParameter("groupId", groupId);
+		tagQuery.setParameter("groupId", groupId);
+		groupQuery.setParameter("groupId", groupId);
+
+		subscriptionQuery.executeUpdate();
+		messageQuery.executeUpdate();
+		tagQuery.executeUpdate();
+		groupQuery.executeUpdate();
 	}
 }

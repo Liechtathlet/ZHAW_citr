@@ -1,5 +1,7 @@
 package ch.zhaw.mdp.lhb.citr.jpa.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class GroupDVO {
 	private Mode mode;
 
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	private List<TagsDVO> tags;
 
 	public enum Mode {
@@ -37,6 +40,7 @@ public class GroupDVO {
 	}
 
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	private List<SubscriptionDVO> subscriptions;
 
 	@ManyToOne(fetch = FetchType.EAGER)

@@ -10,6 +10,9 @@ public class TagsDVO {
 	@GeneratedValue
 	private int id;
 
+	@Column(name = "grp_id")
+	private int groupId;
+
 	private String title;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -38,5 +41,13 @@ public class TagsDVO {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 }
