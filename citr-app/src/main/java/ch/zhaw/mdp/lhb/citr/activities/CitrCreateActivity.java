@@ -25,25 +25,25 @@ import ch.zhaw.mdp.lhb.citr.rest.MessageServices;
  */
 public class CitrCreateActivity extends CitrBaseActivity {
 
-	private static final String TAG = "CitrCreateActivity";
+    private static final String TAG = "CitrCreateActivity";
 
-	private MessageServices messageServices;
-	private GroupServices groupServices;
+    private MessageServices messageServices;
+    private GroupServices groupServices;
 
     private int groupId;
 
-	/**
-	 * Called when the activity is first created.
-	 *
-	 * @param savedInstanceState
-	 *            If the activity is being re-initialized after previously being
-	 *            shut down then this Bundle contains the data it most recently
-	 *            supplied in onSaveInstanceState(Bundle). <b>Note: Otherwise it
-	 *            is null.</b>
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState
+     *            If the activity is being re-initialized after previously being
+     *            shut down then this Bundle contains the data it most recently
+     *            supplied in onSaveInstanceState(Bundle). <b>Note: Otherwise it
+     *            is null.</b>
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.citr_create);
 
@@ -64,37 +64,37 @@ public class CitrCreateActivity extends CitrBaseActivity {
 
 
 
-	}
+    }
 
-	/**
-	 * create a citr
-	 *
-	 * @param view
-	 *            the view.
-	 */
-	public void onAECreateCitr(View view) {
+    /**
+     * create a citr
+     *
+     * @param view
+     *            the view.
+     */
+    public void onAECreateCitr(View view) {
 
-		EditText editText = (EditText) findViewById(R.id.etNewCitr);
+        EditText editText = (EditText) findViewById(R.id.etNewCitr);
 
-		String msgStr = editText.getText().toString();
+        String msgStr = editText.getText().toString();
 
-		Log.d(TAG, "Activity-Event: Create citr with: " + msgStr);
+        Log.d(TAG, "Activity-Event: Create citr with: " + msgStr);
 
-		if (msgStr != null && !msgStr.equals("")) {
-			MessageDTO message = new MessageDTO();
-			message.setMessageText(msgStr);
-			//FIXME: Group id
-			ResponseObject<Boolean> resp = messageServices.createMessage(message);
+        if (msgStr != null && !msgStr.equals("")) {
+            MessageDTO message = new MessageDTO();
+            message.setMessageText(msgStr);
+            //FIXME: Group id
+            ResponseObject<Boolean> resp = messageServices.createMessage(message);
 
-			if (resp.isSuccessfull()) {
-				editText.setText("");
-			}
+            if (resp.isSuccessfull()) {
+                editText.setText("");
+            }
 
-			// TODO: Print error message differently
-			Toast.makeText(getApplicationContext(), resp.getDisplayMessage(),
-					Toast.LENGTH_SHORT).show();
-		}
-	}
+            // TODO: Print error message differently
+            Toast.makeText(getApplicationContext(), resp.getDisplayMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
     /**
      * Delete an own group
@@ -116,9 +116,15 @@ public class CitrCreateActivity extends CitrBaseActivity {
                         ResponseObject<Boolean> deleteGroup = groupServices.deleteGroup(groupId);
                         Toast.makeText(getApplicationContext(), deleteGroup.getDisplayMessage(), Toast.LENGTH_SHORT).show();
 
+                        // leave screen
+                        Intent resultValue = new Intent();
+                        setResult(RESULT_OK, resultValue);
+                        finish();
 
+                        /*
                         Intent intentMain = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intentMain);
+                        */
 
 
                     }
