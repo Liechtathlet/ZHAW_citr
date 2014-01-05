@@ -143,9 +143,11 @@ public class LoginActivity extends CitrBaseActivity {
         Log.d(TAG, "Activity-Event: User-Login with: " + openId);
 
         if (openId != null && !openId.equals("")) {
+            Log.i(TAG, "Try login the ucrrent user");
             ResponseObject<UserDTO> resp = userServices.loginUser(openId,aRegid);
 
             if (resp.isSuccessfull()) {
+        	Log.i(TAG, "Login was successfull");
                 UserDTO user = resp.getResponseObject();
 
                 Toast.makeText(getApplicationContext(),
@@ -155,6 +157,7 @@ public class LoginActivity extends CitrBaseActivity {
                 intent.putExtra(CITR_MAINPAGE, openId);
                 startActivity(intent);
             } else {
+        	Log.e(TAG, "Login not successfull...:" + resp.getDisplayMessage());
                 // TODO: Show error text
                 Toast.makeText(getApplicationContext(),
                         resp.getDisplayMessage(), Toast.LENGTH_SHORT).show();
