@@ -25,13 +25,16 @@ import org.springframework.stereotype.Component;
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
 import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.dto.MessageDTO;
+import ch.zhaw.mdp.lhb.citr.dto.MessageFactory;
 import ch.zhaw.mdp.lhb.citr.gcm.GcmRequestHelper;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.GroupRepository;
 import ch.zhaw.mdp.lhb.citr.jpa.service.MessageRepository;
 import ch.zhaw.mdp.lhb.citr.jpa.service.SubscriptionRepository;
+import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.MessageServices;
 
@@ -58,14 +61,14 @@ public class MessageServiceRestImpl implements MessageServices {
     private SubscriptionRepository subscriptionRepo;
 
     @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private GcmRequestHelper gcmRequestHelper;
+    
+    @Autowired
     private ReloadableResourceBundleMessageSource messageSource;
 
-    /**
-     * Creates a message.
-     * 
-     * @param aMessageDTO Message to create.
-     * @return
-     */
     @POST
     @Override
     @Produces(MediaType.APPLICATION_JSON)
@@ -79,53 +82,77 @@ public class MessageServiceRestImpl implements MessageServices {
 	}
 
 	Boolean result = Boolean.FALSE;
-	String msg = "";
+	String msgKey = "msg.argument.invalid";
 
-	// TODO: Get user credentials
+	if (aMessageDTO != null) {
+	    UserDVO msgUser = userRepo.getById(aMessageDTO.getUserId());
+	    if (aMessageDTO.getMessageText() == null || msgUser == null
+		    || groupRepo.getById(aMessageDTO.getGroupId()) == null) {
+		msgKey = "msg.msg.data.invalid";
+	    } else {
+		UserDVO currentUser = getCurrentUser();
+		GroupDVO groupOfMessage = groupRepo.getById(aMessageDTO
+			.getGroupId());
+
+		// Checking permission of citr creation
+		if (msgUser.getId() != getCurrentUser().getId()
+			|| groupOfMessage.getOwner().getId() != currentUser
+				.getId()) {
+		    msgKey = "msg.no.permission";
+		}
+
+		MessageDVO messageDVO = MessageFactory
+			.createMessageDVO(aMessageDTO);
+
+		// Set citr send time (Do no't reset time fields, otherwise the sql sort will not work and not the newest message will be returned)
+		Calendar today = Calendar.getInstance();
+		messageDVO.setSendDate(today.getTime());
+
+		//Save message and check response
+		if (messageRepo.save(messageDVO) > 0) {
+		    result = Boolean.TRUE;
+		    msgKey = "msg.message.succ";
+		    
+		    // Fire Push-Notification (And forget)
+		    List<String> recipients = new ArrayList<String>();
+
+		    // Get approved subscriptions
+		    List<SubscriptionDVO> subscriptionDVOs = subscriptionRepo
+			    .getSubscriptionByGroup(groupOfMessage,
+				    SubscriptionDVO.State.APPROVED);
+
+		    if (subscriptionDVOs != null) {
+			LOG.debug("Send push notification to: "
+				+ subscriptionDVOs);
+
+			for (SubscriptionDVO subscription : subscriptionDVOs) {
+			    recipients.add(subscription.getUser()
+				    .getRegistrationId());
+			}
+
+			try {
+			    gcmRequestHelper.sendHTTPRequest(recipients);
+			} catch (IOException e) {
+			    LOG.error(e.toString());
+			}
+		    }
+		}else{
+		    msgKey = "msg.data.save.failed";
+		}
+	    }
+
+	}
+	
+	return new ResponseObject<Boolean>(result, result.booleanValue(),
+		messageSource.getMessage(msgKey, null, null));
+    }
+
+    /**
+     * @return the current user.
+     */
+    private UserDVO getCurrentUser() {
 	Authentication auth = SecurityContextHolder.getContext()
 		.getAuthentication();
-
-	// TODO: Check permission for group
-
-	// TODO: Validate message
-	MessageDVO messageDVO = new MessageDVO();
-	messageDVO.setMessage(aMessageDTO.getMessageText());
-	messageDVO.setGroupId(aMessageDTO.getGroupId());
-
-	// FIXME: Sort doesn't work with this date
-	Calendar today = Calendar.getInstance();
-	today.set(Calendar.HOUR_OF_DAY, 0);
-	messageDVO.setSendDate(today.getTime());
-
-	// TODO: evtl. Check if failed
-	messageRepo.save(messageDVO);
-	result = Boolean.TRUE;
-	msg = messageSource.getMessage("msg.message.succ", null, null);
-	// TODO: Implement different return texts.
-
-	// Fire Push-Notification:
-	List<String> recipients = new ArrayList<String>();
-
-	// Get group
-	GroupDVO group = groupRepo.getById(aMessageDTO.getGroupId());
-
-	// Get approved subscriptions
-	List<SubscriptionDVO> subscriptionDVOs = subscriptionRepo
-		.getSubscriptionByGroup(group, SubscriptionDVO.State.APPROVED);
-
-	if (subscriptionDVOs != null) {
-	    LOG.debug("Send push notification to: " + subscriptionDVOs);
-
-	    for (SubscriptionDVO subscription : subscriptionDVOs) {
-		recipients.add(subscription.getUser().getRegistrationId());
-	    }
-
-	    try {
-		GcmRequestHelper.sendHTTPRequest(recipients);
-	    } catch (IOException e) {
-		LOG.error(e.toString());
-	    }
-	}
-	return new ResponseObject<Boolean>(result, result.booleanValue(), msg);
+	return userRepo.getByOpenId(auth.getName());
     }
 }

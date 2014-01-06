@@ -8,53 +8,59 @@ import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 
 /**
  * @author Simon Lang
- *
- * Interface for the Subscription-Persistence-Services
+ * 
+ *         Interface for the Subscription-Persistence-Services
  */
 public interface SubscriptionRepository {
-	/**
-	 * Creates a new subscription.
-	 *
-	 * @param subscription The subscription to save.
-	 * @return True if the subscription was saved successfully.
-	 */
-	boolean save(SubscriptionDVO subscription);
+    /**
+     * Creates a new subscription.
+     * 
+     * @param aSubscription The subscription to save.
+     * @return True if the subscription was saved successfully.
+     */
+    public boolean save(SubscriptionDVO aSubscription);
 
-	/**
-	 * Gets all subscription requests for a particular group.
-	 * @param group The group to get the subscriptions to.
-	 * @param aState The state.
-	 * @return List of subscriptions.
-	 */
-	List<SubscriptionDVO> getSubscriptionByGroup(GroupDVO group, SubscriptionDVO.State aState);
+    /**
+     * Gets all subscription requests for a particular group.
+     * 
+     * @param aGroup The group to get the subscriptions to.
+     * @param aState The state.
+     * @return List of subscriptions.
+     */
+    public List<SubscriptionDVO> getSubscriptionByGroup(GroupDVO aGroup,
+	    SubscriptionDVO.State aState);
 
-	/**
-	 * Checks if a user is already subscripted to a group.
-	 *
-	 * @param user User to check.
-	 * @param group Group to check.
-	 * @return TRUE = User is subscripted. | FALSE = User is not subscripted.
-	 */
-	boolean hasUserGroupSubscription(UserDVO user, GroupDVO group);
+    /**
+     * Checks if a user is already subscripted to a group.
+     * 
+     * @param aUser User to check.
+     * @param aGroup Group to check.
+     * @return TRUE = User is subscripted. | FALSE = User is not subscripted.
+     */
+    public boolean hasUserGroupSubscription(UserDVO aUser, GroupDVO aGroup);
 
-	/**
-	 * Gets a subscription by user and group.
-	 * @param userDVO The user.
-	 * @param groupDVO The group.
-	 * @return The matching subscription.
-	 */
-	SubscriptionDVO getSubscription(UserDVO userDVO, GroupDVO groupDVO);
+    /**
+     * Gets a subscription by user and group.
+     * 
+     * @param aUserDVO The user.
+     * @param aGroupDVO The group.
+     * @return The matching subscription.
+     */
+    public SubscriptionDVO getSubscription(UserDVO aUserDVO, GroupDVO aGroupDVO);
 
-	/**
-	 * Updates the state on the subscription.
-	 * @param subscriptionDVO Subscription to update.
-	 * @param state State to set.
-	 */
-	void updateState(SubscriptionDVO subscriptionDVO, SubscriptionDVO.State state);
+    /**
+     * Updates the state on the subscription.
+     * 
+     * @param aSubscriptionDVO Subscription to update.
+     * @param aState State to set.
+     */
+    public void updateState(SubscriptionDVO aSubscriptionDVO,
+	    SubscriptionDVO.State aState);
 
-	/**
-	 * Removes a subscription.
-	 * @param subscriptionDVO Subscription to remove.
-	 */
-	void remove(SubscriptionDVO subscriptionDVO);
+    /**
+     * Removes a subscription.
+     * 
+     * @param aSubscriptionDVO Subscription to remove.
+     */
+    public void remove(SubscriptionDVO aSubscriptionDVO);
 }

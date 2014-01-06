@@ -4,8 +4,6 @@
 package ch.zhaw.mdp.lhb.citr.dto;
 
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Provides methods to create DTOs from DVOs and backwards.

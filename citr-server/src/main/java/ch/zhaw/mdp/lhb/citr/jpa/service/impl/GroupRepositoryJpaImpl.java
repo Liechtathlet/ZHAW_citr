@@ -18,72 +18,76 @@ import ch.zhaw.mdp.lhb.citr.jpa.service.GroupRepository;
 /**
  * @author Daniel Brun
  * @author Simon Lang
- *
- * Implementation of the DB-Service interface {@link GroupRepository}
+ * 
+ *         Implementation of the DB-Service interface {@link GroupRepository}
  */
 @Service("groupService")
 public class GroupRepositoryJpaImpl implements GroupRepository {
 
-	private EntityManager entityManager;
+    private static final LoggingStrategy LOG = LoggingFactory.get();
 
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
+    private EntityManager entityManager;
+
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+	this.entityManager = entityManager;
+    }
+
+    @Override
+    public GroupDVO getById(int id) {
+	return entityManager.find(GroupDVO.class, id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<GroupDVO> getAll() {
+	Query query = entityManager.createNamedQuery("Group.findAll");
+	List<GroupDVO> groups = query.getResultList();
+	for (GroupDVO group : groups) {
+	    group.getTags().size();
 	}
+	return groups;
+    }
 
-	@Override
-	public GroupDVO getById(int id) {
-		return entityManager.find(GroupDVO.class, id);
+    @Override
+    @Transactional(readOnly = true)
+    public int create(GroupDVO group) {
+	entityManager.persist(group);
+	entityManager.flush();
+	return group.getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void remove(int groupId) throws Exception {
+	Query subscriptionQuery = entityManager
+		.createQuery("delete from SubscriptionDVO s where s.groupId = :groupId");
+	Query messageQuery = entityManager
+		.createQuery("delete from MessageDVO m where m.groupId = :groupId");
+	Query tagQuery = entityManager
+		.createQuery("delete from TagsDVO t where t.groupId = :groupId");
+	Query groupQuery = entityManager
+		.createQuery("delete from GroupDVO g where g.id = :groupId");
+
+	subscriptionQuery.setParameter("groupId", groupId);
+	messageQuery.setParameter("groupId", groupId);
+	tagQuery.setParameter("groupId", groupId);
+	groupQuery.setParameter("groupId", groupId);
+
+	subscriptionQuery.executeUpdate();
+	messageQuery.executeUpdate();
+	tagQuery.executeUpdate();
+	groupQuery.executeUpdate();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void addTagsToGroup(GroupDVO group) {
+	for (TagsDVO tag : group.getTags()) {
+	    LOG.info("Group id of tag: " + group.getId());
+	    tag.setGroupId(group.getId());
+	    entityManager.persist(tag);
+	    entityManager.flush();
 	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<GroupDVO> getAll() {
-		Query query = entityManager.createNamedQuery("Group.findAll");
-		List<GroupDVO> groups =  query.getResultList();
-		for (GroupDVO group : groups) {
-			group.getTags().size();
-		}
-		return groups;
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public int create(GroupDVO group) {
-		entityManager.persist(group);
-		entityManager.flush();
-		return group.getId();
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public void remove(int groupId) throws Exception {
-		Query subscriptionQuery = entityManager.createQuery("delete from SubscriptionDVO s where s.groupId = :groupId");
-		Query messageQuery = entityManager.createQuery("delete from MessageDVO m where m.groupId = :groupId");
-		Query tagQuery = entityManager.createQuery("delete from TagsDVO t where t.groupId = :groupId");
-		Query groupQuery = entityManager.createQuery("delete from GroupDVO g where g.id = :groupId");
-
-		subscriptionQuery.setParameter("groupId", groupId);
-		messageQuery.setParameter("groupId", groupId);
-		tagQuery.setParameter("groupId", groupId);
-		groupQuery.setParameter("groupId", groupId);
-
-		subscriptionQuery.executeUpdate();
-		messageQuery.executeUpdate();
-		tagQuery.executeUpdate();
-		groupQuery.executeUpdate();
-	}
-
-	private static final LoggingStrategy LOG = LoggingFactory.get();
-
-	@Override
-	@Transactional(readOnly = true)
-	public void addTagsToGroup(GroupDVO group) {
-		for (TagsDVO tag : group.getTags()) {
-			LOG.info("Group id of tag: "+group.getId());
-			tag.setGroupId(group.getId());
-			entityManager.persist(tag);
-			entityManager.flush();
-		}
-	}
+    }
 }

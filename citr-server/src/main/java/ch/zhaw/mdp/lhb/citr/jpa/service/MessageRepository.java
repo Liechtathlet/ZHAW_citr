@@ -19,9 +19,8 @@ public interface MessageRepository {
     /**
      * Saves the given message.
      * 
-     * 
      * @param aMessage the message to save.
-     * @return true if the message was saved successfully, false otherwise.
+     * @return The id of the group or -1 otherwise.
      */
     public long save(MessageDVO aMessage);
 
@@ -33,20 +32,22 @@ public interface MessageRepository {
      */
     public MessageDVO getMessageById(long anId);
 
-	/**
-	 * Gets the messages of a given group.
-	 * @param aGroupId Group id to get the messages from.
-	 * @param count Message count to get.
-	 * @return Found messages.
-	 */
-	List<MessageDVO> getMessagesByGroup(int aGroupId, int count);
+    /**
+     * Gets the messages of a given group.
+     * 
+     * @param aGroupId Group id to get the messages from.
+     * @param aCount Message count to get.
+     * @return Found messages.
+     */
+    public List<MessageDVO> getMessagesByGroup(int aGroupId, int aCount);
 
-	/**
-	 * Gets the messages of a given group older then the providerd Date.
-	 * @param aGroupId Group id to get the messages from.
-	 * @param count Message count to get.
-	 * @param olderThan Get messages older than this Date.
-	 * @return Found messages.
-	 */
-	List<MessageDVO> getMessagesByGroup(int aGroupId, int count, Date olderThan);
+    /**
+     * Gets the messages of a given group older then the providerd Date.
+     * 
+     * @param aGroupId Group id to get the messages from.
+     * @param aCount Message count to get.
+     * @param anOlderThan Get messages older than this Date.
+     * @return Found messages.
+     */
+    public List<MessageDVO> getMessagesByGroup(int aGroupId, int aCount, Date anOlderThan);
 }

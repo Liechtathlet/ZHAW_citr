@@ -15,10 +15,10 @@ public interface GroupRepository {
     /**
      * Gets the group by id.
      * 
-     * @param id The id of the group.
+     * @param anId The id of the group.
      * @return The group or null if no user could be found.
      */
-    public GroupDVO getById(int id);
+    public GroupDVO getById(int anId);
 
     /**
      * Gets all groups
@@ -30,20 +30,22 @@ public interface GroupRepository {
     /**
      * Creates the provided group.
      * 
-     * @param group Group to create.
+     * @param aGroup Group to create.
      * @return Id of the created group.
      */
-    public int create(GroupDVO group);
+    public int create(GroupDVO aGroup);
 
-	/**
-	 * Removes a group.
-	 * @param groupId Group id to remove.
-	 */
-	public void remove(int groupId) throws Exception;
+    /**
+     * Removes a group.
+     * 
+     * @param aGroupId Group id to remove.
+     */
+    public void remove(int aGroupId) throws Exception;
 
-	/**
-	 * Adds tags to the group.
-	 * @param group Group with the tags.
-	 */
-	void addTagsToGroup(GroupDVO group);
+    /**
+     * Adds tags to the group.
+     * 
+     * @param aGroup Group with the tags.
+     */
+    void addTagsToGroup(GroupDVO aGroup);
 }
