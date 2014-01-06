@@ -1,5 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
+import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
@@ -32,7 +33,11 @@ import java.util.List;
 	public UserDVO getByOpenId(String openId) {
 		UserDVO user = new UserDVO();
 		user.setOpenId(openId);
-		return findPerson(user);
+		UserDVO userDVO = findPerson(user);
+		for (GroupDVO groupDVO : userDVO.getCreatedGroups()) {
+			groupDVO.getTags().size();
+		}
+		return userDVO;
 	}
 	
 	@SuppressWarnings("unchecked")
