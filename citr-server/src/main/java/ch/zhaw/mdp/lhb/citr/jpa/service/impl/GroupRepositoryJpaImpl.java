@@ -1,5 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -34,8 +35,8 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
     }
 
     @Override
-    public GroupDVO getById(int id) {
-	return entityManager.find(GroupDVO.class, id);
+    public GroupDVO getById(int anId) {
+	return entityManager.find(GroupDVO.class, anId);
     }
 
     @Override
@@ -43,23 +44,33 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
     public List<GroupDVO> getAll() {
 	Query query = entityManager.createNamedQuery("Group.findAll");
 	List<GroupDVO> groups = query.getResultList();
+
+	if (groups == null) {
+	    groups = new ArrayList<GroupDVO>();
+	}
+
 	for (GroupDVO group : groups) {
 	    group.getTags().size();
 	}
+
 	return groups;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public int create(GroupDVO group) {
-	entityManager.persist(group);
+    public int create(GroupDVO aGroup) {
+	// Reset id
+	aGroup.setId(-1);
+
+	entityManager.persist(aGroup);
 	entityManager.flush();
-	return group.getId();
+
+	return aGroup.getId();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public boolean remove(int groupId) {
+    public boolean remove(int aGroupId) {
 	Query subscriptionQuery = entityManager
 		.createQuery("delete from SubscriptionDVO s where s.groupId = :groupId");
 	Query messageQuery = entityManager
@@ -69,27 +80,34 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 	Query groupQuery = entityManager
 		.createQuery("delete from GroupDVO g where g.id = :groupId");
 
-	subscriptionQuery.setParameter("groupId", groupId);
-	messageQuery.setParameter("groupId", groupId);
-	tagQuery.setParameter("groupId", groupId);
-	groupQuery.setParameter("groupId", groupId);
+	subscriptionQuery.setParameter("groupId", aGroupId);
+	messageQuery.setParameter("groupId", aGroupId);
+	tagQuery.setParameter("groupId", aGroupId);
+	groupQuery.setParameter("groupId", aGroupId);
 
-	subscriptionQuery.executeUpdate();
-	messageQuery.executeUpdate();
-	tagQuery.executeUpdate();
-	groupQuery.executeUpdate();
-
+	try {
+	    subscriptionQuery.executeUpdate();
+	    messageQuery.executeUpdate();
+	    tagQuery.executeUpdate();
+	    groupQuery.executeUpdate();
+	} catch (Exception e) {
+	    LOG.error("Error removing group: " + e.toString());
+	    return false;
+	}
+	
 	return true;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public void addTagsToGroup(GroupDVO group) {
-	for (TagsDVO tag : group.getTags()) {
-	    LOG.info("Group id of tag: " + group.getId());
-	    tag.setGroupId(group.getId());
+    public void addTagsToGroup(GroupDVO aGroup) {
+	
+	for (TagsDVO tag : aGroup.getTags()) {
+	    tag.setGroupId(aGroup.getId());
+	    
 	    entityManager.persist(tag);
 	    entityManager.flush();
 	}
+	
     }
 }

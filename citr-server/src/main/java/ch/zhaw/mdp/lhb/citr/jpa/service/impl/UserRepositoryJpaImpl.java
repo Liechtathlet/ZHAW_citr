@@ -1,5 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
@@ -24,6 +27,8 @@ import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
 @Service("userService")
 public class UserRepositoryJpaImpl implements UserRepository {
 
+    private static final LoggingStrategy LOG = LoggingFactory.get();
+
     private EntityManager entityManager;
 
     @Transactional(readOnly = true)
@@ -35,6 +40,7 @@ public class UserRepositoryJpaImpl implements UserRepository {
     public UserDVO getByOpenId(String openId) {
 	UserDVO user = new UserDVO();
 	user.setOpenId(openId);
+
 	return findPerson(user);
     }
 
@@ -42,9 +48,13 @@ public class UserRepositoryJpaImpl implements UserRepository {
     @Transactional(readOnly = true)
     public List<UserDVO> getAll() {
 	Query query = entityManager.createNamedQuery("User.findAll");
-	List<UserDVO> user = null;
-	user = query.getResultList();
-	return user;
+	List<UserDVO> userList = query.getResultList();
+
+	if (userList == null) {
+	    userList = new ArrayList<UserDVO>();
+	}
+
+	return userList;
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -58,6 +68,7 @@ public class UserRepositoryJpaImpl implements UserRepository {
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public boolean update(UserDVO user) {
+
 	entityManager.merge(user);
 	entityManager.flush();
 
@@ -87,13 +98,19 @@ public class UserRepositoryJpaImpl implements UserRepository {
 	queryFindPerson.setParameter("openId", user.getOpenId());
 
 	UserDVO userFromDb = (UserDVO) queryFindPerson.getSingleResult();
-	userFromDb.getSubscriptions().size();
-	userFromDb.getCreatedGroups().size();
 
-	for (GroupDVO grp : userFromDb.getCreatedGroups()) {
-	    grp.getTags().size();
+	if (userFromDb != null) {
+	    userFromDb.getSubscriptions().size();
+	    userFromDb.getCreatedGroups().size();
+
+	    if (userFromDb.getCreatedGroups() != null) {
+		for (GroupDVO grp : userFromDb.getCreatedGroups()) {
+		    if (grp.getTags() != null) {
+			grp.getTags().size();
+		    }
+		}
+	    }
 	}
-
 	return userFromDb;
     }
 
