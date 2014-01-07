@@ -10,48 +10,64 @@ import ch.zhaw.mdp.lhb.citr.jpa.entity.TagsDVO;
 
 public class GroupFactory {
 
-        public static List<GroupDTO> createGroups(List<GroupDVO> groupDVOs) {
-                List<GroupDTO> groups = new ArrayList<GroupDTO>();
+    public static List<GroupDTO> createGroups(List<GroupDVO> groupDVOs) {
+	List<GroupDTO> groups = null;
 
-                for (GroupDVO groupDVO : groupDVOs) {
-                        groups.add(createGroupDTO(groupDVO));
-                }
+	if (groupDVOs != null) {
+	    groups = new ArrayList<GroupDTO>();
 
-                return groups;
-        }
+	    for (GroupDVO groupDVO : groupDVOs) {
+		groups.add(createGroupDTO(groupDVO));
+	    }
+	}
 
-        public static List<GroupDTO> createGroupsFromSubscriptions(List<SubscriptionDVO> subscriptionDVOs) {
-                List<GroupDTO> groups = new ArrayList<GroupDTO>();
+	return groups;
+    }
 
-                for (SubscriptionDVO subscriptionDVO : subscriptionDVOs) {
-                        GroupDVO groupDVO = subscriptionDVO.getGroup();
-                        GroupDTO groupDTO = new GroupDTO();
-                        groupDTO.setName(groupDVO.getName());
-                        groupDTO.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
-                        groupDTO.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupStateEnum.ACTIVE : GroupStateEnum.PASSIVE);
-                        groupDTO.setId(groupDVO.getId());
-                        groups.add(groupDTO);
+    public static List<GroupDTO> createGroupsFromSubscriptions(
+	    List<SubscriptionDVO> subscriptionDVOs) {
+	List<GroupDTO> groups = new ArrayList<GroupDTO>();
 
-                }
+	for (SubscriptionDVO subscriptionDVO : subscriptionDVOs) {
+	    GroupDVO groupDVO = subscriptionDVO.getGroup();
+	    GroupDTO groupDTO = new GroupDTO();
+	    groupDTO.setName(groupDVO.getName());
+	    groupDTO.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
+	    groupDTO.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupStateEnum.ACTIVE
+		    : GroupStateEnum.PASSIVE);
+	    groupDTO.setId(groupDVO.getId());
+	    groups.add(groupDTO);
 
-                return groups;
-        }
+	}
 
-        public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
-				GroupDTO dto = new GroupDTO();
-				dto.setName(groupDVO.getName());
-				dto.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
-				dto.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupStateEnum.ACTIVE : GroupStateEnum.PASSIVE);
-				dto.setId(groupDVO.getId());
+	return groups;
+    }
 
-				String tags = "";
-	            if (groupDVO.getTags().size() > 0) {
-					for (TagsDVO tag : groupDVO.getTags()) {
-						tags += tag.getTitle()+", ";
-					}
-					dto.setTags(tags.substring(0, tags.length()-2));
-	            }
+    public static GroupDTO createGroupDTO(GroupDVO groupDVO) {
+	GroupDTO dto = null;
 
-				return dto;
-        }
+	if (groupDVO != null) {
+	    dto = new GroupDTO();
+
+	    dto.setName(groupDVO.getName());
+	    dto.setPublicGroup(groupDVO.getMode() == GroupDVO.Mode.PUBLIC);
+	    dto.setState(groupDVO.getState() == GroupDVO.State.ACTIVE ? GroupStateEnum.ACTIVE
+		    : GroupStateEnum.PASSIVE);
+	    dto.setId(groupDVO.getId());
+
+	    StringBuilder tagBuilder = new StringBuilder();
+	    if (groupDVO.getTags() != null) {
+		if (groupDVO.getTags().size() > 0) {
+		    for (TagsDVO tag : groupDVO.getTags()) {
+			if(tagBuilder.length() > 0){
+			    tagBuilder.append(", ");
+			}
+			tagBuilder.append(tag.getTitle());
+		    }
+		    dto.setTags(tagBuilder.toString());
+		}
+	    }
+	}
+	return dto;
+    }
 }

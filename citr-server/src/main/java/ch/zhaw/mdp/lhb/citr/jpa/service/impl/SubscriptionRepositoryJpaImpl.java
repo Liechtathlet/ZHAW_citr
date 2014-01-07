@@ -1,22 +1,27 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.SubscriptionRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.service.SubscriptionRepository;
 
 /**
  * @author Simon Lang
  *
  * Implementation of the DB-Service interface {@link ch.zhaw.mdp.lhb.citr.jpa.service.SubscriptionRepository}
+ * 
+ * FIXME: Review & save -> Exception catch & entsprechends Handling
  */
 @Service("subscriptionService")
 public class SubscriptionRepositoryJpaImpl implements SubscriptionRepository {
@@ -39,6 +44,11 @@ public class SubscriptionRepositoryJpaImpl implements SubscriptionRepository {
 		q.setParameter("groupId", group.getId());
 		q.setParameter("state", aState);
 		List<SubscriptionDVO> subscriptionDVOs = q.getResultList();
+		
+		if(subscriptionDVOs == null){
+		    subscriptionDVOs = new ArrayList<SubscriptionDVO>();
+		}
+		
 		return subscriptionDVOs;
 	}
 
