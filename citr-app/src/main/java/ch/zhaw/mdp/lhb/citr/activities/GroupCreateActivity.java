@@ -21,10 +21,20 @@ import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
  */
 public class GroupCreateActivity extends CitrBaseActivity {
 
+    /**
+     * Tag of Activity
+     */
     private static final String TAG = "GroupCreateActivity";
 
+    /**
+     * Service to manage group data via rest
+     */
     private GroupServices groupServices;
 
+    /**
+     * Runs at the start of intent
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). <b>Note: Otherwise it is null.</b>
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_create);
@@ -32,6 +42,10 @@ public class GroupCreateActivity extends CitrBaseActivity {
         groupServices = new ClientGroupServicesImpl(this);
     }
 
+    /**
+     * Will be run, if the user wan't create an new group
+     * @param view
+     */
     public void onAECreateGroup(View view) {
 
         EditText editText = (EditText) findViewById(R.id.etGroupName);

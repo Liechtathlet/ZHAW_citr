@@ -17,7 +17,14 @@ import ch.zhaw.mdp.lhb.citr.util.SharedPreferencHelper;
  */
 public abstract class CitrBaseActivity extends Activity {
 
+    /**
+     * Tag of Activity
+     */
     protected final static String CITR_MAINPAGE = "ch.zhaw.mdp.lhb.citr.Main";
+
+    /**
+     * used for sharing data between diffrent intents
+     */
     protected SharedPreferencHelper sharedPrefs;
 
     /**

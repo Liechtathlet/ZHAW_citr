@@ -14,9 +14,17 @@ import java.util.Properties;
  */
 public class PropertyHelper {
 
+    /**
+     * property name
+     */
 	private static final String PROPERTY_NAME = "app.properties";
+    /**
+     * props items
+     */
 	private static Properties props = null;
-	
+    /**
+     * PropertyHelper
+     */
 	public static PropertyHelper propertyHelper = new PropertyHelper();
 	
 	/**

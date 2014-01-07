@@ -16,6 +16,11 @@ import android.support.v4.content.WakefulBroadcastReceiver;
  */
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
 
+    /**
+     *
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         // Explicitly specify that GcmIntentService will handle the intent.

@@ -1,8 +1,6 @@
 package ch.zhaw.mdp.lhb.citr.adapters;
 
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,13 +12,40 @@ import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO;
 import ch.zhaw.mdp.lhb.citr.enumeration.SubscriptionStateEnum;
 
+import java.util.List;
+
+/**
+ * @author Michael Hadorn
+ * Date: 18.12.13
+ * Time: 09:38
+ *
+ * Adapter to show subscriptions
+ */
 public class SubscriptionAdapter extends ArrayAdapter<SubscriptionDTO>  {
 
-
+    /**
+     * relative context
+     */
 	private final Context context;
+
+    /**
+     * user state text
+     */
 	private final String userStateText;
+
+    /**
+     * color of text
+     */
 	private final int textColor;
+
+    /**
+     * list of all subscription (getted by rest)
+     */
 	private final List<SubscriptionDTO> subscriptionDTOs;
+
+    /**
+     * single subscription
+     */
 	private SubscriptionDTO subscriptionDTO;
 
 	/**

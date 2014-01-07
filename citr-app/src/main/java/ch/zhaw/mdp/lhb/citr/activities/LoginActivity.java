@@ -31,8 +31,14 @@ import java.io.IOException;
  */
 public class LoginActivity extends CitrBaseActivity {
 
+    /**
+     *
+     */
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+    /**
+     *
+     */
     private final static String SENDER_ID = "965864818743";
 
     /**
@@ -169,6 +175,7 @@ public class LoginActivity extends CitrBaseActivity {
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If it doesn't, display a dialog that allows users to download the APK from the Google Play Store or enable it in the device's system settings.
+     * @return boolean success
      */
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil

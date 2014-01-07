@@ -14,13 +14,29 @@ import android.content.SharedPreferences.Editor;
  */
 public class SharedPreferencHelper {
 
+    /**
+     * shared key: PREF_APP
+     */
     public static final String SHARED_PREF_APP = "ch.zhaw.mdp.lhb.citr.activity.LoginActivity";
-    public static final String SHARED_PREF_WIDGET = "ch.zhaw.mdp.lhb.citr.widget.CitrWidgetProvider";
-    // public static final String SHARED_PREF_CONTEXT_GROUP = "ch.zhaw.mdp.lhb.citr.widget.CitrContectGroup";
 
+    /**
+     * shared key: PREF_WIDGET
+     */
+    public static final String SHARED_PREF_WIDGET = "ch.zhaw.mdp.lhb.citr.widget.CitrWidgetProvider";
+
+    /**
+     * register id for gcm
+     */
     public static final String REG_ID = "gcm-registration-id";
+
+    /**
+     * app version
+     */
     public static final String APP_VERSION = "app-version";
 
+    /**
+     * context of items
+     */
     private Context context;
 
     /**

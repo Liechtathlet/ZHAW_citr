@@ -14,11 +14,23 @@ import android.content.SharedPreferences.Editor;
  */
 public class SessionHelper {
 
+    /**
+     * store the username
+     */
 	public static final String KEY_USERNAME = "username";
+    /**
+     * store the password
+     */
 	public static final String KEY_PASSWORD = "password";
-	
-	private SharedPreferences settings;
-	
+
+    /**
+     * object with preferences in app
+     */
+    private SharedPreferences settings;
+
+    /**
+     * editor object
+     */
 	private Editor editor;
 	
 	/**

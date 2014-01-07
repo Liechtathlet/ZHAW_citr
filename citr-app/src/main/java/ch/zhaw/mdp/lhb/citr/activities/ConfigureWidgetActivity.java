@@ -44,6 +44,9 @@ public class ConfigureWidgetActivity extends CitrBaseActivity {
      */
     private List<SubscriptionDTO> groupsMemberOf;
 
+    /**
+     * id of the current widget
+     */
     private int widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private SessionHelper preferences;
 

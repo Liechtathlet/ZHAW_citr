@@ -16,6 +16,9 @@ import android.util.Log;
  */
 public class CitrWidgetUpdateService extends Service {
 
+    /**
+     * tag of the widget service
+     */
     private static final String TAG = "CitrWidgetUpdateService";
 
     /*

@@ -25,11 +25,24 @@ import ch.zhaw.mdp.lhb.citr.rest.MessageServices;
  */
 public class CitrCreateActivity extends CitrBaseActivity {
 
+    /**
+     * Tag of Activity
+     */
     private static final String TAG = "CitrCreateActivity";
 
+    /**
+     * Service to manage message data via rest
+     */
     private MessageServices messageServices;
+
+    /**
+     * Service to manage group data via rest
+     */
     private GroupServices groupServices;
 
+    /**
+     * current loaded group id
+     */
     private int groupId;
 
     /**

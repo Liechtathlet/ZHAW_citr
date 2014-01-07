@@ -22,9 +22,11 @@ import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 import java.util.List;
 
 /**
- * @author Michael Hadorn Date: 30.10.13 Time: 21:28
+ * @author Michael Hadorn
+ * Date: 30.10.13
+ * Time: 21:28
  *
- *         This is the MainActivity. Here is the main page of our app. You going to find 2 areas (list with users groups and a list with all group where current user is member of).
+ * This is the MainActivity. Here is the main page of our app. You going to find 2 areas (list with users groups and a list with all group where current user is member of).
  */
 public class MainActivity extends CitrBaseActivity {
 
@@ -144,28 +146,5 @@ public class MainActivity extends CitrBaseActivity {
                 startActivity(intentGroup);
             }
         });
-
-        /*
-        int groupId = 0;
-
-        // Get widget id
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            groupId = extras.getInt("group", 0);
-        }
-
-        // Fail if no valid id
-        if (groupId == 0) {
-            finish();
-        }
-
-
-        // load group details
-        Intent intentGroup = new Intent(this, CitrCreateActivity.class);
-        intentGroup.putExtra("group", groupId);
-        startActivity(intentGroup);
-        */
-
     }
 }

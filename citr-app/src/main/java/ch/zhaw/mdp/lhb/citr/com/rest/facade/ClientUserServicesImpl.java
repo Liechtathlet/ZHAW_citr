@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ch.zhaw.mdp.lhb.citr.com.rest.facade;
 
@@ -19,24 +19,24 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * @author Daniel Brun
- * 
- *         Client implementation of the Service-Interface {@link IRUserServices} .
+ *
+ * Client implementation of the Service-Interface {@link IRUserServices} .
  */
 public class ClientUserServicesImpl extends AbstractClientRBaseServiceImpl
-	implements UserServices {
+        implements UserServices {
 
     /**
-     * Tag of intent
+     * Tag of service impl
      */
     public static final String TAG = "ClientIRUserServicesImpl";
 
     /**
      * Creates a new instance of this class.
-     * 
+     *
      * @param aContext The context.
      */
     public ClientUserServicesImpl(Context aContext) {
-	super(aContext);
+        super(aContext);
     }
 
     /*
@@ -46,17 +46,17 @@ public class ClientUserServicesImpl extends AbstractClientRBaseServiceImpl
      */
     @Override
     public ResponseObject<UserDTO> loginUser(String anOpenId, String aRegistrationId) {
-	preInit(RESTBackgroundTask.HTTP_GET_TASK);
+        preInit(RESTBackgroundTask.HTTP_GET_TASK);
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.user"));
-	url.append(anOpenId);
-	url.append("/login/");
-	url.append(aRegistrationId);
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.user"));
+        url.append(anOpenId);
+        url.append("/login/");
+        url.append(aRegistrationId);
 
-	return execute(url.toString(),
-		new TypeReference<ResponseObject<UserDTO>>() {
-		});
+        return execute(url.toString(),
+                new TypeReference<ResponseObject<UserDTO>>() {
+                });
     }
 
     /*
@@ -66,23 +66,23 @@ public class ClientUserServicesImpl extends AbstractClientRBaseServiceImpl
      */
     @Override
     public ResponseObject<Boolean> registerUser(UserDTO aUser) {
-	preInit(RESTBackgroundTask.HTTP_POST_TASK);
+        preInit(RESTBackgroundTask.HTTP_POST_TASK);
 
-	try {
-	    restTask.addParameter("user", mapper.writeValueAsString(aUser));
-	} catch (JsonProcessingException e) {
-	    Log.e(TAG, "Exception during JSON serialization prcoess.", e);
-	    throw new CitrCommunicationException(
-		    "Exception during JSON serialization prcoess.", e,
-		    CitrExceptionTypeEnum.SERIALIZATION_ERROR);
-	}
+        try {
+            restTask.addParameter("user", mapper.writeValueAsString(aUser));
+        } catch (JsonProcessingException e) {
+            Log.e(TAG, "Exception during JSON serialization prcoess.", e);
+            throw new CitrCommunicationException(
+                    "Exception during JSON serialization prcoess.", e,
+                    CitrExceptionTypeEnum.SERIALIZATION_ERROR);
+        }
 
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.service.user"));
-	url.append("registerUser");
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.user"));
+        url.append("registerUser");
 
-	return execute(url.toString(),
-		new TypeReference<ResponseObject<Boolean>>() {
-		});
+        return execute(url.toString(),
+                new TypeReference<ResponseObject<Boolean>>() {
+                });
     }
 }

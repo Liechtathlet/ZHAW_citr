@@ -1,20 +1,19 @@
 package ch.zhaw.mdp.lhb.citr.adapters;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import ch.zhaw.mdp.lhb.citr.R;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 
+import java.util.List;
+
 /**
- * @author michael
+ * @author Michael Hadorn
  * Date: 18.11.13
  * Time: 09:38
  *

@@ -1,7 +1,5 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.widget.ListView;
 import ch.zhaw.mdp.lhb.citr.R;
@@ -10,6 +8,8 @@ import ch.zhaw.mdp.lhb.citr.com.rest.facade.ClientGroupServicesImpl;
 import ch.zhaw.mdp.lhb.citr.dto.GroupDTO;
 import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
+
+import java.util.List;
 
 /**
  * @author Michael Hadorn
@@ -30,8 +30,6 @@ public class GroupList extends CitrBaseActivity {
      */
     private GroupServices groupServices;
 
-    // private List groupsResult = new ArrayList();
-
     /**
      * Called when the activity is first created.
      *
@@ -49,10 +47,8 @@ public class GroupList extends CitrBaseActivity {
         groupServices = new ClientGroupServicesImpl(this);
 
         ResponseObject<List<GroupDTO>> respGroupsAll = groupServices.getAllGroups();
-        // ResponseObject<List<SubscriptionDTO>> userSubs = groupServices.getUserSubscriptions();
 
         // match state to each group
-
         List groupsResult = respGroupsAll.getResponseObject();
         if (groupsResult.size() > 0) {
             // set list with own groups

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ch.zhaw.mdp.lhb.citr.com.rest;
 
@@ -51,8 +51,8 @@ import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
 
 /**
  * @author Daniel Brun
- * 
- *         Background-Task to do the REST-Requests
+ *
+ * Background-Task to do the REST-Requests
  */
 public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
@@ -99,49 +99,49 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
 
     /**
      * Creates a new instance of this class.
-     * 
+     *
      * @param aContext The underlying context.
      * @param aContext The context.
      * @param aHttpRequestType The HTTP-Type
      */
     public RESTBackgroundTask(Context aContext) {
-	if (aContext == null) {
-	    throw new NullPointerException(
-		    "The argument aContext must not be null!");
-	}
+        if (aContext == null) {
+            throw new NullPointerException(
+                    "The argument aContext must not be null!");
+        }
 
-	parameters = new ArrayList<NameValuePair>();
+        parameters = new ArrayList<NameValuePair>();
 
-	context = aContext;
-	httpRequestType = HTTP_GET_TASK;
+        context = aContext;
+        httpRequestType = HTTP_GET_TASK;
 
-	preferences = new SessionHelper(context);
+        preferences = new SessionHelper(context);
     }
 
     /**
      * Adds a new parameter to the request.
-     * 
+     *
      * @param aName The name of the parameter.
      * @param aValue The value of the parameter.
      */
     public void addParameter(String aName, String aValue) {
-	parameters.add(new BasicNameValuePair(aName, aValue));
+        parameters.add(new BasicNameValuePair(aName, aValue));
     }
 
     /**
      * Displays a 'Working-Dialog'
      */
     public void showWorkingDialog() {
-	if (context instanceof Activity) {
-	    uiProgressDialog = new ProgressDialog(context);
-	    uiProgressDialog.setMessage(context
-		    .getString(R.string.conn_data_load));
-	    uiProgressDialog.setProgressDrawable(WallpaperManager.getInstance(
-		    context).getDrawable());
-	    uiProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	    uiProgressDialog.setCancelable(false);
-	    uiProgressDialog.show();
-	}
+        if (context instanceof Activity) {
+            uiProgressDialog = new ProgressDialog(context);
+            uiProgressDialog.setMessage(context
+                    .getString(R.string.conn_data_load));
+            uiProgressDialog.setProgressDrawable(WallpaperManager.getInstance(
+                    context).getDrawable());
+            uiProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            uiProgressDialog.setCancelable(false);
+            uiProgressDialog.show();
+        }
     }
 
     /* (non-Javadoc)
@@ -150,10 +150,10 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onProgressUpdate(Integer... aValues) {
         super.onProgressUpdate(aValues);
-        
+
         showWorkingDialog();
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -161,23 +161,23 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
      */
     @Override
     protected void onPreExecute() {
-	// Hide Keyboard
-	if (context instanceof CitrBaseActivity) {
-	    ((CitrBaseActivity) context).cleanScreen();
-	}
+        // Hide Keyboard
+        if (context instanceof CitrBaseActivity) {
+            ((CitrBaseActivity) context).cleanScreen();
+        }
 
-	//showWorkingDialog();
+        //showWorkingDialog();
 
-	ConnectivityManager connMgr = (ConnectivityManager) context
-		.getSystemService(Context.CONNECTIVITY_SERVICE);
-	NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        ConnectivityManager connMgr = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-	if (networkInfo == null || !networkInfo.isConnected()) {
-	    Log.w(TAG, "No Network connection available");
-	    throw new CitrCommunicationException(
-		    "No Network connection available",
-		    CitrExceptionTypeEnum.CONNECTION_NOT_AVAILABLE);
-	}
+        if (networkInfo == null || !networkInfo.isConnected()) {
+            Log.w(TAG, "No Network connection available");
+            throw new CitrCommunicationException(
+                    "No Network connection available",
+                    CitrExceptionTypeEnum.CONNECTION_NOT_AVAILABLE);
+        }
     }
 
     /*
@@ -187,41 +187,41 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
      */
     @Override
     protected String doInBackground(String... someArguments) {
-	if (someArguments == null || someArguments.length != 1) {
-	    throw new IllegalArgumentException(
-		    "Exactly one argument must be set!");
-	}
+        if (someArguments == null || someArguments.length != 1) {
+            throw new IllegalArgumentException(
+                    "Exactly one argument must be set!");
+        }
 
-	String requestUrl = someArguments[0];
-	String result = "";
+        String requestUrl = someArguments[0];
+        String result = "";
 
-	HttpResponse reqRes = performRequest(requestUrl);
-	StatusLine statLine = reqRes.getStatusLine();
+        HttpResponse reqRes = performRequest(requestUrl);
+        StatusLine statLine = reqRes.getStatusLine();
 
-	if (statLine.getStatusCode() != HttpStatus.SC_OK) {
-	    throw new CitrCommunicationException("HTTP-Error: "
-		    + statLine.getStatusCode() + ", Reason: "
-		    + statLine.getReasonPhrase(),
-		    CitrExceptionTypeEnum.CONECTION_HTTP_ERROR);
-	}
+        if (statLine.getStatusCode() != HttpStatus.SC_OK) {
+            throw new CitrCommunicationException("HTTP-Error: "
+                    + statLine.getStatusCode() + ", Reason: "
+                    + statLine.getReasonPhrase(),
+                    CitrExceptionTypeEnum.CONECTION_HTTP_ERROR);
+        }
 
-	if (reqRes != null && reqRes.getEntity() != null) {
-	    try {
-		result = readInputStream(reqRes.getEntity().getContent());
-	    } catch (IllegalStateException e) {
-		Log.e(TAG, e.getLocalizedMessage(), e);
-		throw new CitrCommunicationException(
-			"An error occurred during HTTP-Result-Processing!", e,
-			CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
-	    } catch (IOException e) {
-		Log.e(TAG, e.getLocalizedMessage(), e);
-		throw new CitrCommunicationException(
-			"An error occurred during HTTP-Result-Processing!", e,
-			CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
-	    }
-	}
+        if (reqRes != null && reqRes.getEntity() != null) {
+            try {
+                result = readInputStream(reqRes.getEntity().getContent());
+            } catch (IllegalStateException e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+                throw new CitrCommunicationException(
+                        "An error occurred during HTTP-Result-Processing!", e,
+                        CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
+            } catch (IOException e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+                throw new CitrCommunicationException(
+                        "An error occurred during HTTP-Result-Processing!", e,
+                        CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
+            }
+        }
 
-	return result;
+        return result;
     }
 
     /*
@@ -231,8 +231,8 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
      */
     @Override
     protected void onCancelled() {
-	parameters.clear();
-	uiProgressDialog.dismiss();
+        parameters.clear();
+        uiProgressDialog.dismiss();
     }
 
     /*
@@ -242,186 +242,186 @@ public class RESTBackgroundTask extends AsyncTask<String, Integer, String> {
      */
     @Override
     protected void onPostExecute(String aResult) {
-	parameters.clear();
+        parameters.clear();
 
-	if (uiProgressDialog != null) {
-	    uiProgressDialog.dismiss();
-	}
+        if (uiProgressDialog != null) {
+            uiProgressDialog.dismiss();
+        }
     }
 
     /**
      * Performs the HTTP-Request
-     * 
+     *
      * @param aRequestUrl the Request URL.
      * @return the HTTPResponse.
      */
     private HttpResponse performRequest(String aRequestUrl) {
-	HttpResponse response = null;
+        HttpResponse response = null;
 
-	// Create HTTP-Parameters
-	HttpParams httpParameter = new BasicHttpParams();
+        // Create HTTP-Parameters
+        HttpParams httpParameter = new BasicHttpParams();
 
-	// Create HTTP-Client
-	HttpClient httpClient = new DefaultHttpClient(httpParameter);
+        // Create HTTP-Client
+        HttpClient httpClient = new DefaultHttpClient(httpParameter);
 
-	// TODO: Implement OAuth
-	// http://stackoverflow.com/questions/1925486/android-storing-username-and-password
-	String authString = new String(
-		Base64.encode(
-			(preferences
-				.getPreferenceDefaultNull(SessionHelper.KEY_USERNAME)
-				+ ":" + new String(
-				Hex.encodeHex(DigestUtils.sha512(preferences
-					.getPreferenceDefaultNull(SessionHelper.KEY_PASSWORD)))))
-				.getBytes(), Base64.NO_WRAP));
+        // TODO: Implement OAuth
+        // http://stackoverflow.com/questions/1925486/android-storing-username-and-password
+        String authString = new String(
+                Base64.encode(
+                        (preferences
+                                .getPreferenceDefaultNull(SessionHelper.KEY_USERNAME)
+                                + ":" + new String(
+                                Hex.encodeHex(DigestUtils.sha512(preferences
+                                        .getPreferenceDefaultNull(SessionHelper.KEY_PASSWORD)))))
+                                .getBytes(), Base64.NO_WRAP));
 
-	HttpRequestBase httpRequest = null;
-	StringBuffer url = new StringBuffer();
-	url.append(PropertyHelper.get("rest.url"));
-	url.append(aRequestUrl);
+        HttpRequestBase httpRequest = null;
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.url"));
+        url.append(aRequestUrl);
 
-	try {
-	    switch (httpRequestType) {
+        try {
+            switch (httpRequestType) {
 
-	    // Create POST-Request
-		case HTTP_DELETE_TASK:
-		    HttpConnectionParams.setConnectionTimeout(httpParameter,
-			    CONN_TIMEOUT);
-		    HttpConnectionParams.setSoTimeout(httpParameter,
-			    SOCKET_TIMEOUT);
-		    httpParameter.setParameter(HTTP.CONTENT_TYPE,
-			    "application/json");
+                // Create POST-Request
+                case HTTP_DELETE_TASK:
+                    HttpConnectionParams.setConnectionTimeout(httpParameter,
+                            CONN_TIMEOUT);
+                    HttpConnectionParams.setSoTimeout(httpParameter,
+                            SOCKET_TIMEOUT);
+                    httpParameter.setParameter(HTTP.CONTENT_TYPE,
+                            "application/json");
 
-		    url.append("?");
-		    url.append(URLEncodedUtils.format(parameters, "utf-8"));
+                    url.append("?");
+                    url.append(URLEncodedUtils.format(parameters, "utf-8"));
 
-		    httpRequest = new HttpDelete(url.toString());
-		    break;
-		case HTTP_PUT_TASK:
-		    httpRequest = new HttpPut(url.toString());
+                    httpRequest = new HttpDelete(url.toString());
+                    break;
+                case HTTP_PUT_TASK:
+                    httpRequest = new HttpPut(url.toString());
 
-		    if (parameters.size() > 1) {
-			throw new IllegalArgumentException(
-				"Only one paramter is permitted for each put request!");
-		    }
+                    if (parameters.size() > 1) {
+                        throw new IllegalArgumentException(
+                                "Only one paramter is permitted for each put request!");
+                    }
 
-		    if (parameters.size() == 1) {
-			((HttpPut) httpRequest).setEntity(new StringEntity(
-				parameters.get(0).getValue()));
-		    }
-		    break;
-		case HTTP_POST_TASK:
-		    httpRequest = new HttpPost(url.toString());
+                    if (parameters.size() == 1) {
+                        ((HttpPut) httpRequest).setEntity(new StringEntity(
+                                parameters.get(0).getValue()));
+                    }
+                    break;
+                case HTTP_POST_TASK:
+                    httpRequest = new HttpPost(url.toString());
 
-		    if (parameters.size() > 1) {
-			throw new IllegalArgumentException(
-				"Only one paramter is permitted for each post request!");
-		    }
+                    if (parameters.size() > 1) {
+                        throw new IllegalArgumentException(
+                                "Only one paramter is permitted for each post request!");
+                    }
 
-		    if (parameters.size() == 1) {
-			((HttpPost) httpRequest).setEntity(new StringEntity(
-				parameters.get(0).getValue()));
-		    }
-		    break;
+                    if (parameters.size() == 1) {
+                        ((HttpPost) httpRequest).setEntity(new StringEntity(
+                                parameters.get(0).getValue()));
+                    }
+                    break;
 
-		// Create GET-Request
-		case HTTP_GET_TASK:
-		    HttpConnectionParams.setConnectionTimeout(httpParameter,
-			    CONN_TIMEOUT);
-		    HttpConnectionParams.setSoTimeout(httpParameter,
-			    SOCKET_TIMEOUT);
-		    httpParameter.setParameter(HTTP.CONTENT_TYPE,
-			    "application/json");
+                // Create GET-Request
+                case HTTP_GET_TASK:
+                    HttpConnectionParams.setConnectionTimeout(httpParameter,
+                            CONN_TIMEOUT);
+                    HttpConnectionParams.setSoTimeout(httpParameter,
+                            SOCKET_TIMEOUT);
+                    httpParameter.setParameter(HTTP.CONTENT_TYPE,
+                            "application/json");
 
-		    url.append("?");
-		    url.append(URLEncodedUtils.format(parameters, "utf-8"));
+                    url.append("?");
+                    url.append(URLEncodedUtils.format(parameters, "utf-8"));
 
-		    httpRequest = new HttpGet(url.toString());
-		    break;
-	    }
+                    httpRequest = new HttpGet(url.toString());
+                    break;
+            }
 
-	    httpRequest.addHeader("Authorization", "Basic " + authString);
-	    httpRequest.addHeader("Content-Type", "application/json");
-	    httpRequest.setHeader("Accept", "application/json");
-	    httpRequest.setHeader("Content-type",
-		    "application/json;charset=UTF-8");
-	    httpRequest.setHeader("Accept-Charset", "utf-8");
+            httpRequest.addHeader("Authorization", "Basic " + authString);
+            httpRequest.addHeader("Content-Type", "application/json");
+            httpRequest.setHeader("Accept", "application/json");
+            httpRequest.setHeader("Content-type",
+                    "application/json;charset=UTF-8");
+            httpRequest.setHeader("Accept-Charset", "utf-8");
 
-	    Log.d(TAG,
-		    "Calling: " + url.toString() + ", HTTP-Method: "
-			    + httpRequestType + " 1:POST, 2:GET + \n"
-			    + httpRequest.getRequestLine());
+            Log.d(TAG,
+                    "Calling: " + url.toString() + ", HTTP-Method: "
+                            + httpRequestType + " 1:POST, 2:GET + \n"
+                            + httpRequest.getRequestLine());
 
-	    response = httpClient.execute(httpRequest);
+            response = httpClient.execute(httpRequest);
 
-	} catch (UnsupportedEncodingException e) {
-	    Log.e(TAG, "Invalid encoding for HTTP-request!", e);
-	    throw new CitrCommunicationException(
-		    "Invalid encoding for HTTP-request!", e,
-		    CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
-	} catch (ClientProtocolException e) {
-	    Log.e(TAG, "Client exception occurred on performing HTTP-request!",
-		    e);
-	    throw new CitrCommunicationException(
-		    "Client exception occurred on performing HTTP-request!", e,
-		    CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
-	} catch (IOException e) {
-	    Log.e(TAG, "IO-exception during HTTP-request!", e);
-	    throw new CitrCommunicationException(
-		    "IO-exception during HTTP-request!", e,
-		    CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
-	}
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "Invalid encoding for HTTP-request!", e);
+            throw new CitrCommunicationException(
+                    "Invalid encoding for HTTP-request!", e,
+                    CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
+        } catch (ClientProtocolException e) {
+            Log.e(TAG, "Client exception occurred on performing HTTP-request!",
+                    e);
+            throw new CitrCommunicationException(
+                    "Client exception occurred on performing HTTP-request!", e,
+                    CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
+        } catch (IOException e) {
+            Log.e(TAG, "IO-exception during HTTP-request!", e);
+            throw new CitrCommunicationException(
+                    "IO-exception during HTTP-request!", e,
+                    CitrExceptionTypeEnum.CONNECTION_REQUEST_ERROR);
+        }
 
-	return response;
+        return response;
     }
 
     /**
      * Reads the given input stream to a string.
-     * 
+     *
      * @param anInputStream The input stream to read
      * @return
      */
     private String readInputStream(InputStream anInputStream) {
-	StringBuilder data = new StringBuilder();
+        StringBuilder data = new StringBuilder();
 
-	BufferedReader buffReader = null;
-	try {
-	    buffReader = new BufferedReader(new InputStreamReader(
-		    anInputStream, "UTF-8"));
-	    String line = null;
-	    while ((line = buffReader.readLine()) != null) {
-		data.append(line);
-	    }
-	} catch (UnsupportedEncodingException e) {
-	    Log.e(TAG, "Response couldn't be encoded!", e);
-	    throw new CitrCommunicationException(
-		    "Response couldn't be encoded!", e,
-		    CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
-	} catch (IOException e) {
-	    Log.e(TAG, "IO-exception during HTTP-respone parsing!", e);
-	    throw new CitrCommunicationException(
-		    "IO-exception during HTTP-respone parsing!", e,
-		    CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
-	} finally {
-	    try {
-		buffReader.close();
-	    } catch (IOException e) {
-		Log.e(TAG,
-			"IO-exception during HTTP-respone parsing! On closing stream.",
-			e);
-		throw new CitrCommunicationException(
-			"IO-exception during HTTP-respone parsing! On closing stream.",
-			e, CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
-	    }
-	}
+        BufferedReader buffReader = null;
+        try {
+            buffReader = new BufferedReader(new InputStreamReader(
+                    anInputStream, "UTF-8"));
+            String line = null;
+            while ((line = buffReader.readLine()) != null) {
+                data.append(line);
+            }
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "Response couldn't be encoded!", e);
+            throw new CitrCommunicationException(
+                    "Response couldn't be encoded!", e,
+                    CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
+        } catch (IOException e) {
+            Log.e(TAG, "IO-exception during HTTP-respone parsing!", e);
+            throw new CitrCommunicationException(
+                    "IO-exception during HTTP-respone parsing!", e,
+                    CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
+        } finally {
+            try {
+                buffReader.close();
+            } catch (IOException e) {
+                Log.e(TAG,
+                        "IO-exception during HTTP-respone parsing! On closing stream.",
+                        e);
+                throw new CitrCommunicationException(
+                        "IO-exception during HTTP-respone parsing! On closing stream.",
+                        e, CitrExceptionTypeEnum.CONNECTION_RESPONSE_ERROR);
+            }
+        }
 
-	return data.toString();
+        return data.toString();
     }
 
     /**
      * @param aHttpRequestType the httpRequestType to set
      */
     public void setHttpRequestType(int aHttpRequestType) {
-	httpRequestType = aHttpRequestType;
+        httpRequestType = aHttpRequestType;
     }
 }
