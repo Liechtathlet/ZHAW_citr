@@ -1,17 +1,19 @@
 package ch.zhaw.mdp.lhb.citr.jpa.service.impl;
 
-import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
-import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.SubscriptionDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.UserDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.service.UserRepository;
 
 /**
  * @author Daniel Brun
