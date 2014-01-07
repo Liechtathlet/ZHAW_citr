@@ -3,6 +3,7 @@
  */
 package ch.zhaw.mdp.lhb.citr.rest.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -247,11 +248,11 @@ public class GroupServiceRestImpl implements GroupServices {
 	    msgKey = "msg.subscription.alreadyExists";
 	} else {
 	    SubscriptionDVO subscriptionDVO = new SubscriptionDVO();
-	    
+
 	    subscriptionDVO.setUserId(userDVO.getId());
 	    subscriptionDVO.setUser(userDVO);
 	    subscriptionDVO.setGroupId(groupDVO.getId());
-		subscriptionDVO.setGroup(groupDVO);
+	    subscriptionDVO.setGroup(groupDVO);
 
 	    if (groupDVO.getMode() == GroupDVO.Mode.PUBLIC) {
 		subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
@@ -273,12 +274,6 @@ public class GroupServiceRestImpl implements GroupServices {
 		messageSource.getMessage(msgKey, null, null));
     }
 
-    /**
-     * Gets the newest message of a group.
-     * 
-     * @param aGroupId: Group to get the message from.
-     * @return
-     */
     @GET
     @Override
     @Produces(MediaType.APPLICATION_JSON)
@@ -287,28 +282,25 @@ public class GroupServiceRestImpl implements GroupServices {
     @Path("{groupId}/getNewestMessage")
     public ResponseObject<MessageDTO> getNewestMessage(
 	    @PathParam("groupId") int aGroupId) {
-	// TODO:REVIEW
+
+	String msgKey = "msg.no.data";
+	Boolean succ = Boolean.FALSE;
+
 	List<MessageDVO> messageDVOs = messageRepo.getMessagesByGroup(aGroupId,
 		1);
+	MessageDTO messageDTO = null;
 
-	if (messageDVOs == null) {
-	    LOG.info("No messages found.");
-	    return new ResponseObject<MessageDTO>(null, true,
-		    "No messages found.");
+	if (messageDVOs != null && messageDVOs.size() >= 1) {
+	    messageDTO = MessageFactory.createMessageDTO(messageDVOs.get(0));
+
+	    msgKey = "msg.data.read.succ";
+	    succ = Boolean.TRUE;
 	}
 
-	MessageDVO messageDVO = messageDVOs.get(0);
-	MessageDTO messageDTO = MessageFactory.createMessageDTO(messageDVO);
-
-	return new ResponseObject<MessageDTO>(messageDTO, true, null);
+	return new ResponseObject<MessageDTO>(messageDTO, succ,
+		messageSource.getMessage(msgKey, null, null));
     }
 
-    /**
-     * Delets a group.
-     * 
-     * @param aGroupId: Id to delete
-     * @return
-     */
     @DELETE
     @Override
     @Produces(MediaType.APPLICATION_JSON)
@@ -317,144 +309,136 @@ public class GroupServiceRestImpl implements GroupServices {
     @Path("{groupId}/delete")
     public ResponseObject<Boolean> deleteGroup(
 	    @PathParam("groupId") int aGroupId) {
-	// TODO:REVIEW
-	boolean success = true;
-	String msg = "";
+	String msgKey = "msg.group.delete.fail";
+	Boolean succ = Boolean.FALSE;
 
-	try {
-	    groupRepo.remove(aGroupId);
-	} catch (Exception e) {
-	    msg = e.getMessage();
-	    success = false;
+	if (groupRepo.remove(aGroupId)) {
+	    succ = Boolean.TRUE;
+	    msgKey = "msg.group.delete.succ";
 	}
-	return new ResponseObject<Boolean>(success, success, msg);
+
+	return new ResponseObject<Boolean>(succ, succ,
+		messageSource.getMessage(msgKey, null, null));
     }
 
-    /**
-     * Accepts a subscription request.
-     * 
-     * @param aGroupId The id of the group.
-     * @param aUserId The id of the user.
-     * @return True if the subscription has been accepted.
-     */
+    @Override
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Secured("ROLE_USER")
     @Path("{groupId}/user/{userId}/acceptSubscription")
     public ResponseObject<Boolean> acceptSubscription(
 	    @PathParam("groupId") int aGroupId, @PathParam("userId") int aUserId) {
-	// TODO:REVIEW
+	String msgKey = "msg.subscription.req.accept.fail";
+	Boolean succ = Boolean.FALSE;
+
 	GroupDVO groupDVO = groupRepo.getById(aGroupId);
 	UserDVO userDVO = userRepo.getById(aUserId);
 
 	if (groupDVO == null) {
-	    return new ResponseObject<Boolean>(false, false, "Group not found.");
-	}
-	if (userDVO == null) {
-	    return new ResponseObject<Boolean>(false, false, "User not found.");
-	}
-	if (!subscriptionRepo.hasUserGroupSubscription(userDVO, groupDVO)) {
-	    return new ResponseObject<Boolean>(false, false,
-		    "User does not have a subscription for this group.");
+	    msgKey = "msg.group.notFound";
+	} else if (userDVO == null) {
+	    msgKey = "msg.user.notFound";
+	} else if (!subscriptionRepo
+		.hasUserGroupSubscription(userDVO, groupDVO)) {
+	    msgKey = "msg.subscription.req.notfound";
+	} else {
+	    SubscriptionDVO subscriptionDVO = subscriptionRepo.getSubscription(
+		    userDVO, groupDVO);
+
+	    if (subscriptionDVO.getState() == SubscriptionDVO.State.APPROVED) {
+		msgKey = "msg.subscription.req.already.app";
+	    }
+
+	    subscriptionRepo.updateState(subscriptionDVO,
+		    SubscriptionDVO.State.APPROVED);
+
+	    succ = Boolean.TRUE;
+	    msgKey = "msg.subscription.req.app";
 	}
 
-	SubscriptionDVO subscriptionDVO = subscriptionRepo.getSubscription(
-		userDVO, groupDVO);
-
-	if (subscriptionDVO.getState() == SubscriptionDVO.State.APPROVED) {
-	    return new ResponseObject<Boolean>(false, false,
-		    "Subscription already approved.");
-	}
-
-	subscriptionRepo.updateState(subscriptionDVO,
-		SubscriptionDVO.State.APPROVED);
-
-	return new ResponseObject<Boolean>(true, true, null);
+	return new ResponseObject<Boolean>(succ, succ,
+		messageSource.getMessage(msgKey, null, null));
     }
 
-    /**
-     * Declines a subscription request.
-     * 
-     * @param aGroupId The id of the group.
-     * @param aUserId The id of the user.
-     * @return True if the subscription has been declined.
-     */
+    @Override
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Secured("ROLE_USER")
     @Path("{groupId}/user/{userId}/declineSubscription")
     public ResponseObject<Boolean> declineSubscription(
 	    @PathParam("groupId") int aGroupId, @PathParam("userId") int aUserId) {
-	// TODO:REVIEW
+	String msgKey = "msg.subscription.req.dec.fail";
+	Boolean succ = Boolean.FALSE;
+
 	GroupDVO groupDVO = groupRepo.getById(aGroupId);
 	UserDVO userDVO = userRepo.getById(aUserId);
 
 	if (groupDVO == null) {
-	    return new ResponseObject<Boolean>(false, false, "Group not found.");
-	}
-	if (userDVO == null) {
-	    return new ResponseObject<Boolean>(false, false, "User not found.");
-	}
-	if (!subscriptionRepo.hasUserGroupSubscription(userDVO, groupDVO)) {
-	    return new ResponseObject<Boolean>(false, false,
-		    "User does not have a subscription for this group.");
+	    msgKey = "msg.group.notFound";
+	} else if (userDVO == null) {
+	    msgKey = "msg.user.notFound";
+	} else if (!subscriptionRepo
+		.hasUserGroupSubscription(userDVO, groupDVO)) {
+	    msgKey = "msg.subscription.req.notfound";
+	} else {
+
+	    SubscriptionDVO subscriptionDVO = subscriptionRepo.getSubscription(
+		    userDVO, groupDVO);
+
+	    if (subscriptionDVO.getState() == SubscriptionDVO.State.APPROVED) {
+		msgKey = "msg.subscription.req.already.app";
+	    }
+
+	    subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
+
+	    if (subscriptionRepo.remove(subscriptionDVO)) {
+		succ = Boolean.TRUE;
+		msgKey = "msg.subscription.req.dec";
+	    }
 	}
 
-	SubscriptionDVO subscriptionDVO = subscriptionRepo.getSubscription(
-		userDVO, groupDVO);
-
-	if (subscriptionDVO.getState() == SubscriptionDVO.State.APPROVED) {
-	    return new ResponseObject<Boolean>(false, false,
-		    "Subscription already approved.");
-	}
-
-	subscriptionDVO.setState(SubscriptionDVO.State.APPROVED);
-	subscriptionRepo.remove(subscriptionDVO);
-
-	return new ResponseObject<Boolean>(true, true, null);
+	return new ResponseObject<Boolean>(succ, succ,
+		messageSource.getMessage(msgKey, null, null));
     }
 
-    /**
-     * Gets the first couple messages of a group. Additional query parameters possible: - messagesBefore: Gets messages older then the given message. For paging. - count: Number of messages.
-     * 
-     * @param aGroupId The group id.
-     * @return Messages of the group.
-     */
+    @Override
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Secured("ROLE_USER")
     @Path("{groupId}/messages")
     public ResponseObject<List<MessageDTO>> getMessages(
 	    @PathParam("groupId") int aGroupId,
-	    @DefaultValue("0") @QueryParam("messagesBefore") int messagesBefore,
+	    @DefaultValue("0") @QueryParam("messageBefore") int messageBefore,
 	    @DefaultValue("10") @QueryParam("count") int count) {
-	// TODO:REVIEW
-	List<MessageDVO> messageDVOs;
-	if (messagesBefore == 0) {
+
+	String msgKey = "msg.no.data";
+	Boolean succ = Boolean.FALSE;
+
+	List<MessageDTO> messageDTOs = null;
+	List<MessageDVO> messageDVOs = null;
+
+	if (messageBefore == 0) {
 	    messageDVOs = messageRepo.getMessagesByGroup(aGroupId, count);
 	} else {
-	    MessageDVO messageDVO = messageRepo.getMessageById(messagesBefore);
+	    MessageDVO messageDVO = messageRepo.getMessageById(messageBefore);
 
-	    if (messageDVO == null) {
-		return new ResponseObject<List<MessageDTO>>(null, false,
-			"MessageBefore not found.");
+	    if (messageDVO != null) {
+		messageDVOs = messageRepo.getMessagesByGroup(aGroupId, count,
+			messageDVO.getSendDate());
 	    }
-
-	    messageDVOs = messageRepo.getMessagesByGroup(aGroupId, count,
-		    messageDVO.getSendDate());
 	}
-	List<MessageDTO> messageDTO = MessageFactory
-		.createMessageDTOs(messageDVOs);
 
-	return new ResponseObject<List<MessageDTO>>(messageDTO, true, "");
-    }
+	if (messageDVOs != null) {
+	    messageDTOs = MessageFactory.createMessageDTOs(messageDVOs);
 
-    @Override
-    public ResponseObject<Boolean> updateGroupSubscriptionRequest(
-	    SubscriptionDTO aArg0) {
-	//FIXME:Remove Method -> not used accepd/decline
-	throw new NotYetImplementedException(
-		"Diese Methode wurde noch nicht implementiert");
+	    succ = Boolean.TRUE;
+	    msgKey = "msg.data.read.succ";
+	} else {
+	    messageDTOs = new ArrayList<MessageDTO>();
+	}
+
+	return new ResponseObject<List<MessageDTO>>(messageDTOs, succ,
+		messageSource.getMessage(msgKey, null, null));
     }
 
     /**

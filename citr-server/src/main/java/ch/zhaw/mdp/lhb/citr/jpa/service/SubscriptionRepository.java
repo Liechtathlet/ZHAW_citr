@@ -61,6 +61,7 @@ public interface SubscriptionRepository {
      * Removes a subscription.
      * 
      * @param aSubscriptionDVO Subscription to remove.
+     * @return true if the entity could be removed successfully.
      */
-    public void remove(SubscriptionDVO aSubscriptionDVO);
+    public boolean remove(SubscriptionDVO aSubscriptionDVO);
 }

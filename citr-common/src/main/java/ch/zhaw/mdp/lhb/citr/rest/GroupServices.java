@@ -71,14 +71,6 @@ public interface GroupServices {
 	public ResponseObject<List<SubscriptionDTO>> getGroupSubscriptionRequests(int aGroupId);
 
 	/**
-	 * Updates the given subscription.
-	 * 
-	 * @param aSubscription The subscription to update.
-	 * @return True if the update was successfull.
-	 */
-	public ResponseObject<Boolean> updateGroupSubscriptionRequest(SubscriptionDTO aSubscription);
-	
-	/**
 	 * Subscribe to a group.
 	 *
 	 * @param aGroupId The group to subscribe to.

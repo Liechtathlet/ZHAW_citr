@@ -6,13 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
-import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
-import ch.zhaw.mdp.lhb.citr.jpa.entity.TagsDVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingFactory;
+import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 import ch.zhaw.mdp.lhb.citr.jpa.entity.GroupDVO;
+import ch.zhaw.mdp.lhb.citr.jpa.entity.TagsDVO;
 import ch.zhaw.mdp.lhb.citr.jpa.service.GroupRepository;
 
 /**
@@ -59,7 +59,7 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public void remove(int groupId) throws Exception {
+    public boolean remove(int groupId) {
 	Query subscriptionQuery = entityManager
 		.createQuery("delete from SubscriptionDVO s where s.groupId = :groupId");
 	Query messageQuery = entityManager
@@ -78,6 +78,8 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
 	messageQuery.executeUpdate();
 	tagQuery.executeUpdate();
 	groupQuery.executeUpdate();
+
+	return true;
     }
 
     @Override

@@ -8,16 +8,21 @@ import ch.zhaw.mdp.lhb.citr.jpa.entity.MessageDVO;
 public class MessageFactory {
 
     public static MessageDTO createMessageDTO(MessageDVO messageDVO) {
-	MessageDTO messageDTO = new MessageDTO();
-	messageDTO.setGroupId(messageDVO.getGroupId());
-	messageDTO.setMessageText(messageDVO.getMessage());
-	messageDTO.setUserId(messageDVO.getUserId());
+	MessageDTO messageDTO = null;
+
+	if (messageDVO != null) {
+	    messageDTO = new MessageDTO();
+	    messageDTO.setGroupId(messageDVO.getGroupId());
+	    messageDTO.setMessageText(messageDVO.getMessage());
+	    messageDTO.setUserId(messageDVO.getUserId());
+	}
+	
 	return messageDTO;
     }
 
     public static MessageDVO createMessageDVO(MessageDTO aMessageDTO) {
 	MessageDVO messageDVO = null;
-	
+
 	if (aMessageDTO != null) {
 	    messageDVO = new MessageDVO();
 	    messageDVO.setGroupId(aMessageDTO.getGroupId());

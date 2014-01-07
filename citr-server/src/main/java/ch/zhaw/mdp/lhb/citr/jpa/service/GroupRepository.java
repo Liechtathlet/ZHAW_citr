@@ -36,11 +36,12 @@ public interface GroupRepository {
     public int create(GroupDVO aGroup);
 
     /**
-     * Removes a group.
+     * Removes a group
      * 
-     * @param aGroupId Group id to remove.
+     * @param aGroupId The group id
+     * @return True if the group was removed successfully, false otherwise.
      */
-    public void remove(int aGroupId) throws Exception;
+    public boolean remove(int aGroupId);
 
     /**
      * Adds tags to the group.
