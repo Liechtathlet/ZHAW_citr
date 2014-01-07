@@ -1,7 +1,5 @@
 package ch.zhaw.mdp.lhb.citr.activities;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +18,8 @@ import ch.zhaw.mdp.lhb.citr.response.ResponseObject;
 import ch.zhaw.mdp.lhb.citr.rest.GroupServices;
 import ch.zhaw.mdp.lhb.citr.rest.UserServices;
 import ch.zhaw.mdp.lhb.citr.util.SessionHelper;
+
+import java.util.List;
 
 /**
  * @author Michael Hadorn Date: 30.10.13 Time: 21:28
@@ -72,18 +72,21 @@ public class MainActivity extends CitrBaseActivity {
         groupsOwn = groupServices.getUserGroups();
         groupsMemberOf = groupServices.getUserSubscriptions();
 
-        // set list with own groups
-        final ListView lvOwnGroups = (ListView) findViewById(R.id.lvOwnGroups);
-        final GroupAdapter adapterOwn = new GroupAdapter(this, groupsOwn.getResponseObject());
-        lvOwnGroups.setAdapter(adapterOwn);
-        setIntentOfGroupDetails(lvOwnGroups);
+        if (groupsOwn.isSuccessfull()) {
+            // set list with own groups
+            final ListView lvOwnGroups = (ListView) findViewById(R.id.lvOwnGroups);
+            final GroupAdapter adapterOwn = new GroupAdapter(this, groupsOwn.getResponseObject());
+            lvOwnGroups.setAdapter(adapterOwn);
+            setIntentOfGroupDetails(lvOwnGroups);
+        }
 
-        // set list with "member of"-groups
-        final ListView lvMemberOfGroups = (ListView) findViewById(R.id.lvMemberOfGroups);
-        final SubscriptionAdapter adapterMemberOf = new SubscriptionAdapter(this, groupsMemberOf.getResponseObject());
-        lvMemberOfGroups.setAdapter(adapterMemberOf);
-        setIntentOfGroupDetails(lvMemberOfGroups);
-
+        if (groupsMemberOf.isSuccessfull()) {
+            // set list with "member of"-groups
+            final ListView lvMemberOfGroups = (ListView) findViewById(R.id.lvMemberOfGroups);
+            final SubscriptionAdapter adapterMemberOf = new SubscriptionAdapter(this, groupsMemberOf.getResponseObject());
+            lvMemberOfGroups.setAdapter(adapterMemberOf);
+            setIntentOfGroupDetails(lvMemberOfGroups);
+        }
     }
 
     /**
