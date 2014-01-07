@@ -1,0 +1,10 @@
+ch/zhaw/mdp/lhb/citr/dto/UserDTO.class
+ch/zhaw/mdp/lhb/citr/dto/GroupDTO.class
+ch/zhaw/mdp/lhb/citr/enumeration/SubscriptionStateEnum.class
+ch/zhaw/mdp/lhb/citr/dto/SubscriptionDTO.class
+ch/zhaw/mdp/lhb/citr/enumeration/GroupStateEnum.class
+ch/zhaw/mdp/lhb/citr/dto/MessageDTO.class
+ch/zhaw/mdp/lhb/citr/rest/MessageServices.class
+ch/zhaw/mdp/lhb/citr/response/ResponseObject.class
+ch/zhaw/mdp/lhb/citr/rest/UserServices.class
+ch/zhaw/mdp/lhb/citr/rest/GroupServices.class

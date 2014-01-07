@@ -114,16 +114,6 @@ public class ClientGroupServicesImpl extends AbstractClientRBaseServiceImpl impl
 
     /*
      * (non-Javadoc)
-     *
-     * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#updateGroupSubscriptionRequest()
-     */
-    @Override
-    public ResponseObject<Boolean> updateGroupSubscriptionRequest(SubscriptionDTO subscriptionDTO) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /*
-     * (non-Javadoc)
      * 
      * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getUserSubscriptions()
      */
@@ -302,6 +292,33 @@ public class ClientGroupServicesImpl extends AbstractClientRBaseServiceImpl impl
         url.append(PropertyHelper.get("rest.service.group"));
         url.append(aGroupId);
         url.append("/delete");
+
+        return execute(url.toString(),
+                new TypeReference<ResponseObject<Boolean>>() {
+                });
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see ch.zhaw.mdp.lhb.citr.rest.GroupServices#updateGroupSubscriptionRequest(ch.zhaw.mdp.lhb.citr.dto.SubscriptionDTO)
+     */
+    public ResponseObject<Boolean> updateGroupSubscriptionRequest(
+            SubscriptionDTO aSubscription) {
+        preInit(RESTBackgroundTask.HTTP_PUT_TASK);
+
+        try {
+            restTask.addParameter("subscription", mapper.writeValueAsString(aSubscription));
+        } catch (JsonProcessingException e) {
+            Log.e(TAG, "Exception during JSON serialization prcoess.", e);
+            throw new CitrCommunicationException(
+                    "Exception during JSON serialization prcoess.", e,
+                    CitrExceptionTypeEnum.SERIALIZATION_ERROR);
+        }
+
+        StringBuffer url = new StringBuffer();
+        url.append(PropertyHelper.get("rest.service.group"));
+        url.append("/updateSubscription");
 
         return execute(url.toString(),
                 new TypeReference<ResponseObject<Boolean>>() {

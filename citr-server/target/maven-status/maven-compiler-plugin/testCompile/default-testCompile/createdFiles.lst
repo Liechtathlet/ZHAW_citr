@@ -1,0 +1,7 @@
+ch/zhaw/lhb/citr/service/IDBMessageServiceTest.class
+ch/zhaw/lhb/citr/helper/JacksonHelper.class
+ch/zhaw/lhb/citr/helper/UserTestFactory.class
+ch/zhaw/mdp/lhb/citr/rest/impl/UserServiceRestImplIntegrationTest.class
+ServerTest.class
+ch/zhaw/mdp/lhb/citr/dto/MessageFactoryTest.class
+ch/zhaw/mdp/lhb/citr/rest/impl/UserServiceRestImplTest.class

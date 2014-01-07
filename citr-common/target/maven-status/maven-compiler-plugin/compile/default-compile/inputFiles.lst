@@ -1,0 +1,10 @@
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/enumeration/GroupStateEnum.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/rest/GroupServices.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/rest/MessageServices.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/dto/GroupDTO.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/enumeration/SubscriptionStateEnum.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/dto/MessageDTO.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/dto/SubscriptionDTO.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/dto/UserDTO.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/response/ResponseObject.java
+/Users/michael/projects/citr/citr-common/src/main/java/ch/zhaw/mdp/lhb/citr/rest/UserServices.java

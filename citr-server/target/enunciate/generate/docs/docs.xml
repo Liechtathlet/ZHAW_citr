@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api-docs title="Citr-Server">
+  <data>
+  </data>
+  <soap>
+    <wsdls>
+    </wsdls>
+  </soap>
+  <rest baseAddress="http://localhost:8080/citr-server" wadl="application.wadl">
+    <resources>
+      <resource name="/group/create" subcontext="/rest">
+        <operation name="POST">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/create"/>
+          <inValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </inValue>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/list" subcontext="/rest">
+        <operation name="GET">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/list"/>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/listOwnedGroups" subcontext="/rest">
+        <operation name="GET">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/listOwnedGroups"/>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/listSubscriptions" subcontext="/rest">
+        <operation name="GET">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/listSubscriptions"/>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/search" subcontext="/rest">
+        <operation name="POST">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/search"/>
+          <inValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </inValue>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/message/create" subcontext="/rest">
+        <operation name="POST">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/message/create"/>
+          <inValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </inValue>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/user/register" subcontext="/rest">
+        <operation name="POST">
+          <documentation>
+            <![CDATA[Registers a provided user.]]>
+          </documentation>
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/user/register"/>
+          <inValue>
+            
+            
+            <documentation><![CDATA[User data to register.]]></documentation>
+          </inValue>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/{groupId}/delete" subcontext="/rest">
+        <operation name="DELETE">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/{groupId}/delete"/>
+          <parameter name="groupId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/{groupId}/getNewestMessage" subcontext="/rest">
+        <operation name="GET">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/{groupId}/getNewestMessage"/>
+          <parameter name="groupId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/{groupId}/getSubscriptions" subcontext="/rest">
+        <operation name="POST">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/{groupId}/getSubscriptions"/>
+          <parameter name="groupId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/{groupId}/messages" subcontext="/rest">
+        <operation name="GET">
+          <contentType type="*/*" consumable="true" produceable="false"/>
+          <contentType type="application/xml" consumable="true" produceable="false"/>
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/{groupId}/messages"/>
+          <parameter name="groupId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <parameter name="messageBefore" type="query" defaultValue="0">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <parameter name="count" type="query" defaultValue="10">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/{groupId}/subscribe" subcontext="/rest">
+        <operation name="POST">
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/{groupId}/subscribe"/>
+          <parameter name="groupId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/user/{id}/login/{gcmId}" subcontext="/rest">
+        <operation name="GET">
+          <documentation>
+            <![CDATA[Logs in the provided user.]]>
+          </documentation>
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/user/{id}/login/{gcmId}"/>
+          <parameter name="id" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <parameter name="gcmId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/{groupId}/user/{userId}/acceptSubscription" subcontext="/rest">
+        <operation name="PUT">
+          <contentType type="*/*" consumable="true" produceable="false"/>
+          <contentType type="application/xml" consumable="true" produceable="false"/>
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/{groupId}/user/{userId}/acceptSubscription"/>
+          <parameter name="groupId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <parameter name="userId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+      <resource name="/group/{groupId}/user/{userId}/declineSubscription" subcontext="/rest">
+        <operation name="PUT">
+          <contentType type="*/*" consumable="true" produceable="false"/>
+          <contentType type="application/xml" consumable="true" produceable="false"/>
+          <contentType type="application/json" consumable="true" produceable="true" subcontext="/json" path="/json/group/{groupId}/user/{userId}/declineSubscription"/>
+          <parameter name="groupId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <parameter name="userId" type="path">
+            <![CDATA[(no documentation provided)]]>
+          </parameter>
+          <outValue>
+            
+            
+            <documentation><![CDATA[(no documentation provided)]]></documentation>
+          </outValue>
+        </operation>
+      </resource>
+    </resources>
+  </rest>
+  <packages>
+    <package id="ch.zhaw.mdp.lhb.citr.rest.impl">
+    </package>
+    <package id="ch.zhaw.mdp.lhb.citr.jpa.service.impl">
+    </package>
+    <package id="ch.zhaw.mdp.lhb.citr.Logging.impl">
+    </package>
+    <package id="ch.zhaw.mdp.lhb.citr.jpa.service">
+    </package>
+    <package id="ch.zhaw.mdp.lhb.citr.dto">
+    </package>
+    <package id="ch.zhaw.mdp.lhb.citr.gcm">
+    </package>
+    <package id="ch.zhaw.mdp.lhb.citr.jpa.entity">
+    </package>
+    <package id="ch.zhaw.mdp.lhb.citr.Logging">
+    </package>
+  </packages>
+</api-docs>

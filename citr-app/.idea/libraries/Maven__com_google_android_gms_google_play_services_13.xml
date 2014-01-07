@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.google.android.gms:google-play-services:13">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/android/gms/google-play-services/13/google-play-services-13.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/android/gms/google-play-services/13/google-play-services-13-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/android/gms/google-play-services/13/google-play-services-13-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

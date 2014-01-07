@@ -1,6 +1,7 @@
 ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$8.class
 ch/zhaw/mdp/lhb/citr/activities/CitrCreateActivity.class
 com/google/android/gms/R$dimen.class
+ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$13.class
 ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$2.class
 ch/zhaw/mdp/lhb/citr/activities/ConfigureWidgetActivity$2.class
 com/google/android/gms/R.class
@@ -39,6 +40,7 @@ ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$3.class
 ch/zhaw/mdp/lhb/citr/BuildConfig.class
 com/google/android/gms/R$styleable.class
 com/google/android/gms/R$id.class
+ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$11.class
 ch/zhaw/mdp/lhb/citr/com/rest/AbstractClientRBaseServiceImpl.class
 ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$1.class
 ch/zhaw/mdp/lhb/citr/activities/ConfigureWidgetActivity$1.class
@@ -46,6 +48,7 @@ ch/zhaw/mdp/lhb/citr/activities/MainActivity.class
 com/google/android/gms/Manifest$permission.class
 ch/zhaw/mdp/lhb/citr/exception/CitrExceptionHandler.class
 ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$7.class
+ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl$12.class
 ch/zhaw/mdp/lhb/citr/R$integer.class
 ch/zhaw/mdp/lhb/citr/R$color.class
 ch/zhaw/mdp/lhb/citr/com/rest/RESTBackgroundTask.class

@@ -1,0 +1,3 @@
+ch.zhaw.mdp.lhb.citr.rest.impl.GroupServiceRestImpl
+ch.zhaw.mdp.lhb.citr.rest.impl.MessageServiceRestImpl
+ch.zhaw.mdp.lhb.citr.rest.impl.UserServiceRestImpl
