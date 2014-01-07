@@ -11,7 +11,8 @@ public class SharedPreferencHelperTest {
 
 	private final String aPreference = "preference";
 	private final String aKey = "key";
-	private final String aValue = "value";
+	private final String aString = "value";
+	private final int anInt = 123;
 
 	private Context ctx;
 	private SharedPreferences sp;
@@ -35,10 +36,10 @@ public class SharedPreferencHelperTest {
 
 		// Calling code.
 		SharedPreferencHelper sut = new SharedPreferencHelper(ctx);
-		sut.storeString(aPreference, aKey, aValue);
+		sut.storeString(aPreference, aKey, aString);
 
 		// Verification.
-		verify(e, times(1)).putString(aKey, aValue);
+		verify(e, times(1)).putString(aKey, aString);
 		verify(e, times(1)).commit();
 	}
 
@@ -46,13 +47,13 @@ public class SharedPreferencHelperTest {
 	public void testGetString() throws Exception {
 
 		// Stubbing
-		when(sp.getString(aKey, null)).thenReturn(aValue);
+		when(sp.getString(aKey, null)).thenReturn(aString);
 
 		// Calling code.
 		SharedPreferencHelper sut = new SharedPreferencHelper(ctx);
 
 		// Verification.
-		org.junit.Assert.assertEquals(aValue, sut.getString(aPreference, aKey));
+		org.junit.Assert.assertEquals(aString, sut.getString(aPreference, aKey));
 	}
 
 	@Test
@@ -71,5 +72,36 @@ public class SharedPreferencHelperTest {
 		// Verification.
 		verify(e, times(1)).remove(aKey);
 		verify(e, times(1)).commit();
+	}
+
+	@Test
+	public void testStoreInt() throws Exception {
+
+		// Mock
+		SharedPreferences.Editor e = mock(SharedPreferences.Editor.class);
+
+		// Stubbing
+		when(sp.edit()).thenReturn(e);
+
+		// Calling code.
+		SharedPreferencHelper sut = new SharedPreferencHelper(ctx);
+		sut.storeInt(aPreference, aKey, anInt);
+
+		// Verification.
+		verify(e, times(1)).putInt(aKey, anInt);
+		verify(e, times(1)).commit();
+	}
+
+	@Test
+	public void testGetInt() throws Exception {
+
+		// Stubbing
+		when(sp.getInt(aKey, -1)).thenReturn(anInt);
+
+		// Calling code.
+		SharedPreferencHelper sut = new SharedPreferencHelper(ctx);
+
+		// Verification.
+		org.junit.Assert.assertEquals(anInt, sut.getInt(aPreference, aKey));
 	}
 }

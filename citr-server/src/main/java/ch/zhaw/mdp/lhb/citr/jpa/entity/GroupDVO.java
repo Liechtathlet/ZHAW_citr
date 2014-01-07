@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Data-Class for 'Group'.
+ *
  * @author Simon Lang
  */
 @Entity
@@ -25,7 +26,7 @@ public class GroupDVO {
 	private Mode mode;
 
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<TagsDVO> tags;
 
 	public enum Mode {
@@ -40,7 +41,7 @@ public class GroupDVO {
 	}
 
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<SubscriptionDVO> subscriptions;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -101,13 +102,15 @@ public class GroupDVO {
 	}
 
 	public void setTags(String tags) {
-		String[] tagArray = tags.split(",");
 		this.tags = new ArrayList<TagsDVO>();
-		for (String tag : tagArray) {
-			TagsDVO tagDVO = new TagsDVO();
-			tagDVO.setTitle(tag.trim());
-			tagDVO.setGroup(this);
-			this.tags.add(tagDVO);
+		if (tags != null && tags != "") {
+			String[] tagArray = tags.split(",");
+			for (String tag : tagArray) {
+				TagsDVO tagDVO = new TagsDVO();
+				tagDVO.setTitle(tag.trim());
+				tagDVO.setGroup(this);
+				this.tags.add(tagDVO);
+			}
 		}
 	}
 
