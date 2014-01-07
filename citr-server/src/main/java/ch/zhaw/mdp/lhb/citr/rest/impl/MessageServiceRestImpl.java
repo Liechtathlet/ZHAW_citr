@@ -65,7 +65,7 @@ public class MessageServiceRestImpl implements MessageServices {
 
     @Autowired
     private GcmRequestHelper gcmRequestHelper;
-    
+
     @Autowired
     private ReloadableResourceBundleMessageSource messageSource;
 
@@ -76,17 +76,11 @@ public class MessageServiceRestImpl implements MessageServices {
     @Secured("ROLE_USER")
     @Path("/create")
     public ResponseObject<Boolean> createMessage(MessageDTO aMessageDTO) {
-	if (aMessageDTO == null) {
-	    throw new IllegalArgumentException(
-		    "The argument aMessageDTO must not be null");
-	}
-
 	Boolean result = Boolean.FALSE;
 	String msgKey = "msg.argument.invalid";
 
 	if (aMessageDTO != null) {
-	    UserDVO msgUser = userRepo.getById(aMessageDTO.getUserId());
-	    if (aMessageDTO.getMessageText() == null || msgUser == null
+	    if (aMessageDTO.getMessageText() == null
 		    || groupRepo.getById(aMessageDTO.getGroupId()) == null) {
 		msgKey = "msg.msg.data.invalid";
 	    } else {
@@ -95,12 +89,13 @@ public class MessageServiceRestImpl implements MessageServices {
 			.getGroupId());
 
 		// Checking permission of citr creation
-		if (msgUser.getId() != getCurrentUser().getId()
-			|| groupOfMessage.getOwner().getId() != currentUser
+		if (groupOfMessage.getOwner().getId() != currentUser
 				.getId()) {
 		    msgKey = "msg.no.permission";
 		}
 
+		aMessageDTO.setUserId(currentUser.getId());
+		
 		MessageDVO messageDVO = MessageFactory
 			.createMessageDVO(aMessageDTO);
 
@@ -108,11 +103,11 @@ public class MessageServiceRestImpl implements MessageServices {
 		Calendar today = Calendar.getInstance();
 		messageDVO.setSendDate(today.getTime());
 
-		//Save message and check response
+		// Save message and check response
 		if (messageRepo.save(messageDVO) > 0) {
 		    result = Boolean.TRUE;
 		    msgKey = "msg.message.succ";
-		    
+
 		    // Fire Push-Notification (And forget)
 		    List<String> recipients = new ArrayList<String>();
 
@@ -131,18 +126,20 @@ public class MessageServiceRestImpl implements MessageServices {
 			}
 
 			try {
-			    gcmRequestHelper.sendHTTPRequest(recipients);
+			    gcmRequestHelper.sendHTTPRequest(recipients,
+				    groupOfMessage.getName(),
+				    aMessageDTO.getMessageText());
 			} catch (IOException e) {
 			    LOG.error(e.toString());
 			}
 		    }
-		}else{
+		} else {
 		    msgKey = "msg.data.save.failed";
 		}
 	    }
 
 	}
-	
+
 	return new ResponseObject<Boolean>(result, result.booleanValue(),
 		messageSource.getMessage(msgKey, null, null));
     }

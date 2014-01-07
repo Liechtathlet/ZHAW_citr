@@ -114,16 +114,6 @@ public class ClientGroupServicesImpl extends AbstractClientRBaseServiceImpl impl
 
     /*
      * (non-Javadoc)
-     *
-     * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#updateGroupSubscriptionRequest()
-     */
-    @Override
-    public ResponseObject<Boolean> updateGroupSubscriptionRequest(SubscriptionDTO subscriptionDTO) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /*
-     * (non-Javadoc)
      * 
      * @see ch.zhaw.mdp.lhb.citr.rest.IRGroupServices#getUserSubscriptions()
      */

@@ -40,9 +40,6 @@ public class MessageRepositoryJpaImpl implements MessageRepository {
     @Override
     @Transactional(readOnly = true)
     public long save(MessageDVO aMessage) {
-	// Preset Id
-	aMessage.setId(-1);
-
 	entityManager.persist(aMessage);
 	entityManager.flush();
 

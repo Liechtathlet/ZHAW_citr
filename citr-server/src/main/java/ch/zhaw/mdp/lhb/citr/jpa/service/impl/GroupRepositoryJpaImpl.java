@@ -59,9 +59,6 @@ public class GroupRepositoryJpaImpl implements GroupRepository {
     @Override
     @Transactional(readOnly = true)
     public int create(GroupDVO aGroup) {
-	// Reset id
-	aGroup.setId(-1);
-
 	entityManager.persist(aGroup);
 	entityManager.flush();
 

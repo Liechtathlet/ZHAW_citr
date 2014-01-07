@@ -29,7 +29,7 @@ public class GroupAdapter extends ArrayAdapter<GroupDTO> {
     /**
      * Container with groups
      */
-    private final List<GroupDTO> groups;
+    private List<GroupDTO> groups;
 
 	/**
      * the adapter for groups
@@ -66,4 +66,12 @@ public class GroupAdapter extends ArrayAdapter<GroupDTO> {
 
         return rowView;
     }
+
+    /**
+     * @param aGroups the groups to set
+     */
+    public void setGroups(List<GroupDTO> aGroups) {
+        groups = aGroups;
+    }
+    
 }

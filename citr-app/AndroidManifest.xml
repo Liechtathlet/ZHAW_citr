@@ -40,7 +40,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="Citr"
-            android:parentActivityName="LoginActivity" >
+            android:parentActivityName=".activities.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -48,17 +48,17 @@
         <activity
             android:name=".activities.GroupCreateActivity"
             android:label="Gruppe erstellen"
-            android:parentActivityName="MainActivity" >
+            android:parentActivityName=".activities.MainActivity" >
         </activity>
         <activity
             android:name=".activities.CitrCreateActivity"
             android:label="Citr veröffentlichen"
-            android:parentActivityName="MainActivity" >
+            android:parentActivityName=".activities.MainActivity" >
         </activity>
         <activity
             android:name=".activities.GroupList"
             android:label="Gruppe suchen"
-            android:parentActivityName="MainActivity" >
+            android:parentActivityName=".activities.MainActivity" >
         </activity>
         <activity
             android:name=".activities.ErrorActivity"

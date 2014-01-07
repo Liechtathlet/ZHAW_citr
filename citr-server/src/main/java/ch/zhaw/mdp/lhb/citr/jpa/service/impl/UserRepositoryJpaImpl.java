@@ -101,6 +101,12 @@ public class UserRepositoryJpaImpl implements UserRepository {
 
 	if (userFromDb != null) {
 	    userFromDb.getSubscriptions().size();
+	    
+	    for(SubscriptionDVO subscr : userFromDb.getSubscriptions()){
+		subscr.getGroup().getTags().size();
+		subscr.getGroup().getSubscriptions().size();
+	    }
+	    
 	    userFromDb.getCreatedGroups().size();
 
 	    if (userFromDb.getCreatedGroups() != null) {

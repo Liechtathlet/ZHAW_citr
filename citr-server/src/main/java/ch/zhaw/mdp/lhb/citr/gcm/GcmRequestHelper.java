@@ -35,25 +35,29 @@ import ch.zhaw.mdp.lhb.citr.Logging.LoggingStrategy;
 public class GcmRequestHelper {
 
     private static final LoggingStrategy LOG = LoggingFactory.get();
-    
-    @Resource(name="properties")
+
+    @Resource(name = "properties")
     private Properties appProperties;
-    
+
     /**
      * Sends a http request with the given recipients to the GCM-Server.
      * 
      * @param someRecipients The recipents
+     * @param aGroup The group.
+     * @param aCitr The citr.
      * @throws IOException thrown if an io error occurs.
      */
-    public void sendHTTPRequest(List<String> someRecipients)
-	    throws IOException {
+    public void sendHTTPRequest(List<String> someRecipients, String aGroup,
+	    String aCitr) throws IOException {
 
 	// Create POst-Request
 	HttpClient httpClient = HttpClientBuilder.create().build();
-	HttpPost httpPost = new HttpPost(appProperties.getProperty("google.gcm.url"));	
-	
+	HttpPost httpPost = new HttpPost(
+		appProperties.getProperty("google.gcm.url"));
+
 	// Set Header
-	httpPost.addHeader("Authorization", "key= " + appProperties.getProperty("google.api.key"));
+	httpPost.addHeader("Authorization",
+		"key= " + appProperties.getProperty("google.api.key"));
 	httpPost.addHeader("Content-Type", "application/json");
 
 	// Create json body
@@ -62,6 +66,13 @@ public class GcmRequestHelper {
 	JsonGenerator generator = factory.createJsonGenerator(jsonWriter);
 
 	generator.writeStartObject();
+
+	generator.writeFieldName("data");
+	generator.writeStartObject();
+	generator.writeStringField("group", aGroup);
+	generator.writeStringField("citr", aCitr);
+	generator.writeEndObject();
+
 	generator.writeFieldName("registration_ids");
 
 	generator.writeStartArray();
@@ -99,5 +110,38 @@ public class GcmRequestHelper {
 	} catch (IOException e) {
 	    LOG.error(e.getMessage());
 	}
+    }
+
+    public static void main(String[] args) {
+	StringWriter jsonWriter = new StringWriter();
+	JsonFactory factory = new JsonFactory();
+	JsonGenerator generator;
+	try {
+	    generator = factory.createJsonGenerator(jsonWriter);
+	    generator.writeStartObject();
+
+	    generator.writeFieldName("data");
+	    generator.writeStartObject();
+	    generator.writeStringField("group", "Gruppe");
+	    generator.writeStringField("citr", "Citr");
+	    generator.writeEndObject();
+
+	    generator.writeFieldName("registration_ids");
+
+	    generator.writeStartArray();
+
+	    generator.writeString("RECP");
+
+	    generator.writeEndArray();
+	    generator.writeEndObject();
+
+	    generator.close();
+
+	    System.out.println(jsonWriter.toString());
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
     }
 }
