@@ -44,27 +44,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/citrApp.ap_" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/citrApp.apk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/citrApp.apksources" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/citrApp.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes.dex" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/generated-sources/r/ch/zhaw/mdp/lhb/citr/BuildConfig.java" afterPath="$PROJECT_DIR$/target/generated-sources/r/ch/zhaw/mdp/lhb/citr/BuildConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl.java" afterPath="$PROJECT_DIR$/src/main/java/ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/generated-sources/r/ch/zhaw/mdp/lhb/citr/Manifest.java" afterPath="$PROJECT_DIR$/target/generated-sources/r/ch/zhaw/mdp/lhb/citr/Manifest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/generated-sources/r/ch/zhaw/mdp/lhb/citr/R.java" afterPath="$PROJECT_DIR$/target/generated-sources/r/ch/zhaw/mdp/lhb/citr/R.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../citr-server/src/test/java/ch/zhaw/mdp/lhb/citr/dto/GroupFactoryTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/jpa/entity/GroupDVO.java" afterPath="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/jpa/entity/GroupDVO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/dto/GroupFactory.java" afterPath="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/dto/GroupFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/dto/MessageFactory.java" afterPath="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/dto/MessageFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../citr-server/src/test/java/ch/zhaw/mdp/lhb/citr/dto/MessageFactoryTest.java" afterPath="$PROJECT_DIR$/../citr-server/src/test/java/ch/zhaw/mdp/lhb/citr/dto/MessageFactoryTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ch/zhaw/mdp/lhb/citr/util/SharedPreferencHelperTest.java" afterPath="$PROJECT_DIR$/src/test/java/ch/zhaw/mdp/lhb/citr/util/SharedPreferencHelperTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../citr-server/.idea/misc.xml" afterPath="$PROJECT_DIR$/../citr-server/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../citr-server/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../citr-server/.idea/workspace.xml" />
     </list>
     <ignored path="citr-app.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389123417195" ignored="false" />
+    <file path="/Dummy.txt" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389134169581" ignored="false" />
     <file path="/a.dummy" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1388782632694" ignored="false" />
     <file path="/README.md" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1379341606183" ignored="false" />
     <file path="/fragment.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1388913767516" ignored="false" />
     <file path="/a.xml" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1388794005474" ignored="false" />
     <file path="/HelloAndroidActivity.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1383165389045" ignored="false" />
     <file path="/log.log" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1381742579707" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1381743529318" ignored="false" />
     <file path="$PROJECT_DIR$/../../zhawexercises/algorithmen_datenstrukturen/algoexc3/content/DevAlgoexc3/src/ch/zhaw/mhdb/ad/List.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1381753096429" ignored="false" />
     <file path="$PROJECT_DIR$/../../zhawexercises/algorithmen_datenstrukturen/algoexc3/content/DevAlgoexc3/src/ch/zhaw/mhdb/ad/TestMenge.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1381753309400" ignored="false" />
     <file path="/TestMenge.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1381753283802" ignored="false" />
@@ -75,7 +74,6 @@
     <file path="/AndroidManifest.xml" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1384772735848" ignored="false" />
     <file path="/GroupDVO.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1381848073571" ignored="false" />
     <file path="/Groups.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1381846326667" ignored="false" />
-    <file path="$PROJECT_DIR$/../citr-server/.idea/workspace.xml" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1382772862666" ignored="false" />
     <file path="/pom.xml" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1382972997113" ignored="false" />
     <file path="/main.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1383164995008" ignored="false" />
     <file path="/login.xml" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1383426402667" ignored="false" />
@@ -108,7 +106,6 @@
     <file path="/ConfigureWidgetActivity.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389123875052" ignored="false" />
     <file path="/SharedPreferencHelper.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389125444888" ignored="false" />
     <file path="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/dto/SubscriptionFactory.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389096550010" ignored="false" />
-    <file path="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/dto/GroupFactory.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389096550010" ignored="false" />
     <file path="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/jpa/service/impl/SubscriptionRepositoryJpaImpl.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389123417196" ignored="false" />
     <file path="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/jpa/service/SubscriptionRepository.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389123417196" ignored="false" />
     <file path="$PROJECT_DIR$/../citr-server/src/main/java/ch/zhaw/mdp/lhb/citr/rest/impl/GroupServiceRestImpl.java" changelist="3887e90c-f28f-4567-a1f1-b5531e8d0fe4" time="1389123417196" ignored="false" />
@@ -141,8 +138,8 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <method_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -179,7 +176,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -192,7 +189,7 @@
       <file leaf-file-name="ClientGroupServicesImpl.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="309" column="104" selection-start="9539" selection-end="9539" vertical-scroll-proportion="0.5296167">
+            <state line="309" column="13" selection-start="9539" selection-end="9539" vertical-scroll-proportion="0.557783">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -250,9 +247,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
-    <option name="width" value="1920" />
-    <option name="height" value="1054" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -304,6 +302,8 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
+    <OptionsSetting value="true" id="Undo Check Out" />
+    <OptionsSetting value="true" id="Get Latest Version" />
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
@@ -323,8 +323,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -673,19 +671,21 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="259" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="261" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="260" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="260" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../inf/5_2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="265" />
@@ -694,14 +694,15 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="267" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="262" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
@@ -723,6 +724,12 @@
     </key>
   </component>
   <component name="RunManager" selected="Android Application.EMU - Android Citr">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
     <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
       <setting name="path" value="" />
@@ -732,10 +739,22 @@
       <setting name="debug" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-      <option name="PROGRAM_PARAMETERS" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
@@ -760,30 +779,13 @@
       </MavenSettings>
       <method />
     </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="GriffonRunConfigurationType" factoryName="Griffon">
       <module name="" />
       <setting name="vmparams" value="" />
       <setting name="cmdLine" value="run-app" />
       <setting name="depsClasspath" value="true" />
       <setting name="passParentEnv" value="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -794,23 +796,21 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="XSLT" factoryName="XSLT">
-      <option name="myOutputFile" />
-      <option name="myOpenOutputFile" value="false" />
-      <option name="myOpenInBrowser" value="false" />
-      <option name="mySmartErrorHandling" value="true" />
-      <option name="myRunnerPort" value="34873" />
-      <option name="myVmArguments" />
-      <option name="myWorkingDirectory" />
-      <option name="myModule" />
-      <option name="myJdk" />
-      <parameters />
-      <OutputType value="CONSOLE" save-to-file="false" />
-      <FileType name="XML" />
-      <JdkChoice value="FROM_MODULE" />
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -837,20 +837,24 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+    <configuration default="true" type="XSLT" factoryName="XSLT">
+      <option name="myOutputFile" />
+      <option name="myOpenOutputFile" value="false" />
+      <option name="myOpenInBrowser" value="false" />
+      <option name="mySmartErrorHandling" value="true" />
+      <option name="myRunnerPort" value="34873" />
+      <option name="myVmArguments" />
+      <option name="myWorkingDirectory" />
+      <option name="myModule" />
+      <option name="myJdk" />
+      <parameters />
+      <OutputType value="CONSOLE" save-to-file="false" />
+      <FileType name="XML" />
+      <JdkChoice value="FROM_MODULE" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
@@ -865,6 +869,7 @@
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -1014,23 +1019,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32869378" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36604774" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3222698" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32869378" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="FLOATING" visible="false" weight="0.3222698" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" x="-1440" y="22" width="1440" height="439" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32869378" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24653149" sideWeight="0.29443255" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24653149" sideWeight="0.43826473" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24653149" sideWeight="0.37687367" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24653149" sideWeight="0.56062293" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14407684" sideWeight="0.7201592" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1221,7 +1231,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ch/zhaw/mdp/lhb/citr/com/rest/facade/ClientGroupServicesImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="309" column="104" selection-start="9539" selection-end="9539" vertical-scroll-proportion="0.5296167">
+        <state line="309" column="13" selection-start="9539" selection-end="9539" vertical-scroll-proportion="0.557783">
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
